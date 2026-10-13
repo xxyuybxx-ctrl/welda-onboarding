@@ -140,6 +140,12 @@ img{display:block;max-width:100%}
 #show .bar2 button{background:rgba(255,255,255,.1);border:0;color:#fff;border-radius:8px;padding:6px 14px}
 #show .nav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.12);border:0;color:#fff;font-size:22px}
 #show .nav.l{left:12px}#show .nav.r{right:12px}
+#rdy{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:65;width:min(560px,calc(100vw - 32px));background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 14px 40px rgba(20,24,110,.22);padding:14px 16px;display:flex;align-items:center;gap:10px}
+#rdy>div{flex:1;min-width:0}
+#rdy b{display:block;font-size:15px}
+#rdy small{display:block;color:var(--muted);font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#rdy .btn{padding:10px 16px}
+#toast{bottom:calc(96px + env(safe-area-inset-bottom,0px))!important}
 #toast button{background:none;border:0;color:#C9C3FF;font-weight:700;padding:4px 2px;font-size:14px}
 #deck li{touch-action:pan-x;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 #deck li.lift{opacity:.35}
@@ -226,6 +232,7 @@ img{display:block;max-width:100%}
   <div class="st"><img id="shImg" alt=""></div>
   <button class="nav l" id="shL" aria-label="이전">‹</button><button class="nav r" id="shR" aria-label="다음">›</button>
 </div>
+<div id="rdy" hidden role="dialog" aria-labelledby="rdyT"><div><b id="rdyT"></b><small id="rdyN"></small></div><button class="btn pri" id="rdySave" type="button">저장하기</button><button class="btn" id="rdyX" type="button">닫기</button></div>
 <div id="toast" hidden role="status"></div>
 
 <script>
@@ -503,32 +510,43 @@ let tt; function toast(m, undo){
 function loadScript(src){ return new Promise((ok, no) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = () => no(new Error('load')); document.head.appendChild(s) }) }
 async function dataURL(u){ const b = await (await fetch(u)).blob(); return await new Promise(r => { const f = new FileReader(); f.onload = () => r(f.result); f.readAsDataURL(b) }) }
 function fname(ext){ return ((cover.name.trim() ? cover.name.trim() + ' ' : '') + ($('deckTitle').value.trim() || '웰다 교육자료')).replace(/[\\/:*?"<>|]/g, ' ') + '.' + ext }
-async function deliver(blob, ext){
+const ERR = { declined: '저장을 취소했습니다', rate_limited: '잠시 후 다시 눌러 주세요', too_large: '파일이 너무 커서 저장할 수 없습니다. 장수를 줄여 주세요', extension_not_enabled: '이 화면에서는 이 형식으로 저장할 수 없습니다', rejected_extension: '이 화면에서는 이 형식으로 저장할 수 없습니다', unavailable: '이 화면에서는 파일 저장을 쓸 수 없습니다', not_granted: '파일 저장 권한이 없습니다' };
+let ready = null;
+async function deliver(){
+  if (!ready) return; const { blob, ext } = ready;
   if (!dl) { toast('이 화면에서는 파일 저장을 쓸 수 없습니다'); return }
-  try { await dl.save({ filename: fname(ext), data: blob }); toast('파일을 저장했습니다') }
-  catch (e) { toast(e && e.code === 'declined' ? '저장을 취소했습니다' : '파일을 저장하지 못했습니다') }
+  try { await dl.save({ filename: fname(ext), data: blob }); toast('파일을 저장했습니다'); closeReady() }
+  catch (e) { toast(ERR[e && e.code] || ('파일을 저장하지 못했습니다' + (e && e.code ? ' (' + e.code + ')' : ''))) }
 }
-async function exportPptx(){
-  const b = $('bPptx'); b.disabled = true; b.textContent = '만드는 중…';
+function showReady(blob, ext){
+  ready = { blob, ext };
+  $('rdyT').textContent = (ext === 'pdf' ? 'PDF' : 'PPT') + ' 준비 완료 · ' + deck.length + '장 · ' + (blob.size / 1048576).toFixed(1) + 'MB';
+  $('rdyN').textContent = fname(ext); $('rdy').hidden = false; $('rdySave').focus();
+}
+function closeReady(){ $('rdy').hidden = true; ready = null }
+async function build(kind){
+  const b = $(kind === 'pdf' ? 'bPdf' : 'bPptx'), label = b.textContent; b.disabled = true;
   try {
-    if (!window.PptxGenJS) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pptxgenjs/3.12.0/pptxgen.bundle.js');
-    const p = new PptxGenJS(); p.layout = 'LAYOUT_WIDE'; p.title = $('deckTitle').value;
-    for (const id of deck) { const s = p.addSlide(); s.addImage({ data: await dataURL(img(id)), x: 0, y: 0, w: 13.333, h: 7.5 }) }
-    await deliver(await p.write({ outputType: 'blob' }), 'pptx');
-  } catch (e) { toast('PPT 파일을 만들지 못했습니다') }
-  b.disabled = !deck.length; b.textContent = 'PPT로 받기';
+    const imgs = []; for (let i = 0; i < deck.length; i++) { b.textContent = '만드는 중 ' + (i + 1) + '/' + deck.length; imgs.push(await dataURL(img(deck[i]))) }
+    let blob;
+    if (kind === 'pdf') {
+      if (!window.jspdf) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+      const doc = new jspdf.jsPDF({ orientation: 'landscape', unit: 'px', format: [1600, 900], hotfixes: ['px_scaling'], compress: true });
+      imgs.forEach((u, i) => { if (i) doc.addPage([1600, 900], 'landscape'); doc.addImage(u, 'JPEG', 0, 0, 1600, 900, undefined, 'FAST') });
+      blob = doc.output('blob');
+    } else {
+      if (!window.PptxGenJS) await loadScript('https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js');
+      const pp = new PptxGenJS(); pp.layout = 'LAYOUT_WIDE'; pp.title = $('deckTitle').value;
+      imgs.forEach(u => pp.addSlide().addImage({ data: u, x: 0, y: 0, w: 13.333, h: 7.5 }));
+      blob = await pp.write({ outputType: 'blob' });
+    }
+    showReady(blob, kind);
+  } catch (e) { toast((kind === 'pdf' ? 'PDF' : 'PPT') + ' 파일을 만들지 못했습니다. 인터넷 연결을 확인해 주세요') }
+  b.disabled = !deck.length; b.textContent = label;
 }
-async function exportPdf(){
-  const b = $('bPdf'); b.disabled = true; b.textContent = '만드는 중…';
-  try {
-    if (!window.jspdf) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
-    const doc = new jspdf.jsPDF({ orientation: 'landscape', unit: 'px', format: [1600, 900], hotfixes: ['px_scaling'] });
-    for (let i = 0; i < deck.length; i++) { if (i) doc.addPage([1600, 900], 'landscape'); doc.addImage(await dataURL(img(deck[i])), 'JPEG', 0, 0, 1600, 900) }
-    await deliver(doc.output('blob'), 'pdf');
-  } catch (e) { toast('PDF 파일을 만들지 못했습니다') }
-  b.disabled = !deck.length; b.textContent = 'PDF로 받기';
-}
+const exportPptx = () => build('pptx'), exportPdf = () => build('pdf');
 $('bPptx').onclick = exportPptx; $('bPdf').onclick = exportPdf;
+$('rdySave').onclick = deliver; $('rdyX').onclick = closeReady;
 
 /* ---------- saved decks (shared) ---------- */
 function ago(ms){ if (!ms) return ''; const d = (Date.now() - ms) / 60000; if (d < 1) return '방금'; if (d < 60) return Math.floor(d) + '분 전'; if (d < 1440) return Math.floor(d / 60) + '시간 전'; const t = new Date(ms); return (t.getMonth() + 1) + '/' + t.getDate() }
@@ -576,7 +594,7 @@ $('cName').value = cover.name; $('cWho').value = cover.who; $('cDate').value = c
 renderTags(); renderPresets(); changed(); buildCover();
 (async () => {
   if (!window.claude || !claude.use) {
-    dl = { save: async ({ filename, data }) => { const u = URL.createObjectURL(data); const a = document.createElement('a'); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 4000) } };
+    dl = { save: async ({ filename, data }) => { const u = URL.createObjectURL(data); const a = document.createElement('a'); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 60000) } };
     renderSaved(); return }
   [db, user, dl] = await Promise.all([claude.use('db'), claude.use('user'), claude.use('downloads')]);
   try { me = user ? await user.id() : null } catch (e) { me = null }
