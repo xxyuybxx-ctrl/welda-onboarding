@@ -1,0 +1,509 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>[hidden]{display:none!important}body{margin:0}</style></head><body><title>웰다 교육자료 빌더</title>
+<style>
+@font-face{font-family:"Pretendard";font-weight:400;font-display:swap;src:url(fonts/pre-400.woff2) format("woff2")}
+@font-face{font-family:"Pretendard";font-weight:700;font-display:swap;src:url(fonts/pre-700.woff2) format("woff2")}
+/* Layout: three working columns — slide library | the deck being built | large preview — with saved decks under the deck; stacks to one column on phones */
+:root{
+  --bg:#F7F6FC; --panel:#FFFFFF; --ink:#14186E; --violet:#7252EE; --lilac:#8B6CE6; --deep:#2E2A8F;
+  --wash:#F1EEFF; --line:#E4E0FB; --muted:#5F6488; --soft:#9A9CB8; --danger:#C2415B;
+  --f:"Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--f);font-size:14.5px;line-height:1.5;word-break:keep-all;-webkit-font-smoothing:antialiased;overflow-x:clip}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--lilac);outline-offset:2px}
+img{display:block;max-width:100%}
+
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--panel);border-bottom:1px solid var(--line)}
+.top .in{display:flex;align-items:center;gap:14px;padding:12px clamp(16px,2vw,24px);flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:8px;font-weight:700;color:var(--violet);flex:none}
+.brand svg{width:20px;height:22px}
+.brand span{color:var(--muted);font-weight:400}
+#deckTitle{flex:1 1 240px;min-width:0;border:1px solid transparent;border-radius:10px;padding:8px 12px;font-size:17px;font-weight:700;background:var(--bg)}
+#deckTitle:hover{border-color:var(--line)}
+#deckTitle:focus{border-color:var(--lilac);background:#fff;outline:none}
+.acts{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 14px;font-weight:700;font-size:14px;white-space:nowrap}
+.btn:hover{border-color:var(--lilac);color:var(--violet)}
+.btn.pri{background:var(--violet);border-color:var(--violet);color:#fff}
+.btn.pri:hover{background:#6243E4;color:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.sm{padding:5px 10px;font-size:13px;border-radius:8px}
+
+.page{padding:16px clamp(16px,2vw,24px) 40px;display:grid;gap:16px}
+.grid{display:grid;grid-template-columns:minmax(280px,380px) minmax(0,1fr);gap:16px;align-items:start}
+.right{display:grid;gap:16px;min-width:0}
+.col{background:var(--panel);border:1px solid var(--line);border-radius:16px;min-width:0}
+.col>header{padding:14px 16px 10px;border-bottom:1px solid var(--line)}
+.col h2{margin:0;font-size:15px;display:flex;align-items:baseline;gap:8px}
+.col h2 small{color:var(--soft);font-weight:400;font-size:13px}
+.sticky{position:sticky;top:calc(env(safe-area-inset-top,0px) + 78px)}
+.deckbox>header{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:6px 24px;align-items:start}
+.deckbox>header h2{grid-column:1/-1}
+.deckbox .cust{margin-top:0;grid-row:span 2}
+.deckbox .meta{margin-top:2px}
+@media (max-width:980px){.deckbox>header{grid-template-columns:minmax(0,1fr)}.deckbox .cust{grid-row:auto}}
+@media (max-width:760px){.grid{grid-template-columns:minmax(0,1fr)}.sticky{position:static}}
+
+/* library */
+#q{width:100%;margin-top:10px;border:1px solid var(--line);border-radius:10px;padding:8px 12px;background:var(--bg)}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.tag{border:1px solid var(--line);background:#fff;border-radius:999px;padding:3px 10px;font-size:12.5px;color:var(--muted)}
+.tag[aria-pressed="true"]{background:var(--violet);border-color:var(--violet);color:#fff}
+.lib{max-height:calc(100vh - 230px);overflow:auto;padding:6px 12px 14px}
+@media (max-width:720px){.lib{max-height:none}}
+.chap{margin-top:12px}
+.chap>div:first-child{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:4px 4px 6px}
+.chap b{font-size:13px;color:var(--lilac)}
+.chap b span{color:var(--ink);margin-left:4px}
+.items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.it{position:relative;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff;text-align:left;padding:0}
+.it img{aspect-ratio:16/9;width:100%;object-fit:cover;background:var(--wash)}
+.it .cap{display:block;padding:6px 8px 8px;font-size:12px;line-height:1.35;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:calc(12px*1.35*2 + 14px)}
+.it .no{position:absolute;left:6px;top:6px;background:rgba(20,24,110,.78);color:#fff;font-size:11px;border-radius:6px;padding:1px 6px;font-variant-numeric:tabular-nums}
+.it .in{position:absolute;right:6px;top:6px;background:var(--violet);color:#fff;font-size:11px;font-weight:700;border-radius:6px;padding:1px 6px}
+.it.sel{outline:2px solid var(--violet);outline-offset:-2px}
+.it.used img{opacity:.55}
+.empty-lib{padding:24px 8px;color:var(--soft);text-align:center}
+
+/* deck */
+.presets{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.meta{display:flex;gap:14px;color:var(--muted);font-size:13px;margin-top:8px;flex-wrap:wrap}
+.meta b{color:var(--ink);font-variant-numeric:tabular-nums}
+#deck{list-style:none;margin:0;padding:12px 14px 16px;display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x proximity}
+#deck li{flex:none;width:188px;scroll-snap-align:start;border:1px solid var(--line);border-radius:12px;padding:6px;background:#fff;display:grid;gap:6px;cursor:pointer}
+#deck li.sel{border-color:var(--violet);box-shadow:0 0 0 1px var(--violet) inset}
+#deck li.drag{opacity:.4}
+#deck li.over{box-shadow:-4px 0 0 var(--violet)}
+#deck .th{position:relative}
+#deck img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;border:1px solid var(--line);display:block}
+.n{position:absolute;left:6px;top:6px;background:var(--violet);color:#fff;font-weight:700;font-size:12px;border-radius:6px;padding:1px 7px;font-variant-numeric:tabular-nums}
+.hd{position:absolute;right:6px;top:6px;cursor:grab;background:rgba(255,255,255,.9);border-radius:6px;color:var(--muted);font-size:12px;padding:0 5px;user-select:none}
+.tt{min-width:0;padding:0 2px}
+.tt b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:13px;line-height:1.35;min-height:calc(13px*1.35*2)}
+.tt small{color:var(--soft);font-size:11.5px}
+.ops{display:flex;justify-content:space-between;gap:2px}
+.ic{width:30px;height:28px;border-radius:8px;border:1px solid transparent;background:none;color:var(--muted);display:grid;place-items:center;font-size:14px}
+.ic:hover{background:var(--wash);color:var(--violet)}
+.ic.x:hover{color:var(--danger);background:#FCEFF2}
+.empty{margin:14px 12px 16px;border:2px dashed var(--line);border-radius:14px;padding:28px 18px;text-align:center;color:var(--muted)}
+.empty b{display:block;color:var(--ink);font-size:15px;margin-bottom:4px}
+
+/* custom cover */
+.cust{margin-top:12px;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:var(--wash)}
+.cust>b{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;font-size:13.5px}
+.cust>b span{font-weight:400;color:var(--muted);font-size:12.5px}
+.cust .fs{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,.9fr);gap:8px;margin-top:8px}
+.cust label{display:grid;gap:3px;font-size:12px;color:var(--muted);min-width:0}
+.cust input{width:100%;min-width:0;border:1px solid var(--line);border-radius:8px;padding:7px 10px;background:#fff;font-size:14px}
+.cust input:focus{border-color:var(--lilac);outline:none}
+.on-badge{white-space:nowrap;flex:none;background:var(--violet);color:#fff;border-radius:999px;font-size:11.5px;padding:1px 8px;font-weight:700}
+.cust>b .on-badge{color:#fff;font-weight:700;font-size:11.5px}
+@media (max-width:620px){.cust .fs{grid-template-columns:1fr}}
+/* saved */
+.saved{margin-top:16px}
+.saved ul{list-style:none;margin:0;padding:8px 12px 14px;display:grid;gap:6px}
+.saved li{display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.saved li>div{min-width:0;flex:1}
+.saved b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.saved small{color:var(--soft);font-size:12.5px}
+.saved .cur{border-color:var(--violet);background:var(--wash)}
+.hint{padding:10px 16px 14px;color:var(--soft);font-size:13px}
+
+/* preview */
+.pv{padding:14px 16px 18px}
+.pv .frame{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--wash);aspect-ratio:16/9}
+.pv .frame img{width:100%;height:100%;object-fit:contain}
+.pv .ch{color:var(--lilac);font-size:13px;margin-top:14px}
+.pv h3{margin:2px 0 8px;font-size:18px;line-height:1.35;text-wrap:balance}
+.pv p{white-space:pre-line;color:var(--muted);margin:0 0 14px;max-width:46ch}
+.pv .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chip{background:var(--wash);color:var(--violet);border-radius:999px;font-size:12px;padding:2px 10px}
+
+/* toast */
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:10px;font-size:14px;z-index:60;max-width:calc(100vw - 32px)}
+
+/* present */
+#show{position:fixed;inset:0;z-index:50;background:#0E1040;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+#show .st{flex:1;display:grid;place-items:center;min-height:0;padding:12px}
+#show img{max-width:100%;max-height:100%;object-fit:contain;box-shadow:0 10px 40px rgba(0,0,0,.4);background:#fff}
+#show .bar2{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 16px;color:#C9C3FF;font-size:14px}
+#show .bar2 b{color:#fff;font-variant-numeric:tabular-nums}
+#show .bar2 button{background:rgba(255,255,255,.1);border:0;color:#fff;border-radius:8px;padding:6px 14px}
+#show .nav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.12);border:0;color:#fff;font-size:22px}
+#show .nav.l{left:12px}#show .nav.r{right:12px}
+</style>
+
+<header class="top">
+  <div class="in">
+    <div class="brand"><svg viewBox="0 0 40 44" aria-hidden="true"><path d="M20 3 36 12.5v19L20 41 4 31.5v-19Z" fill="none" stroke="#7252EE" stroke-width="6" stroke-linejoin="round"/></svg>웰다 <span>교육자료 빌더</span></div>
+    <label for="deckTitle" class="sr" hidden>교육자료 이름</label>
+    <input id="deckTitle" value="원장님 도입 제안" aria-label="교육자료 이름">
+    <div class="acts">
+      <button class="btn pri" id="bShow">발표하기</button>
+      <button class="btn" id="bSave">구성 저장</button>
+      <button class="btn" id="bPptx">PPT로 받기</button>
+      <button class="btn" id="bPdf">PDF로 받기</button>
+    </div>
+  </div>
+</header>
+
+<main class="page">
+  <!-- deck: the thing being made, always first -->
+  <section class="col deckbox" aria-labelledby="hDeck">
+      <header>
+        <h2 id="hDeck">지금 만드는 교육자료</h2>
+        <div class="presets" id="presets" role="group" aria-label="추천 구성으로 시작"></div>
+        <div class="cust" id="cust">
+          <b>맞춤 표지 <span>의원 이름을 적으면 표지에 바로 들어갑니다</span><span class="on-badge" id="custOn" hidden>표지에 반영됨</span></b>
+          <div class="fs">
+            <label for="cName">의원 · 병원 이름<input id="cName" placeholder="예: 서울연세내과의원" maxlength="30" autocomplete="off"></label>
+            <label for="cWho">받는 분 (선택)<input id="cWho" placeholder="예: 김OO 원장님" maxlength="24" autocomplete="off"></label>
+            <label for="cDate">날짜<input id="cDate" type="date"></label>
+          </div>
+        </div>
+        <div class="meta"><span><b id="mN">0</b>장</span><span>발표 약 <b id="mMin">0</b>분</span><span id="mCh"></span></div>
+      </header>
+      <ol id="deck"></ol>
+      <div class="empty" id="empty" hidden><b>아직 고른 슬라이드가 없습니다</b>아래 보관함에서 슬라이드를 고르거나 위의 추천 구성으로 시작하세요.</div>
+    </section>
+  <div class="grid">
+    <section class="col sticky" aria-labelledby="hLib">
+    <header>
+      <h2 id="hLib">슬라이드 보관함 <small id="libCount"></small></h2>
+      <input id="q" type="search" placeholder="제목 · 설명 검색 (예: 센서, FAQ)" aria-label="슬라이드 검색">
+      <div class="tags" id="tags" role="group" aria-label="용도 필터"></div>
+    </header>
+    <div class="lib" id="lib"></div>
+  </section>
+  <div class="right">
+    <section class="col preview" aria-labelledby="pvTitle">
+    <div class="pv">
+      <div class="frame"><img id="pvImg" alt=""></div>
+      <div class="ch" id="pvCh"></div>
+      <h3 id="pvTitle"></h3>
+      <p id="pvDesc"></p>
+      <div class="row"><button class="btn sm pri" id="pvAdd"></button><span id="pvTags" class="row"></span></div>
+    </div>
+  </section>
+    <section class="col saved" aria-labelledby="hSaved">
+      <header><h2 id="hSaved">저장한 구성 <small>팀이 함께 씁니다</small></h2></header>
+      <ul id="savedList"></ul>
+      <div class="hint" id="savedHint">불러오는 중…</div>
+    </section>
+  </div>
+  </div>
+</main>
+
+<div id="show" hidden role="dialog" aria-label="발표 화면">
+  <div class="bar2"><span id="shT"></span><span><b id="shN"></b></span><button id="shX">닫기 (Esc)</button></div>
+  <div class="st"><img id="shImg" alt=""></div>
+  <button class="nav l" id="shL" aria-label="이전">‹</button><button class="nav r" id="shR" aria-label="다음">›</button>
+</div>
+<div id="toast" hidden role="status"></div>
+
+<script>
+const CH = [
+  {id:'intro', label:'시작', name:'표지 · 목차'},
+  {id:'c1', label:'Chapter 1', name:'프로그램 개요'},
+  {id:'c2', label:'Chapter 2', name:'상담 개요'},
+  {id:'c3', label:'Chapter 3', name:'첫방문 프로토콜'},
+  {id:'c4', label:'Chapter 4', name:'재방문 프로토콜'},
+  {id:'c5', label:'Chapter 5', name:'FAQ'},
+  {id:'end', label:'마무리', name:'도입 절차'}
+];
+const S = [
+ ['intro','표지',"웰다(Welda) 표지입니다.\n\n혈당 데이터 기반 생활습관 관리 프로그램,\n내일을 바꾸는 대사 건강 솔루션입니다.",['표지']],
+ ['intro','목차',"전체 구성입니다.\n\n• 1장 프로그램 개요\n• 2장 상담 개요\n• 3장 첫방문 프로토콜\n• 4장 재방문 프로토콜\n• 5장 FAQ\n• 마무리 도입 절차",['목차']],
+ ['c1','Chapter 1 · 프로그램 개요',"1장 간지입니다.",['간지']],
+ ['c1','웰다는 혈당 데이터 기반 대사 건강 솔루션입니다',"웰다가 무엇인지 보여 주는 장입니다.\n\n환자는 앱에 기록하고,\n의원은 웰다 Pro로 확인합니다.\n\n세 환자군 모두\n기록 → 확인 → 지속의 같은 흐름입니다.",['원장 제안']],
+ ['c1','환자가 기록하면, 진료실에서 바로 봅니다',"환자가 앱에 식사 · 운동을 기록합니다.\n\n진료실 PC에서 실시간으로 확인하고\n다음 진료 상담에 활용합니다.",['화면']],
+ ['c1','서울시가 선택한 혈당관리 프로그램, 웰다',"서울시 「혈당캐치9988」 협력사업자로\n대웅제약 웰다가 선정되었습니다.\n\n공개 모집에서 4개 기업 제안서를\n평가한 결과입니다.\n\n• 당뇨 전단계 서울시민 1,000명\n• 25개 자치구 보건소 연계\n\n공공 평가를 거친 프로그램을\n의원 · 병원에서 바로 권할 수 있습니다.",['원장 제안','신뢰']],
+ ['c1','보건소에서 시작된 웰다, 다음은 의원 · 병원입니다',"보건소 검사로 확인된\n당뇨 전단계 시민이 웰다를 시작합니다.\n\n1. 보건소 대사증후군 검사\n2. 손목닥터9988 신청\n3. 웰다 키트 배송\n4. 착용 · 교육 · 상담\n\n서울시 사업과 의원 · 병원을\n표로 비교했습니다.\n\n대상 기준 · 프로그램은 같고,\n의원 · 병원은 인원 제한이 없습니다.",['원장 제안','신뢰']],
+ ['c1','외래에서 이런 환자에게 권해 주세요',"웰다를 권할 세 환자군입니다.\n\n• 당뇨전단계\n• GLP-1 계열 투약 환자\n• 생활습관 개선군\n\n군별 대상 기준과\n핵심 포인트를 함께 담았습니다.\n\n• 약보다 먼저, 생활습관 관리\n• 단약 이후를 미리 준비\n• 앱 기록부터 가볍게 시작",['원장 제안']],
+ ['c1','BD 1장만 나눠 주시면, 환자 연결은 웰다가 이어갑니다',"의원이 할 일은 BD 1장 건네기입니다.\n\n1. 진료 중 BD 전달\n2. 환자가 QR로 앱 설치\n3. 가입 후 의원 파트너 코드 입력\n4. 의원 웰다 Pro에 연결\n\n비만주사 · 전당뇨/당뇨 두 버전이 있고,\n의원 코드는 빨간 글씨로 인쇄됩니다.",['원장 제안','운영']],
+ ['c1','기록이 쌓일수록, 환자도 의원도 얻습니다',"환자득 · 병원득을\n하나의 관리 루프로 보여 줍니다.\n\n환자 기록 → 의원 확인\n→ 데이터 상담 → 재방문\n\n환자: 체중 유지 관리, 생활습관 개선,\n맞춤 관리, 혈당 변화 확인\n\n의원: 신뢰 형성, 재방문 유도,\n차별화된 진료, 무료 도입 · 추가 수익",['원장 제안']],
+ ['c1','무료 도입 · 추가 수익',"웰다는 무료로 도입합니다.\n\n연속혈당측정기 활용 시\n환자 1명당 3.8~6.8만원이 남습니다.\n\n환자 100명 기준\n최대 675만원의 추가 수익입니다.",['원장 제안','수치']],
+ ['c1','비만주사 치료, 처방만으로 충분할까요?',"처방만으로는 부족한 이유 세 가지입니다.\n\n• 가격 경쟁으로 인한 환자 이탈\n• 주사 중단 후 요요\n• 생활습관 관리의 필요성\n\n오른쪽 그래프는\n생활습관 병행 여부에 따른 체중 변화입니다.",['원장 제안']],
+ ['c1','웰다 프로그램',"웰다 프로그램의 4단계입니다.\n\n1. 웰다 가입\n2. 생활습관 기록\n3. 재방문 상담\n4. 센서 부착",['원장 제안']],
+ ['c2','Chapter 2 · 상담 개요',"2장 간지입니다.",['간지']],
+ ['c2','프로그램 시작과 점검',"첫방문과 재방문에서\n다루는 항목을 한눈에 보여 줍니다.\n\n• 첫방문: 온보딩\n• 재방문: 점검\n\n연속혈당측정기 부착은\n필요한 환자만 하는 선택 사항입니다.",['구조']],
+ ['c2','환자는 2주마다 센서 교체, 4주마다 상담으로 내원합니다',"환자의 내원 주기입니다.\n\n• 2주마다 센서 교체\n• 4주마다 상담\n\n센서 부착 시점은 두 가지입니다.\n\n• 경로 A: 첫 내원 당일\n• 경로 B: 앱 기록 후 다음 내원",['운영']],
+ ['c3','Chapter 3 · 첫방문 프로토콜',"3장 간지입니다.",['간지']],
+ ['c3','웰다 시작하기',"웰다 시작 3단계입니다.\n\n1. 웰다 앱 세팅\n2. 건강 상태 입력\n3. 웰다 여정 시작\n\n사전 체크리스트 QR도 함께 있습니다.",['환자 안내']],
+ ['c3','의원: 파트너 링크 발송 (웰다 Pro)',"웰다 Pro 유저 관리에서\n파트너 링크를 발송하는 화면입니다.",['스태프']],
+ ['c3','환자가 받는 알림톡',"환자가 받는 카카오 알림톡과\n앱 설치 링크입니다.",['스태프']],
+ ['c3','환자 앱 온보딩, 4단계로 진행합니다',"환자가 앱에서 거치는 순서입니다.\n\n1. 웰다 앱 설치\n2. 사전 설문\n3. 목표 · 현재 허리둘레 입력\n4. 리브레 앱 설치 · 연동\n\n4단계는 센서를 부착하는 환자만 진행합니다.\n\n문의 채널(채널톡 웰다)도 함께 안내합니다.",['환자 안내']],
+ ['c3','웰다 앱 설치 · 회원가입',"QR로 앱을 받고 회원가입합니다.\n\n파트너 코드가 있으면\n가입 후 입력합니다.\n\n사전 문진까지 이어서 진행합니다.",['환자 안내']],
+ ['c3','사전 문진 미통과 기준',"사전 문진 기준에 해당하면\n가입이 제한됩니다.\n\n대상 기준과 승인 화면입니다.",['안전']],
+ ['c3','사전 설문 진행',"사전 설문은 4개 섹션입니다.\n\n웰다 참여 목적 · 기본 정보\n생활 습관 · 증상 체크\n\n응답을 바탕으로\nAI 코치가 맞춤 조언을 드립니다.",['환자 안내']],
+ ['c3','목표 · 현재 허리둘레 입력',"목표를 정하고\n현재 허리둘레를 입력합니다.\n\ncm 또는 바지 사이즈(inch)로\n입력할 수 있습니다.",['환자 안내']],
+ ['c3','센서 연동 준비 (웰다 앱 안내)',"키트를 받은 뒤\n웰다 앱 안내에 따라\n센서 연동을 준비합니다.\n\n여정 챕터 또는 홈 화면에서\n시작할 수 있습니다.",['스태프']],
+ ['c3','리브레 앱 설치 · 계정 생성',"리브레 앱을 설치하고\n계정을 만듭니다.\n\n측정 단위 mg/dL,\n탄수화물 단위는 그램으로 설정합니다.",['스태프']],
+ ['c3','웰다 앱에서 리브레 연동',"웰다 앱에서 연동을 시작하고\n리브레 계정으로 로그인합니다.\n\n데이터 공유를 허용하면\n연동이 완료됩니다.",['스태프']],
+ ['c3','센서 부착하기',"센서 부착 4단계입니다.\n\n부착 위치 확인 → 삽입기 준비\n→ 홈에 맞춰 연결 → 부착",['스태프']],
+ ['c3','센서 활성화 (안드로이드 · iOS)',"NFC로 센서를 스캔해\n활성화합니다.\n\n진동이 두 번 울린 뒤\n60분 후 사용할 수 있습니다.\n\n웰다 앱 연동은\n최대 15분 더 걸릴 수 있습니다.",['스태프']],
+ ['c3','생활습관 기록 독려하기',"기록 독려의 핵심입니다.\n\n무엇을, 언제 먹었는지 기록합니다.\n\n식사는 카메라 버튼으로\n사진만 찍어도 됩니다.",['환자 안내']],
+ ['c4','Chapter 4 · 재방문 프로토콜',"4장 간지입니다.",['간지']],
+ ['c4','재방문 상담은 기록 → 혈당 지표 → 식사 순서로 봅니다',"재방문 상담 3단계입니다.\n\n1. 기록 성실도\n2. 혈당 지표 추이\n3. 식습관\n\n단계마다 보는 것과\n판단 기준을 정리했습니다.",['원장 제안']],
+ ['c4','주요 점검 항목 · 기록 성실도',"기록 성실도를 확인합니다.\n\n• 경과 일수\n• 접속 일수\n• 기록 건수\n\n타임라인의 기록 아이콘도 함께 봅니다.",['화면']],
+ ['c4','주요 점검 항목 · 혈당 지표 추이',"혈당 지표 추이를 확인합니다.\n\n• 혈당 점수\n• 평균 혈당\n• 혈당 변동성\n\n평균 혈당은\n당화혈색소 추이와 함께 해석합니다.",['화면']],
+ ['c4','주요 점검 항목 · 식습관',"식습관을 점검합니다.\n\n• 식사 등급(A~F)\n• 스파이크가 큰 식사\n• AI 식사 피드백",['화면']],
+ ['c4','지표가 좋지 않을 때 · 생활습관 교육 포인트',"지표가 좋지 않을 때의\n교육 포인트입니다.\n\n• 식습관\n• 운동\n• 수면",['상담']],
+ ['c4','부가 질문과 코멘트 · 증상 변화',"증상 변화를 묻는 선택 질문입니다.\n\n식곤증, 잦은 허기,\n만성 피로 등을 확인합니다.\n\n이전보다 나아졌는지 물어봅니다.",['상담']],
+ ['c4','부가 질문과 코멘트 · 스트레스 · 운동 · 수면',"스트레스 · 운동 · 수면에 대한\n짧은 코멘트입니다. (선택)",['상담']],
+ ['c5','Chapter 5 · FAQ',"5장 간지입니다.",['간지']],
+ ['c5','자주 묻는 질문',"자주 묻는 질문입니다.\n\n• 저혈당 표시\n• 운동 후 혈당 상승\n• 스파이크와 음식\n• 센서 오류 · 탈락",['FAQ']],
+ ['end','오늘 세 가지만 정해 주시면 바로 시작할 수 있습니다',"도입 6단계입니다.\n\n오늘 정할 것은 세 가지입니다.\n\n1. 상담료\n2. 첫 스태프 교육 방문일\n3. 먼저 권유할 환자군",['원장 제안']],
+ ['end','감사합니다',"마무리 장입니다.",['마무리']]
+];
+
+const IDS = S.map((_, i) => 's' + String(i + 1).padStart(2, '0'));
+const BY = {}; IDS.forEach((id, i) => BY[id] = { id, n: i + 1, ch: S[i][0], title: S[i][1], desc: S[i][2], tags: S[i][3] });
+const CHN = {}; CH.forEach(c => CHN[c.id] = c);
+const imgRaw = id => 'slides/' + id + '.jpg', thRaw = id => 'thumbs/t' + id.slice(1) + '.jpg';
+let cover = { name: '', who: '', date: '' }, coverURL = null, coverThumb = null;
+const img = id => (id === 's01' && coverURL) ? coverURL : imgRaw(id);
+const th = id => (id === 's01' && coverThumb) ? coverThumb : thRaw(id);
+function today(){ const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0') }
+function fmtDate(v){ return v ? v.replace(/-/g, '.') : '' }
+let coverImg = null, coverJob = 0;
+async function buildCover(){
+  const job = ++coverJob;
+  if (!cover.name.trim()) { coverURL = coverThumb = null; refreshCover(); return }
+  try {
+    if (!coverImg) { coverImg = new Image(); coverImg.src = imgRaw('s01'); await coverImg.decode() }
+    await Promise.all([document.fonts.load('700 64px Pretendard', cover.name), document.fonts.load('400 26px Pretendard', '맞춤 제안 자료' + cover.who)]);
+    if (job !== coverJob) return;
+    const c = document.createElement('canvas'); c.width = 1600; c.height = 900; const g = c.getContext('2d');
+    g.drawImage(coverImg, 0, 0, 1600, 900);
+    const X = 132, MAXW = 900;
+    g.textBaseline = 'alphabetic';
+    g.fillStyle = '#8B6CE6'; g.font = '400 26px Pretendard, sans-serif'; g.fillText('맞춤 제안 자료', X, 570);
+    let sz = 64; g.font = '700 ' + sz + 'px Pretendard, sans-serif';
+    while (g.measureText(cover.name).width > MAXW && sz > 36) { sz -= 2; g.font = '700 ' + sz + 'px Pretendard, sans-serif' }
+    g.fillStyle = '#7252EE'; g.fillText(cover.name.trim(), X - 2, 570 + 14 + sz);
+    const line = [cover.who.trim() ? cover.who.trim() + ' 귀하' : '', fmtDate(cover.date)].filter(Boolean).join('  ·  ');
+    if (line) { g.fillStyle = '#5F6488'; g.font = '400 26px Pretendard, sans-serif'; g.fillText(line, X, 570 + 14 + sz + 52) }
+    coverURL = c.toDataURL('image/jpeg', .9);
+    const t = document.createElement('canvas'); t.width = 480; t.height = 270; t.getContext('2d').drawImage(c, 0, 0, 480, 270); coverThumb = t.toDataURL('image/jpeg', .85);
+  } catch (e) { coverURL = coverThumb = null }
+  if (job === coverJob) refreshCover();
+}
+function refreshCover(){ $('custOn').hidden = !coverURL; renderLib(); renderDeck(); renderPreview(); if (!$('show').hidden) show(si) }
+let ct; function coverChanged(){ cover = { name: $('cName').value, who: $('cWho').value, date: $('cDate').value }; saveDraft(); clearTimeout(ct); ct = setTimeout(buildCover, 250) }
+// presets
+const PRESETS = [
+  { name: '원장님 도입 제안', ids: [1,4,6,7,8,9,10,11,12,13,16,33,42,43] },
+  { name: '스태프 운영 교육', ids: [1,15,16,17,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,43] },
+  { name: '첫방문만', ids: [17,19,20,21,22,23,24,25,26,27,28,29,30,31] },
+  { name: '전체 42장', ids: IDS.map((_, i) => i + 1) }
+];
+const $ = id => document.getElementById(id);
+let deck = [], cur = IDS[3], filterTag = '전체', q = '', docId = null, savedRows = [];
+let db = null, user = null, me = null, dl = null;
+
+/* ---------- draft (this browser only) ---------- */
+function saveDraft(){ try{ localStorage.setItem('welda-builder', JSON.stringify({ t: $('deckTitle').value, d: deck, doc: docId, c: cover })) }catch(e){} }
+function loadDraft(){ try{ const x = JSON.parse(localStorage.getItem('welda-builder') || 'null'); if (x && Array.isArray(x.d)) { deck = x.d.filter(id => BY[id]); $('deckTitle').value = x.t || $('deckTitle').value; docId = x.doc || null; if (x.c) cover = Object.assign(cover, x.c); return true } }catch(e){} return false }
+
+/* ---------- library ---------- */
+const TAGS = ['전체', '원장 제안', '스태프', '환자 안내', '화면', '상담', '간지'];
+function renderTags(){
+  $('tags').innerHTML = '';
+  TAGS.forEach(t => { const b = document.createElement('button'); b.className = 'tag'; b.textContent = t; b.setAttribute('aria-pressed', t === filterTag); b.onclick = () => { filterTag = t; renderTags(); renderLib() }; $('tags').appendChild(b) });
+}
+function match(s){
+  if (filterTag !== '전체' && !s.tags.includes(filterTag)) return false;
+  if (!q) return true;
+  const h = (s.title + ' ' + s.desc + ' ' + s.tags.join(' ')).toLowerCase();
+  return q.toLowerCase().split(/\s+/).every(w => h.includes(w));
+}
+function renderLib(){
+  const lib = $('lib'); lib.innerHTML = ''; let shown = 0;
+  CH.forEach(c => {
+    const list = IDS.map(id => BY[id]).filter(s => s.ch === c.id && match(s));
+    if (!list.length) return; shown += list.length;
+    const box = document.createElement('div'); box.className = 'chap';
+    const hd = document.createElement('div');
+    hd.innerHTML = '<b>' + c.label + '<span>' + c.name + '</span></b>';
+    const all = document.createElement('button'); all.className = 'btn sm'; all.textContent = '+ 모두';
+    all.onclick = () => { let k = 0; list.forEach(s => { if (!deck.includes(s.id)) { deck.push(s.id); k++ } }); changed(); toast(k ? c.name + ' ' + k + '장을 추가했습니다' : '이미 모두 들어 있습니다') };
+    hd.appendChild(all); box.appendChild(hd);
+    const g = document.createElement('div'); g.className = 'items';
+    list.forEach(s => {
+      const b = document.createElement('button'); b.type = 'button';
+      const used = deck.includes(s.id);
+      b.className = 'it' + (used ? ' used' : '') + (s.id === cur ? ' sel' : '');
+      b.setAttribute('aria-label', s.n + '번 ' + s.title + (used ? ' (추가됨)' : ''));
+      b.innerHTML = '<img loading="lazy" alt="" src="' + th(s.id) + '"><span class="no">' + s.n + '</span>' + (used ? '<span class="in">추가됨</span>' : '') + '<span class="cap"></span>';
+      b.querySelector('.cap').textContent = s.title;
+      b.onclick = () => { cur = s.id; renderPreview(); renderLib() };
+      b.ondblclick = () => toggle(s.id);
+      g.appendChild(b);
+    });
+    box.appendChild(g); lib.appendChild(box);
+  });
+  if (!shown) lib.innerHTML = '<div class="empty-lib">조건에 맞는 슬라이드가 없습니다.</div>';
+  $('libCount').textContent = shown + ' / ' + IDS.length + '장';
+}
+
+/* ---------- deck ---------- */
+function minutes(){ return Math.round(deck.reduce((a, id) => a + (BY[id].tags.includes('간지') || BY[id].tags.includes('표지') || BY[id].tags.includes('마무리') ? .3 : 1.5), 0)) }
+function renderDeck(){
+  const ol = $('deck'); ol.innerHTML = '';
+  $('empty').hidden = deck.length > 0;
+  deck.forEach((id, i) => {
+    const s = BY[id]; const li = document.createElement('li');
+    li.draggable = true; li.dataset.i = i; if (id === cur) li.className = 'sel';
+    li.innerHTML = '<div class="th"><img alt="" src="' + th(id) + '"><span class="n">' + (i + 1) + '</span><span class="hd" aria-hidden="true">⋮⋮ 끌기</span></div><span class="tt"><b></b><small>' + CHN[s.ch].label + ' · 원본 ' + s.n + '장</small></span><span class="ops"><button class="ic" data-a="up" aria-label="앞으로">←</button><button class="ic x" data-a="rm" aria-label="빼기">✕</button><button class="ic" data-a="dn" aria-label="뒤로">→</button></span>';
+    li.querySelector('b').textContent = s.title;
+    li.addEventListener('click', e => {
+      const a = e.target.closest('[data-a]')?.dataset.a;
+      if (a === 'up' && i > 0) { [deck[i - 1], deck[i]] = [deck[i], deck[i - 1]]; changed() }
+      else if (a === 'dn' && i < deck.length - 1) { [deck[i + 1], deck[i]] = [deck[i], deck[i + 1]]; changed() }
+      else if (a === 'rm') { deck.splice(i, 1); changed() }
+      else if (!a) { cur = id; renderPreview(); renderDeck(); renderLib() }
+    });
+    li.addEventListener('dragstart', e => { li.classList.add('drag'); e.dataTransfer.setData('text/plain', i); e.dataTransfer.effectAllowed = 'move' });
+    li.addEventListener('dragend', () => li.classList.remove('drag'));
+    li.addEventListener('dragover', e => { e.preventDefault(); li.classList.add('over') });
+    li.addEventListener('dragleave', () => li.classList.remove('over'));
+    li.addEventListener('drop', e => { e.preventDefault(); li.classList.remove('over'); const from = +e.dataTransfer.getData('text/plain'); if (isNaN(from) || from === i) return; const [m] = deck.splice(from, 1); deck.splice(i, 0, m); changed() });
+    ol.appendChild(li);
+  });
+  $('mN').textContent = deck.length; $('mMin').textContent = minutes();
+  const chs = [...new Set(deck.map(id => CHN[BY[id].ch].label))].filter(l => l.startsWith('Chapter'));
+  $('mCh').textContent = chs.length ? chs.join(' · ') : '';
+  ['bShow', 'bPptx', 'bPdf', 'bSave'].forEach(b => $(b).disabled = !deck.length);
+}
+function toggle(id){ const k = deck.indexOf(id); if (k >= 0) deck.splice(k, 1); else deck.push(id); changed() }
+function changed(){ renderDeck(); renderLib(); renderPreview(); saveDraft() }
+function renderPresets(){
+  PRESETS.forEach(p => { const b = document.createElement('button'); b.className = 'btn sm'; b.textContent = p.name + ' · ' + p.ids.length + '장';
+    b.onclick = () => { deck = p.ids.map(n => IDS[n - 1]); $('deckTitle').value = p.name; docId = null; changed(); renderSaved(); toast('‘' + p.name + '’ 구성으로 시작합니다') };
+    $('presets').appendChild(b) });
+}
+
+/* ---------- preview ---------- */
+function renderPreview(){
+  const s = BY[cur]; $('pvImg').src = img(cur); $('pvImg').alt = s.title + ' 슬라이드';
+  $('pvCh').textContent = CHN[s.ch].label + ' · ' + CHN[s.ch].name + ' · 원본 ' + s.n + '장';
+  $('pvTitle').textContent = s.title; $('pvDesc').textContent = s.desc;
+  const k = deck.indexOf(cur);
+  $('pvAdd').textContent = k >= 0 ? (k + 1) + '번째에 있음 · 빼기' : '+ 교육자료에 추가';
+  $('pvAdd').classList.toggle('pri', k < 0);
+  $('pvTags').innerHTML = ''; s.tags.forEach(t => { const c = document.createElement('span'); c.className = 'chip'; c.textContent = t; $('pvTags').appendChild(c) });
+}
+$('pvAdd').onclick = () => toggle(cur);
+
+/* ---------- present ---------- */
+let si = 0;
+function show(i){ si = Math.max(0, Math.min(deck.length - 1, i)); $('shImg').src = img(deck[si]); $('shImg').alt = BY[deck[si]].title; $('shN').textContent = (si + 1) + ' / ' + deck.length; $('shT').textContent = (cover.name.trim() ? cover.name.trim() + ' · ' : '') + $('deckTitle').value }
+$('bShow').onclick = () => { if (!deck.length) return; $('show').hidden = false; show(deck.indexOf(cur) >= 0 ? deck.indexOf(cur) : 0); document.documentElement.requestFullscreen?.().catch(() => {}) };
+function closeShow(){ $('show').hidden = true; if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {}) }
+$('shX').onclick = closeShow; $('shL').onclick = () => show(si - 1); $('shR').onclick = () => show(si + 1);
+$('shImg').onclick = () => show(si + 1);
+document.addEventListener('keydown', e => {
+  if ($('show').hidden) return;
+  if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); show(si + 1) }
+  else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); show(si - 1) }
+  else if (e.key === 'Escape') closeShow();
+});
+document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && !$('show').hidden) { /* stay open in window */ } });
+
+/* ---------- toast ---------- */
+let tt; function toast(m){ $('toast').textContent = m; $('toast').hidden = false; clearTimeout(tt); tt = setTimeout(() => $('toast').hidden = true, 2600) }
+
+/* ---------- export ---------- */
+function loadScript(src){ return new Promise((ok, no) => { const s = document.createElement('script'); s.src = src; s.onload = ok; s.onerror = () => no(new Error('load')); document.head.appendChild(s) }) }
+async function dataURL(u){ const b = await (await fetch(u)).blob(); return await new Promise(r => { const f = new FileReader(); f.onload = () => r(f.result); f.readAsDataURL(b) }) }
+function fname(ext){ return ((cover.name.trim() ? cover.name.trim() + ' ' : '') + ($('deckTitle').value.trim() || '웰다 교육자료')).replace(/[\\/:*?"<>|]/g, ' ') + '.' + ext }
+async function deliver(blob, ext){
+  if (!dl) { toast('이 화면에서는 파일 저장을 쓸 수 없습니다'); return }
+  try { await dl.save({ filename: fname(ext), data: blob }); toast('파일을 저장했습니다') }
+  catch (e) { toast(e && e.code === 'declined' ? '저장을 취소했습니다' : '파일을 저장하지 못했습니다') }
+}
+async function exportPptx(){
+  const b = $('bPptx'); b.disabled = true; b.textContent = '만드는 중…';
+  try {
+    if (!window.PptxGenJS) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/pptxgenjs/3.12.0/pptxgen.bundle.js');
+    const p = new PptxGenJS(); p.layout = 'LAYOUT_WIDE'; p.title = $('deckTitle').value;
+    for (const id of deck) { const s = p.addSlide(); s.addImage({ data: await dataURL(img(id)), x: 0, y: 0, w: 13.333, h: 7.5 }) }
+    await deliver(await p.write({ outputType: 'blob' }), 'pptx');
+  } catch (e) { toast('PPT 파일을 만들지 못했습니다') }
+  b.disabled = !deck.length; b.textContent = 'PPT로 받기';
+}
+async function exportPdf(){
+  const b = $('bPdf'); b.disabled = true; b.textContent = '만드는 중…';
+  try {
+    if (!window.jspdf) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
+    const doc = new jspdf.jsPDF({ orientation: 'landscape', unit: 'px', format: [1600, 900], hotfixes: ['px_scaling'] });
+    for (let i = 0; i < deck.length; i++) { if (i) doc.addPage([1600, 900], 'landscape'); doc.addImage(await dataURL(img(deck[i])), 'JPEG', 0, 0, 1600, 900) }
+    await deliver(doc.output('blob'), 'pdf');
+  } catch (e) { toast('PDF 파일을 만들지 못했습니다') }
+  b.disabled = !deck.length; b.textContent = 'PDF로 받기';
+}
+$('bPptx').onclick = exportPptx; $('bPdf').onclick = exportPdf;
+
+/* ---------- saved decks (shared) ---------- */
+function ago(ms){ if (!ms) return ''; const d = (Date.now() - ms) / 60000; if (d < 1) return '방금'; if (d < 60) return Math.floor(d) + '분 전'; if (d < 1440) return Math.floor(d / 60) + '시간 전'; const t = new Date(ms); return (t.getMonth() + 1) + '/' + t.getDate() }
+async function renderSaved(){
+  const ul = $('savedList'); ul.innerHTML = '';
+  if (!db) { $('savedHint').hidden = false; $('savedHint').textContent = '이 주소에서는 팀 공유 저장을 쓸 수 없습니다. 지금 구성은 이 브라우저에 임시로 남고, PPT · PDF로 받아 보관할 수 있습니다.'; return }
+  $('savedHint').hidden = savedRows.length > 0;
+  $('savedHint').textContent = '아직 저장한 구성이 없습니다. 구성을 만든 뒤 ‘구성 저장’을 누르면 여기에 남고, 팀원도 불러올 수 있습니다.';
+  let names = {};
+  try { const ids = [...new Set(savedRows.map(r => r.data().by).filter(Boolean))]; if (user && ids.length) { const ps = await user.profiles(ids); ids.forEach(i => names[i] = (ps[i] && ps[i].name) || '') } } catch (e) {}
+  savedRows.forEach(r => {
+    const d = r.data(); const li = document.createElement('li'); if (r.id === docId) li.className = 'cur';
+    const who = d.by && me && d.by === me ? '나' : (names[d.by] || '팀원');
+    li.innerHTML = '<div><b></b><small></small></div><button class="btn sm" data-a="open">불러오기</button><button class="ic x" data-a="del" aria-label="삭제">✕</button>';
+    li.querySelector('b').textContent = d.title || '이름 없는 구성';
+    li.querySelector('small').textContent = (d.clinic ? d.clinic + ' · ' : '') + (d.ids || []).length + '장 · ' + who + ' · ' + ago(d.updatedAt);
+    li.addEventListener('click', async e => {
+      const a = e.target.closest('[data-a]')?.dataset.a;
+      if (a === 'open') { deck = (d.ids || []).filter(id => BY[id]); $('deckTitle').value = d.title || ''; docId = r.id; cover = { name: d.clinic || '', who: d.who || '', date: d.date || today() }; $('cName').value = cover.name; $('cWho').value = cover.who; $('cDate').value = cover.date; changed(); buildCover(); renderSaved(); toast('‘' + (d.title || '구성') + '’을 불러왔습니다') }
+      if (a === 'del') {
+        if (li.dataset.confirm !== '1') { li.dataset.confirm = '1'; e.target.textContent = '삭제 확인'; e.target.style.width = 'auto'; setTimeout(() => { li.dataset.confirm = ''; e.target.textContent = '✕'; e.target.style.width = '' }, 3000); return }
+        try { await db.collection('decks').doc(r.id).delete(); if (docId === r.id) docId = null; toast('삭제했습니다') } catch (err) { toast('삭제할 권한이 없습니다') }
+      }
+    });
+    ul.appendChild(li);
+  });
+}
+$('bSave').onclick = async () => {
+  if (!db) { toast('로그인한 상태에서만 팀과 공유해 저장할 수 있습니다'); return }
+  const data = { title: $('deckTitle').value.trim() || '이름 없는 구성', ids: deck.slice(), clinic: cover.name.trim(), who: cover.who.trim(), date: cover.date, updatedAt: Date.now(), by: me || '' };
+  try {
+    if (docId && savedRows.some(r => r.id === docId)) { await db.collection('decks').doc(docId).set(data); toast('‘' + data.title + '’을 업데이트했습니다') }
+    else { const ref = await db.collection('decks').add(data); docId = ref.id; toast('‘' + data.title + '’을 저장했습니다') }
+    saveDraft();
+  } catch (e) { toast('저장할 권한이 없습니다. 편집 권한이 있는 사람만 저장할 수 있습니다') }
+};
+$('deckTitle').addEventListener('input', saveDraft);
+$('q').addEventListener('input', e => { q = e.target.value.trim(); renderLib() });
+
+/* ---------- boot ---------- */
+if (!loadDraft()) deck = PRESETS[0].ids.map(n => IDS[n - 1]);
+if (!cover.date) cover.date = today();
+$('cName').value = cover.name; $('cWho').value = cover.who; $('cDate').value = cover.date;
+['cName', 'cWho', 'cDate'].forEach(i => $(i).addEventListener('input', coverChanged));
+renderTags(); renderPresets(); changed(); buildCover();
+(async () => {
+  if (!window.claude || !claude.use) {
+    dl = { save: async ({ filename, data }) => { const u = URL.createObjectURL(data); const a = document.createElement('a'); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 4000) } };
+    renderSaved(); return }
+  [db, user, dl] = await Promise.all([claude.use('db'), claude.use('user'), claude.use('downloads')]);
+  try { me = user ? await user.id() : null } catch (e) { me = null }
+  if (!dl) { $('bPptx').hidden = true; $('bPdf').hidden = true }
+  if (db) {
+    db.collection('decks').orderBy('updatedAt', 'desc').limit(50).onSnapshot(s => { savedRows = s.docs; renderSaved() }, () => { $('savedHint').hidden = false; $('savedHint').textContent = '저장한 구성을 불러오지 못했습니다.' });
+  } else renderSaved();
+})();
+setTimeout(() => { if (!db && $('savedHint').textContent === '불러오는 중…') renderSaved() }, 11000);
+</script>
+</body></html>
