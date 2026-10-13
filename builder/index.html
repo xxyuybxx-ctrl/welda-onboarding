@@ -149,6 +149,7 @@ img{display:block;max-width:100%}
 .ghost{position:fixed;z-index:70;width:188px;pointer-events:none;border-radius:12px;background:#fff;border:2px solid var(--violet);box-shadow:0 12px 30px rgba(20,24,110,.3);padding:6px;transform:rotate(-2deg)}
 .ghost img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px}
 .ghost b{display:block;font-size:12.5px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meta{align-items:center}.meta .clr{margin-left:auto;color:var(--danger);border-color:#F2D3DA}.meta .clr:hover{background:#FCEFF2;color:var(--danger);border-color:var(--danger)}
 .hint2{color:var(--soft);font-size:12.5px;padding:0 16px 12px}
 </style>
 
@@ -180,7 +181,7 @@ img{display:block;max-width:100%}
             <label for="cDate">날짜<input id="cDate" type="date"></label>
           </div>
         </div>
-        <div class="meta"><span><b id="mN">0</b>장</span><span>발표 약 <b id="mMin">0</b>분</span><span id="mCh"></span></div>
+        <div class="meta"><span><b id="mN">0</b>장</span><span>발표 약 <b id="mMin">0</b>분</span><span id="mCh"></span><button class="btn sm clr" id="bClear" type="button">모두 빼기</button></div>
       </header>
       <ol id="deck"></ol>
       <div class="hint2" id="dHint">순서 바꾸기: 카드를 꾹 눌러 끌어서 놓기 (PC는 바로 끌기) · ← → 버튼도 됩니다</div>
@@ -347,8 +348,11 @@ function renderLib(){
     const box = document.createElement('div'); box.className = 'chap';
     const hd = document.createElement('div');
     hd.innerHTML = '<b>' + c.label + '<span>' + c.name + '</span></b>';
-    const all = document.createElement('button'); all.className = 'btn sm'; all.textContent = '+ 모두';
-    all.onclick = () => { let k = 0; list.forEach(s => { if (!deck.includes(s.id)) { deck.push(s.id); k++ } }); changed(); toast(k ? c.name + ' ' + k + '장을 추가했습니다' : '이미 모두 들어 있습니다') };
+    const full = list.every(s => deck.includes(s.id));
+    const all = document.createElement('button'); all.className = 'btn sm'; all.type = 'button'; all.textContent = full ? '− 모두 빼기' : '+ 모두 넣기';
+    all.onclick = () => { const before = deck.slice();
+      if (full) { const ids = list.map(s => s.id); deck = deck.filter(id => !ids.includes(id)); changed(); toast(c.name + ' ' + ids.length + '장을 뺐습니다', () => { deck = before; changed() }) }
+      else { let k = 0; list.forEach(s => { if (!deck.includes(s.id)) { deck.push(s.id); k++ } }); changed(); toast(c.name + ' ' + k + '장을 넣었습니다', () => { deck = before; changed() }) } };
     hd.appendChild(all); box.appendChild(hd);
     const g = document.createElement('div'); g.className = 'items';
     list.forEach(s => {
@@ -393,7 +397,7 @@ function renderDeck(){
   $('mN').textContent = deck.length; $('mMin').textContent = minutes();
   const chs = [...new Set(deck.map(id => CHN[BY[id].ch].label))].filter(l => l.startsWith('Chapter'));
   $('mCh').textContent = chs.length ? chs.join(' · ') : '';
-  ['bShow', 'bPptx', 'bPdf', 'bSave'].forEach(b => $(b).disabled = !deck.length);
+  ['bShow', 'bPptx', 'bPdf', 'bSave'].forEach(b => $(b).disabled = !deck.length); $('bClear').hidden = !deck.length;
 }
 /* ---------- touch / mouse reorder ---------- */
 let press = null, drag = null, dragJustEnded = false;
@@ -464,6 +468,7 @@ function renderPreview(){
   $('pvTags').innerHTML = ''; s.tags.forEach(t => { const c = document.createElement('span'); c.className = 'chip'; c.textContent = t; $('pvTags').appendChild(c) });
 }
 $('pvAdd').onclick = () => toggle(cur);
+$('bClear').onclick = () => { const before = deck.slice(); deck = []; changed(); toast(before.length + '장을 모두 뺐습니다', () => { deck = before; changed() }) };
 
 /* ---------- present ---------- */
 let si = 0;
