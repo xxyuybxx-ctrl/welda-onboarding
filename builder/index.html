@@ -524,24 +524,48 @@ function showReady(blob, ext){
   $('rdyN').textContent = fname(ext); $('rdy').hidden = false; $('rdySave').focus();
 }
 function closeReady(){ $('rdy').hidden = true; ready = null }
+/* PDF without any library: one JPEG per page */
+async function jpegBytes(u){
+  if (u.startsWith('data:')) { const bin = atob(u.slice(u.indexOf(',') + 1)); const a = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) a[i] = bin.charCodeAt(i); return a }
+  const r = await fetch(u); if (!r.ok) throw new Error('이미지 ' + r.status); return new Uint8Array(await r.arrayBuffer());
+}
+function jpegSize(a){ let i = 2; while (i + 9 < a.length) { if (a[i] !== 0xFF) { i++; continue } const m = a[i + 1], len = (a[i + 2] << 8) | a[i + 3]; if (m >= 0xC0 && m <= 0xCF && m !== 0xC4 && m !== 0xC8 && m !== 0xCC) return { h: (a[i + 5] << 8) | a[i + 6], w: (a[i + 7] << 8) | a[i + 8] }; i += 2 + len } return { w: 1600, h: 900 } }
+function makePdf(jpgs){
+  const enc = new TextEncoder(), parts = [], offs = []; let pos = 0;
+  const push = x => { const b = typeof x === 'string' ? enc.encode(x) : x; parts.push(b); pos += b.length };
+  const W = 960, H = 540, n = jpgs.length, last = 2 + 3 * n;
+  push('%PDF-1.4\n'); push(new Uint8Array([37, 226, 227, 207, 211, 10]));
+  const obj = (id, body) => { offs[id] = pos; push(id + ' 0 obj\n' + body + '\nendobj\n') };
+  obj(1, '<< /Type /Catalog /Pages 2 0 R >>');
+  obj(2, '<< /Type /Pages /Kids [' + jpgs.map((_, i) => (3 + 3 * i) + ' 0 R').join(' ') + '] /Count ' + n + ' >>');
+  jpgs.forEach((j, i) => {
+    const pg = 3 + 3 * i, im = pg + 1, ct = pg + 2, sz = jpegSize(j), cs = 'q ' + W + ' 0 0 ' + H + ' 0 0 cm /Im0 Do Q';
+    obj(pg, '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + W + ' ' + H + '] /Resources << /XObject << /Im0 ' + im + ' 0 R >> >> /Contents ' + ct + ' 0 R >>');
+    offs[im] = pos; push(im + ' 0 obj\n<< /Type /XObject /Subtype /Image /Width ' + sz.w + ' /Height ' + sz.h + ' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ' + j.length + ' >>\nstream\n'); push(j); push('\nendstream\nendobj\n');
+    obj(ct, '<< /Length ' + cs.length + ' >>\nstream\n' + cs + '\nendstream');
+  });
+  const xo = pos; let x = 'xref\n0 ' + (last + 1) + '\n0000000000 65535 f \n';
+  for (let id = 1; id <= last; id++) x += String(offs[id]).padStart(10, '0') + ' 00000 n \n';
+  push(x + 'trailer\n<< /Size ' + (last + 1) + ' /Root 1 0 R >>\nstartxref\n' + xo + '\n%%EOF\n');
+  return new Blob(parts, { type: 'application/pdf' });
+}
+async function loadAny(urls){ let err; for (const u of urls) { try { await loadScript(u); return } catch (e) { err = e } } throw new Error('PPT 도구를 불러오지 못했습니다') }
 async function build(kind){
   const b = $(kind === 'pdf' ? 'bPdf' : 'bPptx'), label = b.textContent; b.disabled = true;
   try {
-    const imgs = []; for (let i = 0; i < deck.length; i++) { b.textContent = '만드는 중 ' + (i + 1) + '/' + deck.length; imgs.push(await dataURL(img(deck[i]))) }
     let blob;
     if (kind === 'pdf') {
-      if (!window.jspdf) await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js');
-      const doc = new jspdf.jsPDF({ orientation: 'landscape', unit: 'px', format: [1600, 900], hotfixes: ['px_scaling'], compress: true });
-      imgs.forEach((u, i) => { if (i) doc.addPage([1600, 900], 'landscape'); doc.addImage(u, 'JPEG', 0, 0, 1600, 900, undefined, 'FAST') });
-      blob = doc.output('blob');
+      const jpgs = []; for (let i = 0; i < deck.length; i++) { b.textContent = '만드는 중 ' + (i + 1) + '/' + deck.length; jpgs.push(await jpegBytes(img(deck[i]))) }
+      blob = makePdf(jpgs);
     } else {
-      if (!window.PptxGenJS) await loadScript('https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js');
+      if (!window.PptxGenJS) await loadAny(['https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js', 'https://unpkg.com/pptxgenjs@3.12.0/dist/pptxgen.bundle.js']);
+      const imgs = []; for (let i = 0; i < deck.length; i++) { b.textContent = '만드는 중 ' + (i + 1) + '/' + deck.length; imgs.push(await dataURL(img(deck[i]))) }
       const pp = new PptxGenJS(); pp.layout = 'LAYOUT_WIDE'; pp.title = $('deckTitle').value;
       imgs.forEach(u => pp.addSlide().addImage({ data: u, x: 0, y: 0, w: 13.333, h: 7.5 }));
       blob = await pp.write({ outputType: 'blob' });
     }
     showReady(blob, kind);
-  } catch (e) { toast((kind === 'pdf' ? 'PDF' : 'PPT') + ' 파일을 만들지 못했습니다. 인터넷 연결을 확인해 주세요') }
+  } catch (e) { toast((kind === 'pdf' ? 'PDF' : 'PPT') + ' 파일을 만들지 못했습니다' + (e && e.message ? ' · ' + e.message : '')) }
   b.disabled = !deck.length; b.textContent = label;
 }
 const exportPptx = () => build('pptx'), exportPdf = () => build('pdf');
