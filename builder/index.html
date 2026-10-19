@@ -309,7 +309,7 @@ async function buildCover(){
     if (!coverImg) { coverImg = new Image(); coverImg.src = imgRaw('s01'); await coverImg.decode() }
     await Promise.all([document.fonts.load('700 64px Pretendard', cover.name), document.fonts.load('400 26px Pretendard', '맞춤 제안 자료' + cover.who)]);
     if (job !== coverJob) return;
-    const c = document.createElement('canvas'); c.width = 1600; c.height = 900; const g = c.getContext('2d');
+    const c = document.createElement('canvas'); c.width = 2400; c.height = 1350; const g = c.getContext('2d'); g.scale(1.5, 1.5);
     g.drawImage(coverImg, 0, 0, 1600, 900);
     const X = 132, MAXW = 900;
     g.textBaseline = 'alphabetic';
