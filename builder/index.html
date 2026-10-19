@@ -243,16 +243,15 @@ const CH = [
   {id:'c3', label:'Chapter 3', name:'첫방문 프로토콜'},
   {id:'c4', label:'Chapter 4', name:'재방문 프로토콜'},
   {id:'c5', label:'Chapter 5', name:'FAQ'},
-  {id:'end', label:'마무리', name:'도입 절차'}
+  {id:'end', label:'마무리', name:'감사합니다'}
 ];
 const S = [
  ['intro','표지',"웰다(Welda) 표지입니다.\n\n혈당 데이터 기반 생활습관 관리 프로그램,\n내일을 바꾸는 대사 건강 솔루션입니다.",['표지']],
- ['intro','목차',"전체 구성입니다.\n\n• 1장 프로그램 개요\n• 2장 상담 개요\n• 3장 첫방문 프로토콜\n• 4장 재방문 프로토콜\n• 5장 FAQ\n• 마무리 도입 절차",['목차']],
+ ['intro','목차',"전체 구성입니다.\n\n• 1장 프로그램 개요\n• 2장 상담 개요 · 도입 절차\n• 3장 첫방문 프로토콜\n• 4장 재방문 프로토콜\n• 5장 FAQ",['목차']],
  ['c1','Chapter 1 · 프로그램 개요',"1장 간지입니다.",['간지']],
  ['c1','웰다는 혈당 데이터 기반 대사 건강 솔루션입니다',"웰다가 무엇인지 보여 주는 장입니다.\n\n환자는 앱에 기록하고,\n의원은 웰다 Pro로 확인합니다.\n\n세 환자군 모두\n기록 → 확인 → 지속의 같은 흐름입니다.",['원장 제안']],
  ['c1','환자가 기록하면, 진료실에서 바로 봅니다',"환자가 앱에 식사 · 운동을 기록합니다.\n\n진료실 PC에서 실시간으로 확인하고\n다음 진료 상담에 활용합니다.",['화면']],
  ['c1','서울시가 선택한 혈당관리 프로그램, 웰다',"서울시 「혈당캐치9988」 협력사업자로\n대웅제약 웰다가 선정되었습니다.\n\n공개 모집에서 4개 기업 제안서를\n평가한 결과입니다.\n\n• 당뇨 전단계 서울시민 1,000명\n• 25개 자치구 보건소 연계\n\n공공 평가를 거친 프로그램을\n의원 · 병원에서 바로 권할 수 있습니다.",['원장 제안','신뢰']],
- ['c1','보건소에서 시작된 웰다, 다음은 의원 · 병원입니다',"보건소 검사로 확인된\n당뇨 전단계 시민이 웰다를 시작합니다.\n\n1. 보건소 대사증후군 검사\n2. 손목닥터9988 신청\n3. 웰다 키트 배송\n4. 착용 · 교육 · 상담\n\n서울시 사업과 의원 · 병원을\n표로 비교했습니다.\n\n대상 기준 · 프로그램은 같고,\n의원 · 병원은 인원 제한이 없습니다.",['원장 제안','신뢰']],
  ['c1','외래에서 이런 환자에게 권해 주세요',"웰다를 권할 세 환자군입니다.\n\n• 당뇨전단계\n• GLP-1 계열 투약 환자\n• 생활습관 개선군\n\n군별 대상 기준과\n핵심 포인트를 함께 담았습니다.\n\n• 약보다 먼저, 생활습관 관리\n• 단약 이후를 미리 준비\n• 앱 기록부터 가볍게 시작",['원장 제안']],
  ['c1','BD 1장만 나눠 주시면, 환자 연결은 웰다가 이어갑니다',"의원이 할 일은 BD 1장 건네기입니다.\n\n1. 진료 중 BD 전달\n2. 환자가 QR로 앱 설치\n3. 가입 후 의원 파트너 코드 입력\n4. 의원 웰다 Pro에 연결\n\n비만주사 · 전당뇨/당뇨 두 버전이 있고,\n의원 코드는 빨간 글씨로 인쇄됩니다.",['원장 제안','운영']],
  ['c1','기록이 쌓일수록, 환자도 의원도 얻습니다',"환자득 · 병원득을\n하나의 관리 루프로 보여 줍니다.\n\n환자 기록 → 의원 확인\n→ 데이터 상담 → 재방문\n\n환자: 체중 유지 관리, 생활습관 개선,\n맞춤 관리, 혈당 변화 확인\n\n의원: 신뢰 형성, 재방문 유도,\n차별화된 진료, 무료 도입 · 추가 수익",['원장 제안']],
@@ -262,6 +261,7 @@ const S = [
  ['c2','Chapter 2 · 상담 개요',"2장 간지입니다.",['간지']],
  ['c2','프로그램 시작과 점검',"첫방문과 재방문에서\n다루는 항목을 한눈에 보여 줍니다.\n\n• 첫방문: 온보딩\n• 재방문: 점검\n\n연속혈당측정기 부착은\n필요한 환자만 하는 선택 사항입니다.",['구조']],
  ['c2','환자는 2주마다 센서 교체, 4주마다 상담으로 내원합니다',"환자의 내원 주기입니다.\n\n• 2주마다 센서 교체\n• 4주마다 상담\n\n센서 부착 시점은 두 가지입니다.\n\n• 경로 A: 첫 내원 당일\n• 경로 B: 앱 기록 후 다음 내원",['운영']],
+ ['c2','오늘 세 가지만 정해 주시면 바로 시작할 수 있습니다',"도입 6단계입니다.\n\n오늘 정할 것은 세 가지입니다.\n\n1. 상담료\n2. 첫 스태프 교육 방문일\n3. 먼저 권유할 환자군",['원장 제안']],
  ['c3','Chapter 3 · 첫방문 프로토콜',"3장 간지입니다.",['간지']],
  ['c3','웰다 시작하기',"웰다 시작 3단계입니다.\n\n1. 웰다 앱 세팅\n2. 건강 상태 입력\n3. 웰다 여정 시작\n\n사전 체크리스트 QR도 함께 있습니다.",['환자 안내']],
  ['c3','의원: 파트너 링크 발송 (웰다 Pro)',"웰다 Pro 유저 관리에서\n파트너 링크를 발송하는 화면입니다.",['스태프']],
@@ -287,7 +287,6 @@ const S = [
  ['c4','부가 질문과 코멘트 · 스트레스 · 운동 · 수면',"스트레스 · 운동 · 수면에 대한\n짧은 코멘트입니다. (선택)",['상담']],
  ['c5','Chapter 5 · FAQ',"5장 간지입니다.",['간지']],
  ['c5','자주 묻는 질문',"자주 묻는 질문입니다.\n\n• 저혈당 표시\n• 운동 후 혈당 상승\n• 스파이크와 음식\n• 센서 오류 · 탈락",['FAQ']],
- ['end','오늘 세 가지만 정해 주시면 바로 시작할 수 있습니다',"도입 6단계입니다.\n\n오늘 정할 것은 세 가지입니다.\n\n1. 상담료\n2. 첫 스태프 교육 방문일\n3. 먼저 권유할 환자군",['원장 제안']],
  ['end','감사합니다',"마무리 장입니다.",['마무리']]
 ];
 
@@ -325,20 +324,24 @@ async function buildCover(){
 }
 function refreshCover(){ $('custOn').hidden = !coverURL; renderLib(); renderDeck(); renderPreview(); if (!$('show').hidden) show(si) }
 let ct; function coverChanged(){ cover = { name: $('cName').value, who: $('cWho').value, date: $('cDate').value }; saveDraft(); clearTimeout(ct); ct = setTimeout(buildCover, 250) }
+/* 2026-10-19 개편(43→42장): 옛 7번 삭제, 옛 42번(도입 절차)을 옛 16번 뒤로. 그 전에 저장된 구성의 번호를 새 번호로 바꿈 */
+function migIds(a){ return (a||[]).map(id=>{ const n=+String(id).slice(1); let m;
+  if(!n||n===7) return null; if(n<7) m=n; else if(n<=16) m=n-1; else if(n===42) m=16; else if(n===43) m=42; else m=n;
+  return 's'+String(m).padStart(2,'0') }).filter(Boolean) }
 // presets
 const PRESETS = [
-  { name: '원장님 도입 제안', ids: [1,4,6,7,8,9,10,11,12,13,16,33,42,43] },
-  { name: '스태프 운영 교육', ids: [1,15,16,17,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,43] },
+  { name: '원장님 도입 제안', ids: [1,4,6,7,8,9,10,11,12,15,16,33,42] },
+  { name: '스태프 운영 교육', ids: [1,14,15,17,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42] },
   { name: '첫방문만', ids: [17,19,20,21,22,23,24,25,26,27,28,29,30,31] },
-  { name: '전체 42장', ids: IDS.map((_, i) => i + 1) }
+  { name: '전체 ' + IDS.length + '장', ids: IDS.map((_, i) => i + 1) }
 ];
 const $ = id => document.getElementById(id);
 let deck = [], cur = IDS[3], filterTag = '전체', q = '', docId = null, savedRows = [];
 let db = null, user = null, me = null, dl = null;
 
 /* ---------- draft (this browser only) ---------- */
-function saveDraft(){ try{ localStorage.setItem('welda-builder', JSON.stringify({ t: $('deckTitle').value, d: deck, doc: docId, c: cover })) }catch(e){} }
-function loadDraft(){ try{ const x = JSON.parse(localStorage.getItem('welda-builder') || 'null'); if (x && Array.isArray(x.d)) { deck = x.d.filter(id => BY[id]); $('deckTitle').value = x.t || $('deckTitle').value; docId = x.doc || null; if (x.c) cover = Object.assign(cover, x.c); return true } }catch(e){} return false }
+function saveDraft(){ try{ localStorage.setItem('welda-builder', JSON.stringify({ v: 3, t: $('deckTitle').value, d: deck, doc: docId, c: cover })) }catch(e){} }
+function loadDraft(){ try{ const x = JSON.parse(localStorage.getItem('welda-builder') || 'null'); if (x && Array.isArray(x.d)) { deck = (x.v===3?x.d:migIds(x.d)).filter(id => BY[id]); $('deckTitle').value = x.t || $('deckTitle').value; docId = x.doc || null; if (x.c) cover = Object.assign(cover, x.c); return true } }catch(e){} return false }
 
 /* ---------- library ---------- */
 const TAGS = ['전체', '원장 제안', '스태프', '환자 안내', '화면', '상담', '간지'];
@@ -589,7 +592,7 @@ async function renderSaved(){
     li.querySelector('small').textContent = (d.clinic ? d.clinic + ' · ' : '') + (d.ids || []).length + '장 · ' + who + ' · ' + ago(d.updatedAt);
     li.addEventListener('click', async e => {
       const a = e.target.closest('[data-a]')?.dataset.a;
-      if (a === 'open') { deck = (d.ids || []).filter(id => BY[id]); $('deckTitle').value = d.title || ''; docId = r.id; cover = { name: d.clinic || '', who: d.who || '', date: d.date || today() }; $('cName').value = cover.name; $('cWho').value = cover.who; $('cDate').value = cover.date; changed(); buildCover(); renderSaved(); toast('‘' + (d.title || '구성') + '’을 불러왔습니다') }
+      if (a === 'open') { deck = (d.v===3 ? (d.ids || []) : migIds(d.ids)).filter(id => BY[id]); $('deckTitle').value = d.title || ''; docId = r.id; cover = { name: d.clinic || '', who: d.who || '', date: d.date || today() }; $('cName').value = cover.name; $('cWho').value = cover.who; $('cDate').value = cover.date; changed(); buildCover(); renderSaved(); toast('‘' + (d.title || '구성') + '’을 불러왔습니다') }
       if (a === 'del') {
         if (li.dataset.confirm !== '1') { li.dataset.confirm = '1'; e.target.textContent = '삭제 확인'; e.target.style.width = 'auto'; setTimeout(() => { li.dataset.confirm = ''; e.target.textContent = '✕'; e.target.style.width = '' }, 3000); return }
         try { await db.collection('decks').doc(r.id).delete(); if (docId === r.id) docId = null; toast('삭제했습니다') } catch (err) { toast('삭제할 권한이 없습니다') }
@@ -600,7 +603,7 @@ async function renderSaved(){
 }
 $('bSave').onclick = async () => {
   if (!db) { toast('로그인한 상태에서만 팀과 공유해 저장할 수 있습니다'); return }
-  const data = { title: $('deckTitle').value.trim() || '이름 없는 구성', ids: deck.slice(), clinic: cover.name.trim(), who: cover.who.trim(), date: cover.date, updatedAt: Date.now(), by: me || '' };
+  const data = { title: $('deckTitle').value.trim() || '이름 없는 구성', v: 3, ids: deck.slice(), clinic: cover.name.trim(), who: cover.who.trim(), date: cover.date, updatedAt: Date.now(), by: me || '' };
   try {
     if (docId && savedRows.some(r => r.id === docId)) { await db.collection('decks').doc(docId).set(data); toast('‘' + data.title + '’을 업데이트했습니다') }
     else { const ref = await db.collection('decks').add(data); docId = ref.id; toast('‘' + data.title + '’을 저장했습니다') }
