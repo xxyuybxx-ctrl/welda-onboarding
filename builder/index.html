@@ -168,7 +168,7 @@ img{display:block;max-width:100%}
   <div class="in">
     <div class="brand"><svg viewBox="0 0 40 44" aria-hidden="true"><path d="M20 3 36 12.5v19L20 41 4 31.5v-19Z" fill="none" stroke="#7252EE" stroke-width="6" stroke-linejoin="round"/></svg>웰다 <span>교육자료 빌더</span></div>
     <label for="deckTitle" class="sr" hidden>교육자료 이름</label>
-    <input id="deckTitle" value="원장님 도입 제안" aria-label="교육자료 이름">
+    <input id="deckTitle" value="" placeholder="교육자료 이름을 적어 주세요" aria-label="교육자료 이름">
     <div class="acts">
       <button class="btn pri" id="bShow">발표하기</button>
       <button class="btn" id="bSave">구성 저장</button>
@@ -614,7 +614,8 @@ $('deckTitle').addEventListener('input', saveDraft);
 $('q').addEventListener('input', e => { q = e.target.value.trim(); renderLib() });
 
 /* ---------- boot ---------- */
-if (!loadDraft()) deck = PRESETS[0].ids.map(n => IDS[n - 1]);
+/* 처음 열면 항상 빈 구성으로 시작 (2026-10-19 요청) */
+deck = []; docId = null;
 if (!cover.date) cover.date = today();
 $('cName').value = cover.name; $('cWho').value = cover.who; $('cDate').value = cover.date;
 ['cName', 'cWho', 'cDate'].forEach(i => $(i).addEventListener('input', coverChanged));
