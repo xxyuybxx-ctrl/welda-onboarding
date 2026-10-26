@@ -163,22 +163,22 @@ img{display:block;max-width:100%}
 .libacts .out:hover{background:#FCEFF2;border-color:var(--danger);color:var(--danger)}
 .hint2{color:var(--soft);font-size:12.5px;padding:0 16px 12px}
 .credit{text-align:center;color:var(--soft,#9A9CB8);font-size:13px;padding:8px 16px 28px}
-/* menus (one tab per material set) */
-.libnav{display:flex;align-items:center;gap:8px;padding:0 clamp(16px,2vw,24px) 10px;flex-wrap:wrap}
-.tabs{display:flex;gap:4px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:4px;flex-wrap:wrap}
-.tab{border:0;background:none;border-radius:9px;padding:7px 14px;font-weight:700;font-size:14px;color:var(--muted);white-space:nowrap}
-.tab[aria-selected="true"]{background:#fff;color:var(--violet);box-shadow:0 1px 3px rgba(20,24,110,.14)}
-.tab small{font-weight:400;color:var(--soft);margin-left:4px;font-size:12px}
-.libnav .sp{flex:1}
-.libnav .btn{padding:6px 12px;font-size:13px}
-.lib-empty{margin:18px 6px;border:2px dashed var(--line);border-radius:14px;padding:22px 16px;text-align:center;color:var(--muted);font-size:13.5px}
-.lib-empty b{display:block;color:var(--ink);font-size:14.5px;margin-bottom:4px}
+/* sources: one library, filtered by source chips */
+.srcs .lbl{font-size:12px;color:var(--soft);padding:3px 2px 0}
+.srchead{display:flex;align-items:baseline;gap:8px;margin:16px 2px 0;padding:0 2px 5px;border-bottom:2px solid var(--wash)}
+.srchead b{font-size:13.5px;color:var(--ink)}
+.srchead small{color:var(--soft);font-size:12px}
+.presets .btn small{margin-left:6px;color:var(--soft);font-weight:400;font-size:11.5px}
+.lib-empty{margin:12px 2px 4px;border:2px dashed var(--line);border-radius:14px;padding:18px 14px;text-align:center;color:var(--muted);font-size:13px}
+.lib-empty b{display:block;color:var(--ink);font-size:14px;margin-bottom:4px}
 
 /* admin drawer */
 #adm{position:fixed;inset:0;z-index:55;background:rgba(14,16,64,.32);display:flex;justify-content:flex-end}
 #adm .pan{background:#fff;width:min(760px,100vw);height:100%;overflow:auto;padding:0 0 40px;box-shadow:-10px 0 40px rgba(20,24,110,.2)}
-#adm .ah{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);padding:14px 20px;display:flex;align-items:center;gap:10px;z-index:2}
-#adm .ah h2{margin:0;font-size:16px;flex:1}
+#adm .ah{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);padding:12px 20px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 12px;align-items:center;z-index:2}
+#adm .ah h2{margin:0;font-size:16px}
+#adm .ah .who{grid-column:1/-1;display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+#adm .ah select{font:inherit;font-size:13.5px;font-weight:700;border:1px solid var(--line);border-radius:8px;padding:6px 9px;background:#fff;max-width:100%}
 #adm section{padding:16px 20px;border-bottom:1px solid var(--line)}
 #adm h3{margin:0 0 4px;font-size:14.5px}
 #adm .sub{color:var(--muted);font-size:12.5px;margin:0 0 10px}
@@ -190,6 +190,7 @@ img{display:block;max-width:100%}
 .drop{border:2px dashed var(--line);border-radius:12px;padding:14px;text-align:center;color:var(--muted);font-size:13px;cursor:pointer;background:var(--bg)}
 .drop.over{border-color:var(--violet);background:var(--wash)}
 .drop b{color:var(--violet)}
+.drop.off{opacity:.5;cursor:not-allowed}
 #upMsg{margin-top:8px;font-size:13px;color:var(--violet);min-height:1.2em}
 .srows{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 .srow{display:grid;grid-template-columns:28px 128px minmax(0,1fr) auto;gap:10px;align-items:start;border:1px solid var(--line);border-radius:12px;padding:8px}
@@ -208,6 +209,30 @@ img{display:block;max-width:100%}
 .hits{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .danger{color:var(--danger)!important;border-color:#F2D3DA!important}
 .note{background:var(--wash);border-radius:10px;padding:10px 12px;font-size:12.5px;color:var(--muted)}
+.note.warn{background:#FFF4E5;color:#8A5A00}
+.mrows{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:8px}
+.mrow{border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:grid;gap:8px}
+.mrow .hd{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.mrow .hd b{font-size:14px}
+.mrow .st{font-size:12px;border-radius:999px;padding:2px 9px;background:var(--wash);color:var(--violet)}
+.mrow .st.no{background:#FFF4E5;color:#8A5A00}
+.mrow .hd .ic{margin-left:auto}
+.chk{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.chk label{display:inline-flex;align-items:center;gap:5px}
+.chk input{width:auto!important}
+.addm{border:1px dashed var(--line);border-radius:12px;padding:12px}
+.addm .g{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:8px;margin-bottom:8px}
+@media (max-width:620px){.addm .g{grid-template-columns:1fr}}
+
+/* manager login */
+#mlog{position:fixed;inset:0;z-index:58;background:rgba(14,16,64,.32);display:grid;place-items:center;padding:16px}
+#mlog .box{background:#fff;border-radius:16px;padding:20px;width:min(420px,100%);box-shadow:0 14px 40px rgba(20,24,110,.22);display:grid;gap:10px}
+#mlog h2{margin:0;font-size:17px}
+#mlog p{margin:0;color:var(--muted);font-size:13.5px}
+#mlog input{font:inherit;font-size:16px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;letter-spacing:.04em}
+#mlog input:focus{border-color:var(--lilac);outline:none}
+#mlog .err{color:var(--danger);font-size:13px;min-height:1.2em}
+#mlog .row{display:flex;gap:8px;justify-content:flex-end}
 </style>
 
 <header class="top">
@@ -220,14 +245,9 @@ img{display:block;max-width:100%}
       <button class="btn" id="bSave">구성 저장</button>
       <button class="btn" id="bPptx">PPT로 받기</button>
       <button class="btn" id="bPdf">PDF로 받기</button>
+      <button class="btn" id="bAdmin" type="button" hidden>관리자 로그인</button>
     </div>
   </div>
-  <nav class="libnav" aria-label="자료 메뉴">
-    <div class="tabs" id="tabs" role="tablist"></div>
-    <span class="sp"></span>
-    <button class="btn" id="bAdmin" type="button" hidden>⚙ 자료 관리</button>
-    <button class="btn" id="bNewLib" type="button" hidden>+ 메뉴 추가</button>
-  </nav>
 </header>
 
 <main class="page">
@@ -254,6 +274,7 @@ img{display:block;max-width:100%}
     <header>
       <h2 id="hLib">슬라이드 보관함 <small id="libCount"></small></h2>
       <input id="q" type="search" placeholder="제목 · 설명 검색" aria-label="슬라이드 검색">
+      <div class="tags srcs" id="srcs" role="group" aria-label="출처 필터" hidden></div>
       <div class="tags" id="tags" role="group" aria-label="용도 필터"></div>
       <div class="libbar"><span>카드를 누르면 넣고, 한 번 더 누르면 뺍니다</span><span class="libacts"><button class="btn sm" id="bAllIn" type="button">+ 모두 넣기</button><button class="btn sm out" id="bAllOut" type="button">− 모두 빼기</button></span></div>
     </header>
@@ -281,14 +302,20 @@ img{display:block;max-width:100%}
 
 <div id="adm" hidden role="dialog" aria-labelledby="admT">
   <div class="pan">
-    <div class="ah"><h2 id="admT">자료 관리</h2><button class="btn" id="admX" type="button">닫기</button></div>
+    <div class="ah">
+      <h2 id="admT">자료 관리</h2>
+      <div class="mini" style="justify-content:flex-end"><button class="btn" id="aOut" type="button" hidden>관리자 나가기</button><button class="btn" id="admX" type="button">닫기</button></div>
+      <div class="who"><span>관리할 출처</span><select id="aLib" aria-label="관리할 출처"></select><button class="btn sm" id="aNew" type="button" hidden>+ 출처 추가</button></div>
+    </div>
     <section>
-      <h3>메뉴 이름</h3>
-      <div class="mini"><input id="aName" maxlength="40" aria-label="메뉴 이름"><button class="btn sm" id="aNameSave" type="button">이름 바꾸기</button></div>
+      <h3>출처 이름</h3>
+      <p class="sub">보관함과 추천 구성에 이 이름으로 표시됩니다. 밑줄 뒤의 글자(예: _미래)가 짧은 이름으로 쓰입니다.</p>
+      <div class="mini"><input id="aName" maxlength="40" aria-label="출처 이름"><button class="btn sm" id="aNameSave" type="button">이름 바꾸기</button><button class="btn sm danger" id="aDel" type="button" hidden>이 출처 지우기</button></div>
     </section>
     <section>
       <h3>자료 올리기</h3>
       <p class="sub">PDF는 한 페이지가 슬라이드 한 장이 됩니다. PPT는 PowerPoint에서 ‘다른 이름으로 저장 → PDF’로 바꿔서 올려 주세요. 이미지(PNG·JPG)도 됩니다.</p>
+      <div class="note warn" id="upNo" hidden>이 계정에는 파일 올리기 권한이 없습니다. 이 페이지의 공유 설정에서 <b>기여자(Contributor)</b> 이상 권한이 있어야 올릴 수 있습니다. 유영빈 님께 요청해 주세요.</div>
       <div class="up">
         <label class="drop" id="drop" for="aFile"><b>파일 고르기</b> 또는 여기로 끌어 놓기<input id="aFile" type="file" accept=".pdf,application/pdf,image/png,image/jpeg,image/webp" multiple hidden></label>
         <select id="aCh" aria-label="넣을 장"></select>
@@ -309,22 +336,31 @@ img{display:block;max-width:100%}
     </section>
     <section>
       <h3>추천 구성</h3>
-      <p class="sub">빌더 위쪽의 추천 구성 버튼입니다. 지금 만드는 교육자료(순서 포함)를 그대로 등록합니다. 이름은 위쪽 ‘교육자료 이름’ 칸의 글자를 씁니다.</p>
+      <p class="sub">빌더 위쪽의 추천 구성 버튼입니다. 지금 만드는 교육자료(순서 포함, 다른 출처 슬라이드도 그대로)를 등록합니다. 이름은 위쪽 ‘교육자료 이름’ 칸의 글자를 씁니다.</p>
       <div id="aPresets"></div>
       <div class="mini"><button class="btn sm" id="aPresetAdd" type="button">지금 구성을 추천 구성으로 등록</button></div>
     </section>
-    <section>
-      <h3>맞춤 표지</h3>
-      <label class="mini" style="font-size:13.5px"><input type="checkbox" id="aCover" style="width:auto;flex:none"> 웰다 맞춤 표지(의원 이름이 들어가는 표지)를 이 메뉴 맨 앞에 넣기</label>
-    </section>
     <section id="aMgrSec" hidden>
       <h3>관리자</h3>
-      <p class="sub">이 메뉴의 자료를 올리고 고칠 수 있는 사람입니다. 아무도 지정하지 않으면 편집 권한이 있는 사람 누구나 관리할 수 있습니다.</p>
-      <div class="note">지정한 사람이 실제로 자료를 올리려면, 이 페이지 오른쪽 위 공유 메뉴에서 그 사람에게 <b>편집자(Editor)</b> 권한을 줘야 합니다.</div>
-      <div class="hits" id="aMgrs"></div>
-      <div class="mini" style="margin-top:10px"><input id="aMgrQ" placeholder="이름으로 찾기" autocomplete="off"></div>
-      <div class="hits" id="aMgrHits"></div>
+      <p class="sub">관리자는 빌더에서 ‘관리자 로그인’을 누르고 본인 사번을 입력하면, 배정된 출처의 자료를 올리고 고칠 수 있습니다. 사번 자체는 저장하지 않고 변환값만 저장합니다.</p>
+      <div class="note">관리자가 실제로 파일을 올리려면, 이 페이지 오른쪽 위 공유 메뉴에서 그 사람에게 <b>기여자(Contributor)</b> 이상 권한을 줘야 합니다. 올리기가 막히면 <b>편집자(Editor)</b>로 올려 주세요.</div>
+      <ul class="mrows" id="aMgrList" style="margin-top:12px"></ul>
+      <div class="addm">
+        <b style="font-size:13.5px">관리자 추가</b>
+        <div class="g" style="margin-top:8px"><input id="amName" placeholder="이름 (예: 김미래)" maxlength="20" autocomplete="off"><input id="amNo" placeholder="사번" inputmode="numeric" autocomplete="off"><button class="btn sm pri" id="amAdd" type="button">추가</button></div>
+        <div class="chk" id="amLibs"></div>
+      </div>
     </section>
+  </div>
+</div>
+
+<div id="mlog" hidden role="dialog" aria-labelledby="mlogT">
+  <div class="box">
+    <h2 id="mlogT">관리자 로그인</h2>
+    <p>등록된 관리자는 사번을 입력하면 본인이 맡은 출처의 자료를 올리고 고칠 수 있습니다.</p>
+    <input id="mlogIn" inputmode="numeric" autocomplete="off" placeholder="사번" aria-label="사번">
+    <div id="mlogErr" class="err" role="alert"></div>
+    <div class="row"><button class="btn" id="mlogX" type="button">취소</button><button class="btn pri" id="mlogOk" type="button">들어가기</button></div>
   </div>
 </div>
 
@@ -395,90 +431,78 @@ const S = [
 return { CH, S } })();
 const $ = id => document.getElementById(id);
 const pad = n => String(n).padStart(2, '0');
-const COVER_BASE = 'slides/s01.jpg', COVER_THUMB = 'thumbs/t01.jpg';
+const COVER_ID = 's01', COVER_BASE = 'slides/s01.jpg';
+const SALT = 'welda-builder|';
+const shortName = l => { const n = (l && l.name) || ''; const i = n.lastIndexOf('_'); return (i >= 0 && i < n.length - 1) ? n.slice(i + 1).trim() : n };
 
-/* ---------- menus (material sets) ----------
-   'yb' is built in (images ship with the page). Others live in db:
-   libs/<id>            { name, order, chapters:[{id,name}], presets:[{name,ids}], managers:[userId], noCover }
-   libs/<id>/slides/<d> { ord, ch, title, desc, tags:[], asset, thumb, file, by, createdAt }   asset/thumb = asset ids */
+/* ---------- sources (자료 출처) ----------
+   One library, one deck. 'yb' is built in (its images ship with the page). Other sources live in db:
+   libs/<id>            { name, order, chapters:[{id,name}], presets:[{name,ids}], createdAt }
+   libs/<id>/slides/<d> { ord, ch, title, desc, tags:[], asset, thumb, file, by, createdAt }   asset/thumb = asset ids
+   managers/<d>         { name, hash (사번 해시), libs:[libId], createdAt, by }
+   Slide ids are global: 's01'..'s42' for yb, '<libId>:<docId>' for the rest. */
 function makeYB(){
-  const lib = { id: 'yb', name: 'GLP-1 제안_영빈', builtin: true, order: 0, coverId: 's01' };
-  lib.CH = YB.CH;
-  lib.IDS = YB.S.map((_, i) => 's' + pad(i + 1));
-  lib.BY = {};
-  lib.IDS.forEach((id, i) => lib.BY[id] = { id, n: i + 1, ch: YB.S[i][0], title: YB.S[i][1], desc: YB.S[i][2], tags: YB.S[i][3], src: 'slides/' + id + '.jpg', thumb: 'thumbs/t' + id.slice(1) + '.jpg' });
-  lib.TAGS = ['전체', '원장 제안', '스태프', '환자 안내', '화면', '상담', '간지'];
-  const P = n => n.map(k => lib.IDS[k - 1]);
-  lib.PRESETS = [
+  const s = { id: 'yb', name: 'GLP-1 제안_영빈', builtin: true, order: 0 };
+  s.chapters = YB.CH.map(c => ({ id: c.id, name: c.name }));
+  s.CH = YB.CH.map(c => ({ id: c.id, label: c.label, name: c.name }));
+  s.IDS = YB.S.map((_, i) => 's' + pad(i + 1));
+  s.BY = {};
+  s.IDS.forEach((id, i) => s.BY[id] = { id, src: 'yb', n: i + 1, ch: YB.S[i][0], title: YB.S[i][1], desc: YB.S[i][2], tags: YB.S[i][3], url: 'slides/' + id + '.jpg', thumb: 'thumbs/t' + id.slice(1) + '.jpg' });
+  s.TAGS = ['원장 제안', '스태프', '환자 안내', '화면', '상담', '간지'];
+  const P = n => n.map(k => s.IDS[k - 1]);
+  s.PRESETS = [
     { name: '원장님 도입 제안', ids: P([1,4,6,7,8,9,10,11,12,15,16,33,42]) },
     { name: '스태프 운영 교육', ids: P([1,14,15,17,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42]) },
     { name: '첫방문만', ids: P([17,19,20,21,22,23,24,25,26,27,28,29,30,31]) },
-    { name: '전체', ids: lib.IDS.slice() }
+    { name: '전체', ids: s.IDS.slice() }
   ];
-  return lib;
+  return s;
 }
 function makeDyn(id, d, slideDocs){
-  const lib = { id, name: d.name || '이름 없는 메뉴', builtin: false, order: d.order || 9, managers: d.managers || [], raw: d, coverId: id + ':cover' };
+  const s = { id, name: d.name || '이름 없는 출처', builtin: false, order: d.order || 9, raw: d };
   const chs = (d.chapters && d.chapters.length) ? d.chapters : [{ id: 'main', name: '자료' }];
-  lib.chapters = chs;
-  lib.CH = [{ id: 'intro', label: '시작', name: '맞춤 표지' }].concat(chs.map(c => ({ id: c.id, label: '', name: c.name })));
+  s.chapters = chs;
+  s.CH = chs.map(c => ({ id: c.id, label: '', name: c.name }));
   const known = new Set(chs.map(c => c.id));
   const docs = slideDocs.slice().sort((a, b) => (a.data().ord || 0) - (b.data().ord || 0));
-  lib.slides = docs;
-  lib.IDS = []; lib.BY = {};
-  if (!d.noCover) { lib.IDS.push(lib.coverId); lib.BY[lib.coverId] = { id: lib.coverId, ch: 'intro', title: '맞춤 표지', desc: '웰다 기본 표지입니다.\n위쪽 ‘맞춤 표지’에 의원 이름을 적으면 이 표지에 들어갑니다.', tags: ['표지'], src: COVER_BASE, thumb: COVER_THUMB, cover: true } }
-  docs.forEach(s => { const x = s.data(); const sid = id + ':' + s.id;
-    lib.IDS.push(sid);
-    lib.BY[sid] = { id: sid, docId: s.id, ch: known.has(x.ch) ? x.ch : chs[0].id, title: x.title || '제목 없음', desc: x.desc || '', tags: Array.isArray(x.tags) ? x.tags : [], src: x.asset ? '/_blob/' + x.asset : '', thumb: x.thumb ? '/_blob/' + x.thumb : (x.asset ? '/_blob/' + x.asset : ''), asset: x.asset, thumbAsset: x.thumb, ord: x.ord || 0 } });
-  lib.IDS.forEach((sid, i) => lib.BY[sid].n = i + 1);
-  const tg = []; docs.forEach(s => (s.data().tags || []).forEach(t => { if (t && !tg.includes(t)) tg.push(t) }));
-  lib.TAGS = ['전체'].concat(tg);
-  lib.PRESETS = (d.presets || []).map(p => ({ name: p.name, ids: (p.ids || []).filter(x => lib.BY[x]) })).filter(p => p.ids.length);
-  if (docs.length) lib.PRESETS.push({ name: '전체', ids: lib.IDS.slice() });
-  return lib;
+  s.IDS = []; s.BY = {};
+  docs.forEach((doc, i) => { const x = doc.data(); const sid = id + ':' + doc.id; s.IDS.push(sid);
+    s.BY[sid] = { id: sid, src: id, docId: doc.id, n: i + 1, ch: known.has(x.ch) ? x.ch : chs[0].id, title: x.title || '제목 없음', desc: x.desc || '', tags: Array.isArray(x.tags) ? x.tags : [], url: x.asset ? '/_blob/' + x.asset : '', thumb: x.thumb ? '/_blob/' + x.thumb : (x.asset ? '/_blob/' + x.asset : ''), asset: x.asset, thumbAsset: x.thumb, ord: x.ord || 0 } });
+  s.TAGS = []; docs.forEach(doc => (doc.data().tags || []).forEach(x => { if (x && !s.TAGS.includes(x)) s.TAGS.push(x) }));
+  s.PRESETS = (d.presets || []).map(p => ({ name: p.name, ids: p.ids || [] }));
+  if (docs.length) s.PRESETS.push({ name: '전체', ids: s.IDS.slice() });
+  return s;
 }
-
-let LIBS = [makeYB()], L = null, IDS = [], BY = {}, CH = [], CHN = {}, TAGS = ['전체'], PRESETS = [];
-const STATE = {};   // per menu: { deck, cur, title, docId, filterTag, q }
-let deck = [], cur = null, filterTag = '전체', q = '', docId = null, savedRows = [];
+let SRC = [makeYB()], SRCN = {}, IDS = [], BY = {}, CHN = {}, PRESETS = [];
+let deck = [], cur = null, filterTag = '전체', srcFilter = '전체', q = '', docId = null, savedRows = [];
 let db = null, user = null, me = null, dl = null, assets = null, amOwner = false;
+let A = null, mgr = null, managers = [], openWhen = null;
 const dynDocs = {}, dynSlides = {}, slideSubs = {};
-
-function bindLib(lib){
-  L = lib; IDS = lib.IDS; BY = lib.BY; CH = lib.CH; CHN = {}; CH.forEach(c => CHN[c.id] = c); TAGS = lib.TAGS; PRESETS = lib.PRESETS;
-}
-function useLib(id){
-  const next = LIBS.find(l => l.id === id) || LIBS[0];
-  if (L) STATE[L.id] = { deck, cur, title: $('deckTitle').value, docId, filterTag, q };
-  bindLib(next);
-  const s = STATE[next.id] || { deck: [], cur: null, title: '', docId: null, filterTag: '전체', q: '' };
-  deck = s.deck.filter(x => BY[x]); cur = BY[s.cur] ? s.cur : (IDS[0] || null); $('deckTitle').value = s.title; docId = s.docId;
-  filterTag = TAGS.includes(s.filterTag) ? s.filterTag : '전체'; q = s.q; $('q').value = q;
-  try { localStorage.setItem('welda-builder-lib', next.id) } catch (e) {}
-  renderTabs(); renderTags(); renderPresets(); changed(); renderSaved(); renderAdminButtons();
-  if (!$('adm').hidden) { if (canManage(L)) renderAdmin(); else closeAdmin() }
+const chOf = s => CHN[s.src + '/' + s.ch] || { label: '', name: '' };
+const chLabel = c => [c.label, c.name].filter(Boolean).join(' · ');
+function rebuild(){
+  SRC.sort((a, b) => (a.order || 0) - (b.order || 0) || a.name.localeCompare(b.name));
+  SRCN = {}; IDS = []; BY = {}; CHN = {}; PRESETS = [];
+  SRC.forEach(s => { SRCN[s.id] = s; s.CH.forEach(c => CHN[s.id + '/' + c.id] = c); s.IDS.forEach(id => { IDS.push(id); BY[id] = s.BY[id] }) });
+  SRC.forEach(s => s.PRESETS.forEach(p => { const ids = p.ids.filter(x => BY[x]); if (ids.length) PRESETS.push({ name: p.name, ids, src: s.id }) }));
+  deck = deck.filter(x => BY[x]); if (!BY[cur]) cur = IDS[0] || null;
+  if (srcFilter !== '전체' && !SRCN[srcFilter]) srcFilter = '전체';
+  if (A) A = SRCN[A.id] || null;
+  renderSrcs(); renderTags(); renderPresets(); changed(); renderAdminButtons();
+  if (!$('adm').hidden) { if (A && manageable().includes(A)) renderAdmin(); else closeAdmin() }
 }
 function refreshLib(id){
   const d = dynDocs[id]; if (!d) return;
-  const lib = makeDyn(id, d, dynSlides[id] || []);
-  const k = LIBS.findIndex(l => l.id === id); if (k >= 0) LIBS[k] = lib; else LIBS.push(lib);
-  LIBS.sort((a, b) => (a.order || 0) - (b.order || 0));
-  if (L && L.id === id) { bindLib(lib); deck = deck.filter(x => BY[x]); if (!BY[cur]) cur = IDS[0] || null; renderTags(); renderPresets(); changed(); renderAdminButtons(); if (!$('adm').hidden) renderAdmin() }
-  renderTabs();
+  const s = makeDyn(id, d, dynSlides[id] || []);
+  const k = SRC.findIndex(x => x.id === id); if (k >= 0) SRC[k] = s; else SRC.push(s);
+  rebuild();
+  if (openWhen === id) { openWhen = null; A = s; openAdmin() }
 }
-function renderTabs(){
-  const t = $('tabs'); t.innerHTML = '';
-  LIBS.forEach(l => { const b = document.createElement('button'); b.className = 'tab'; b.type = 'button'; b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', l === L);
-    b.textContent = l.name; const n = l.IDS.filter(x => !l.BY[x].cover).length; const sm = document.createElement('small'); sm.textContent = n + '장'; b.appendChild(sm);
-    b.onclick = () => { if (l !== L) useLib(l.id) }; t.appendChild(b) });
-}
-function canManage(lib){ return !!(lib && !lib.builtin && assets && db && (amOwner || !(lib.managers && lib.managers.length) || (me && lib.managers.includes(me)))) }
-function renderAdminButtons(){ $('bAdmin').hidden = !canManage(L); $('bNewLib').hidden = !(amOwner && db) }
 
 /* ---------- images ---------- */
 let cover = { name: '', who: '', date: '' }, coverURL = null, coverThumb = null;
-const img = id => (L && id === L.coverId && coverURL) ? coverURL : (BY[id] ? BY[id].src : '');
-const th = id => (L && id === L.coverId && coverThumb) ? coverThumb : (BY[id] ? BY[id].thumb : '');
+const img = id => (id === COVER_ID && coverURL) ? coverURL : (BY[id] ? BY[id].url : '');
+const th = id => (id === COVER_ID && coverThumb) ? coverThumb : (BY[id] ? BY[id].thumb : '');
 function today(){ const d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) }
 function fmtDate(v){ return v ? v.replace(/-/g, '.') : '' }
 let coverImg = null, coverJob = 0;
@@ -504,77 +528,100 @@ async function buildCover(){
   } catch (e) { coverURL = coverThumb = null }
   if (job === coverJob) refreshCover();
 }
-function refreshCover(){ $('custOn').hidden = !coverURL; renderLib(); renderDeck(); renderPreview(); if (!$('show').hidden) show(si) }
+function coverBadge(){ const b = $('custOn'); b.hidden = !coverURL; b.textContent = deck.includes(COVER_ID) ? '표지에 반영됨' : '표지 슬라이드(영빈 1번)를 넣으면 반영돼요' }
+function refreshCover(){ coverBadge(); renderLib(); renderDeck(); renderPreview(); if (!$('show').hidden) show(si) }
 let ct; function coverChanged(){ cover = { name: $('cName').value, who: $('cWho').value, date: $('cDate').value }; clearTimeout(ct); ct = setTimeout(buildCover, 250) }
-/* 2026-10-19 개편(43→42장): 그 전에 저장된 '영빈' 구성의 번호를 새 번호로 바꿈 */
+/* 2026-10-19 개편(43→42장): 그 전에 저장된 구성의 번호를 새 번호로 바꿈 */
 function migIds(a){ return (a||[]).map(id=>{ const n=+String(id).slice(1); let m;
   if(!n||n===7) return null; if(n<7) m=n; else if(n<=16) m=n-1; else if(n===42) m=16; else if(n===43) m=42; else m=n;
   return 's'+pad(m) }).filter(Boolean) }
+function normIds(d){ let ids = d.ids || []; if (!d.v || d.v < 3) ids = migIds(ids); return ids.map(x => /:cover$/.test(x) ? COVER_ID : x).filter(x => BY[x]) }
 
 /* ---------- library ---------- */
+function tagsNow(){ const t = []; SRC.forEach(s => { if (srcFilter !== '전체' && s.id !== srcFilter) return; s.TAGS.forEach(x => { if (!t.includes(x)) t.push(x) }) }); return ['전체'].concat(t) }
 function renderTags(){
+  const T = tagsNow(); if (!T.includes(filterTag)) filterTag = '전체';
   $('tags').innerHTML = '';
-  TAGS.forEach(t => { const b = document.createElement('button'); b.className = 'tag'; b.textContent = t; b.setAttribute('aria-pressed', t === filterTag); b.onclick = () => { filterTag = t; renderTags(); renderLib() }; $('tags').appendChild(b) });
-  $('tags').hidden = TAGS.length < 2;
+  T.forEach(t => { const b = document.createElement('button'); b.className = 'tag'; b.type = 'button'; b.textContent = t; b.setAttribute('aria-pressed', t === filterTag); b.onclick = () => { filterTag = t; renderTags(); renderLib() }; $('tags').appendChild(b) });
+  $('tags').hidden = T.length < 2;
+}
+function renderSrcs(){
+  const box = $('srcs'); box.innerHTML = ''; box.hidden = SRC.length < 2;
+  if (box.hidden) { srcFilter = '전체'; return }
+  const lbl = document.createElement('span'); lbl.className = 'lbl'; lbl.textContent = '출처'; box.appendChild(lbl);
+  [{ id: '전체' }].concat(SRC).forEach(s => { const b = document.createElement('button'); b.className = 'tag'; b.type = 'button';
+    b.textContent = s.id === '전체' ? '전체' : shortName(s) + ' ' + s.IDS.length; b.title = s.name || '';
+    b.setAttribute('aria-pressed', srcFilter === s.id);
+    b.onclick = () => { srcFilter = s.id; try { localStorage.setItem('welda-builder-src', srcFilter) } catch (e) {} renderSrcs(); renderTags(); renderLib() };
+    box.appendChild(b) });
 }
 function match(s){
+  if (srcFilter !== '전체' && s.src !== srcFilter) return false;
   if (filterTag !== '전체' && !s.tags.includes(filterTag)) return false;
   if (!q) return true;
-  const h = (s.title + ' ' + s.desc + ' ' + s.tags.join(' ')).toLowerCase();
+  const h = (s.title + ' ' + s.desc + ' ' + s.tags.join(' ') + ' ' + SRCN[s.src].name).toLowerCase();
   return q.toLowerCase().split(/\s+/).every(w => h.includes(w));
 }
-function chLabel(c){ return [c.label, c.name].filter(Boolean).join(' · ') }
 function renderLib(){
-  const lib = $('lib'); lib.innerHTML = ''; let shown = 0;
-  CH.forEach(c => {
-    const list = IDS.map(id => BY[id]).filter(s => s.ch === c.id && match(s));
-    if (!list.length) return; shown += list.length;
-    const box = document.createElement('div'); box.className = 'chap';
-    const hd = document.createElement('div');
-    const bb = document.createElement('b'); bb.textContent = c.label; const sp = document.createElement('span'); sp.textContent = c.name; bb.appendChild(sp); hd.appendChild(bb);
-    const full = list.every(s => deck.includes(s.id));
-    const all = document.createElement('button'); all.className = 'btn sm'; all.type = 'button'; all.textContent = full ? '− 모두 빼기' : '+ 모두 넣기';
-    all.onclick = () => { const before = deck.slice();
-      if (full) { const ids = list.map(s => s.id); deck = deck.filter(id => !ids.includes(id)); changed(); toast(c.name + ' ' + ids.length + '장을 뺐습니다', () => { deck = before; changed() }) }
-      else { let k = 0; list.forEach(s => { if (!deck.includes(s.id)) { deck.push(s.id); k++ } }); changed(); toast(c.name + ' ' + k + '장을 넣었습니다', () => { deck = before; changed() }) } };
-    hd.appendChild(all); box.appendChild(hd);
-    const g = document.createElement('div'); g.className = 'items';
-    list.forEach(s => {
-      const b = document.createElement('button'); b.type = 'button';
-      const used = deck.includes(s.id);
-      b.className = 'it' + (used ? ' used' : '') + (s.id === cur ? ' sel' : '');
-      b.setAttribute('aria-label', s.n + '번 ' + s.title + (used ? ' (추가됨)' : ''));
-      const pos = deck.indexOf(s.id);
-      b.setAttribute('aria-pressed', used);
-      b.innerHTML = '<img loading="lazy" alt=""><span class="no"></span><span class="tg" aria-hidden="true"></span><span class="cap"></span>';
-      b.querySelector('img').src = th(s.id); b.querySelector('.no').textContent = s.n; b.querySelector('.tg').textContent = used ? '✓ ' + (pos + 1) : '+';
-      b.querySelector('.cap').textContent = s.title;
-      b.onclick = () => { cur = s.id; toggle(s.id, true) };
-      g.appendChild(b);
+  const lib = $('lib'); lib.innerHTML = ''; let shown = 0; const multi = SRC.length > 1;
+  SRC.forEach(s => {
+    if (srcFilter !== '전체' && s.id !== srcFilter) return;
+    const items = s.IDS.map(id => BY[id]).filter(match);
+    if (multi && srcFilter === '전체') { const h = document.createElement('div'); h.className = 'srchead'; const b = document.createElement('b'); b.textContent = s.name; const sm = document.createElement('small'); sm.textContent = s.IDS.length + '장'; h.appendChild(b); h.appendChild(sm); lib.appendChild(h) }
+    if (!s.builtin && !s.IDS.length) {
+      const e = document.createElement('div'); e.className = 'lib-empty';
+      e.innerHTML = '<b>아직 올린 자료가 없습니다</b>' + (manageable().includes(s) ? '위쪽 ‘⚙ 자료 관리’에서 PDF를 올리면 여기에 슬라이드로 나타납니다.' : '자료를 맡은 분이 올리면 여기에 나타납니다.');
+      lib.appendChild(e); return;
+    }
+    s.CH.forEach(c => {
+      const list = items.filter(x => x.ch === c.id);
+      if (!list.length) return; shown += list.length;
+      const box = document.createElement('div'); box.className = 'chap';
+      const hd = document.createElement('div');
+      const bb = document.createElement('b'); bb.textContent = c.label; const sp = document.createElement('span'); sp.textContent = c.name; bb.appendChild(sp); hd.appendChild(bb);
+      const full = list.every(x => deck.includes(x.id));
+      const all = document.createElement('button'); all.className = 'btn sm'; all.type = 'button'; all.textContent = full ? '− 모두 빼기' : '+ 모두 넣기';
+      all.onclick = () => { const before = deck.slice();
+        if (full) { const ids = list.map(x => x.id); deck = deck.filter(id => !ids.includes(id)); changed(); toast(c.name + ' ' + ids.length + '장을 뺐습니다', () => { deck = before; changed() }) }
+        else { let k = 0; list.forEach(x => { if (!deck.includes(x.id)) { deck.push(x.id); k++ } }); changed(); toast(c.name + ' ' + k + '장을 넣었습니다', () => { deck = before; changed() }) } };
+      hd.appendChild(all); box.appendChild(hd);
+      const g = document.createElement('div'); g.className = 'items';
+      list.forEach(x => {
+        const b = document.createElement('button'); b.type = 'button';
+        const used = deck.includes(x.id);
+        b.className = 'it' + (used ? ' used' : '') + (x.id === cur ? ' sel' : '');
+        b.setAttribute('aria-label', x.n + '번 ' + x.title + (used ? ' (추가됨)' : ''));
+        const pos = deck.indexOf(x.id);
+        b.setAttribute('aria-pressed', used);
+        b.innerHTML = '<img loading="lazy" alt=""><span class="no"></span><span class="tg" aria-hidden="true"></span><span class="cap"></span>';
+        b.querySelector('img').src = th(x.id); b.querySelector('.no').textContent = x.n; b.querySelector('.tg').textContent = used ? '✓ ' + (pos + 1) : '+';
+        b.querySelector('.cap').textContent = x.title;
+        b.onclick = () => { cur = x.id; toggle(x.id, true) };
+        g.appendChild(b);
+      });
+      box.appendChild(g); lib.appendChild(box);
     });
-    box.appendChild(g); lib.appendChild(box);
   });
-  const real = IDS.filter(id => !BY[id].cover).length;
-  if (!L.builtin && !real) {
-    const e = document.createElement('div'); e.className = 'lib-empty';
-    e.innerHTML = '<b>아직 올린 자료가 없습니다</b>' + (canManage(L) ? '위쪽 ‘⚙ 자료 관리’에서 PDF를 올리면 여기에 슬라이드로 나타납니다.' : '자료를 맡은 분이 올리면 여기에 나타납니다.');
-    lib.appendChild(e);
-  } else if (!shown) lib.innerHTML = '<div class="empty-lib">조건에 맞는 슬라이드가 없습니다.</div>';
-  $('libCount').textContent = shown + ' / ' + IDS.length + '장';
-  const filtered = filterTag !== '전체' || q; $('bAllIn').textContent = filtered ? '+ ' + shown + '장 넣기' : '+ 모두 넣기'; $('bAllOut').textContent = filtered ? '− ' + shown + '장 빼기' : '− 모두 빼기';
+  if (!shown && !lib.querySelector('.lib-empty')) lib.innerHTML = '<div class="empty-lib">조건에 맞는 슬라이드가 없습니다.</div>';
+  const total = srcFilter === '전체' ? IDS.length : (SRCN[srcFilter] ? SRCN[srcFilter].IDS.length : 0);
+  $('libCount').textContent = shown + ' / ' + total + '장';
+  const filtered = filterTag !== '전체' || q || srcFilter !== '전체'; $('bAllIn').textContent = filtered ? '+ ' + shown + '장 넣기' : '+ 모두 넣기'; $('bAllOut').textContent = filtered ? '− ' + shown + '장 빼기' : '− 모두 빼기';
 }
 
 /* ---------- deck ---------- */
 function minutes(){ return Math.round(deck.reduce((a, id) => a + (BY[id].tags.includes('간지') || BY[id].tags.includes('표지') || BY[id].tags.includes('마무리') ? .3 : 1.5), 0)) }
+function srcCounts(ids){ const m = {}; ids.forEach(id => { const k = BY[id] ? BY[id].src : (id.includes(':') ? id.split(':')[0] : 'yb'); m[k] = (m[k] || 0) + 1 }); return m }
 function renderDeck(){
   const ol = $('deck'); ol.innerHTML = '';
   $('empty').hidden = deck.length > 0; $('dHint').hidden = deck.length < 2;
+  const multi = SRC.length > 1;
   deck.forEach((id, i) => {
     const s = BY[id]; const li = document.createElement('li');
     li.dataset.i = i; if (id === cur) li.className = 'sel';
     li.innerHTML = '<div class="th"><img alt=""><span class="n"></span><span class="hd" aria-hidden="true">⋮⋮</span></div><span class="tt"><b></b><small></small></span><span class="ops"><button class="ic" data-a="up" aria-label="앞으로">←</button><button class="ic x" data-a="rm" aria-label="빼기">✕</button><button class="ic" data-a="dn" aria-label="뒤로">→</button></span>';
     li.querySelector('img').src = th(id); li.querySelector('.n').textContent = i + 1;
-    li.querySelector('b').textContent = s.title; li.querySelector('small').textContent = (CHN[s.ch].label || CHN[s.ch].name) + ' · 원본 ' + s.n + '장';
+    li.querySelector('b').textContent = s.title;
+    li.querySelector('small').textContent = (multi ? shortName(SRCN[s.src]) : (chOf(s).label || chOf(s).name)) + ' · 원본 ' + s.n + '장';
     li.addEventListener('click', e => {
       const a = e.target.closest('[data-a]')?.dataset.a;
       if (a === 'up' && i > 0) { [deck[i - 1], deck[i]] = [deck[i], deck[i - 1]]; changed() }
@@ -587,9 +634,11 @@ function renderDeck(){
     ol.appendChild(li);
   });
   $('mN').textContent = deck.length; $('mMin').textContent = minutes();
-  const chs = [...new Set(deck.map(id => CHN[BY[id].ch].label))].filter(l => l && l.startsWith('Chapter'));
-  $('mCh').textContent = chs.length ? chs.join(' · ') : '';
+  const sc = srcCounts(deck), keys = Object.keys(sc);
+  if (keys.length > 1) $('mCh').textContent = keys.map(k => (SRCN[k] ? shortName(SRCN[k]) : k) + ' ' + sc[k]).join(' · ');
+  else { const chs = [...new Set(deck.map(id => chOf(BY[id]).label))].filter(l => l && l.startsWith('Chapter')); $('mCh').textContent = chs.length ? chs.join(' · ') : '' }
   ['bShow', 'bPptx', 'bPdf', 'bSave'].forEach(b => $(b).disabled = !deck.length);
+  coverBadge();
 }
 /* ---------- touch / mouse reorder ---------- */
 let press = null, drag = null, dragJustEnded = false;
@@ -644,9 +693,12 @@ function toggle(id, say){
 }
 function changed(){ renderDeck(); renderLib(); renderPreview() }
 function renderPresets(){
-  $('presets').innerHTML = '';
-  PRESETS.forEach(p => { const b = document.createElement('button'); b.className = 'btn sm'; b.type = 'button'; b.textContent = p.name + ' · ' + p.ids.length + '장';
-    b.onclick = () => { deck = p.ids.filter(x => BY[x]); cur = deck[0] || cur; $('deckTitle').value = p.name === '전체' ? L.name : p.name; docId = null; changed(); renderSaved(); toast('‘' + p.name + '’ 구성으로 시작합니다') };
+  $('presets').innerHTML = ''; const multi = SRC.length > 1;
+  PRESETS.forEach(p => { const b = document.createElement('button'); b.className = 'btn sm'; b.type = 'button';
+    const sp = document.createElement('span'); sp.textContent = p.name + ' · ' + p.ids.length + '장'; b.appendChild(sp);
+    if (multi) { const sm = document.createElement('small'); sm.textContent = shortName(SRCN[p.src]); b.appendChild(sm) }
+    b.title = SRCN[p.src].name;
+    b.onclick = () => { deck = p.ids.filter(x => BY[x]); cur = deck[0] || cur; $('deckTitle').value = p.name === '전체' ? SRCN[p.src].name : p.name; docId = null; changed(); renderSaved(); toast('‘' + p.name + '’ 구성으로 시작합니다') };
     $('presets').appendChild(b) });
 }
 
@@ -656,7 +708,7 @@ function renderPreview(){
   if (!s) { $('pvImg').removeAttribute('src'); $('pvCh').textContent = ''; $('pvTitle').textContent = ''; $('pvDesc').textContent = ''; $('pvAdd').hidden = true; $('pvTags').innerHTML = ''; return }
   $('pvAdd').hidden = false;
   $('pvImg').src = img(cur); $('pvImg').alt = s.title + ' 슬라이드';
-  $('pvCh').textContent = chLabel(CHN[s.ch]) + ' · 원본 ' + s.n + '장';
+  $('pvCh').textContent = (SRC.length > 1 ? SRCN[s.src].name + ' › ' : '') + chLabel(chOf(s)) + ' · 원본 ' + s.n + '장';
   $('pvTitle').textContent = s.title; $('pvDesc').textContent = s.desc;
   const k = deck.indexOf(cur);
   $('pvAdd').textContent = k >= 0 ? (k + 1) + '번째에 있음 · 빼기' : '+ 교육자료에 추가';
@@ -665,7 +717,7 @@ function renderPreview(){
 }
 $('pvAdd').onclick = () => { if (BY[cur]) toggle(cur) };
 function shownIds(){ return IDS.filter(id => match(BY[id])) }
-$('bAllIn').onclick = () => { const before = deck.slice(); let k = 0; shownIds().forEach(id => { if (!deck.includes(id)) { deck.push(id); k++ } }); changed(); toast(k ? (filterTag !== '전체' || q ? '보이는 슬라이드 ' : '') + k + '장을 넣었습니다' : '이미 모두 들어 있습니다', k ? () => { deck = before; changed() } : null) };
+$('bAllIn').onclick = () => { const before = deck.slice(); let k = 0; shownIds().forEach(id => { if (!deck.includes(id)) { deck.push(id); k++ } }); changed(); toast(k ? (filterTag !== '전체' || q || srcFilter !== '전체' ? '보이는 슬라이드 ' : '') + k + '장을 넣었습니다' : '이미 모두 들어 있습니다', k ? () => { deck = before; changed() } : null) };
 $('bAllOut').onclick = () => { const before = deck.slice(); const ids = shownIds(); deck = deck.filter(id => !ids.includes(id)); const k = before.length - deck.length; changed(); toast(k ? k + '장을 뺐습니다' : '뺄 슬라이드가 없습니다', k ? () => { deck = before; changed() } : null) };
 
 /* ---------- present ---------- */
@@ -676,6 +728,7 @@ function closeShow(){ $('show').hidden = true; if (document.fullscreenElement) d
 $('shX').onclick = closeShow; $('shL').onclick = () => show(si - 1); $('shR').onclick = () => show(si + 1);
 $('shImg').onclick = () => show(si + 1);
 document.addEventListener('keydown', e => {
+  if (!$('mlog').hidden) { if (e.key === 'Escape') $('mlog').hidden = true; if (e.key === 'Enter' && e.target === $('mlogIn')) { e.preventDefault(); $('mlogOk').click() } return }
   if (!$('adm').hidden && e.key === 'Escape') { closeAdmin(); return }
   if ($('show').hidden) return;
   if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); show(si + 1) }
@@ -755,25 +808,25 @@ $('rdySave').onclick = deliver; $('rdyX').onclick = closeReady;
 
 /* ---------- saved decks (shared) ---------- */
 function ago(ms){ if (!ms) return ''; const d = (Date.now() - ms) / 60000; if (d < 1) return '방금'; if (d < 60) return Math.floor(d) + '분 전'; if (d < 1440) return Math.floor(d / 60) + '시간 전'; const t = new Date(ms); return (t.getMonth() + 1) + '/' + t.getDate() }
-const libOf = d => d.lib || 'yb';
 async function renderSaved(){
   const ul = $('savedList'); ul.innerHTML = '';
   if (!db) { $('savedHint').hidden = false; $('savedHint').textContent = '이 주소에서는 팀 공유 저장을 쓸 수 없습니다. 만든 구성은 PPT · PDF로 받아 보관해 주세요.'; return }
-  const rows = savedRows.filter(r => libOf(r.data()) === L.id);
-  $('savedHint').hidden = rows.length > 0;
-  $('savedHint').textContent = '이 메뉴로 저장한 구성이 아직 없습니다. 구성을 만든 뒤 ‘구성 저장’을 누르면 여기에 남고, 팀원도 불러올 수 있습니다.';
+  $('savedHint').hidden = savedRows.length > 0;
+  $('savedHint').textContent = '아직 저장한 구성이 없습니다. 구성을 만든 뒤 ‘구성 저장’을 누르면 여기에 남고, 팀원도 불러올 수 있습니다.';
   let names = {};
-  try { const ids = [...new Set(rows.map(r => r.data().by).filter(Boolean))]; if (user && ids.length) { const ps = await user.profiles(ids); ids.forEach(i => names[i] = (ps[i] && ps[i].name) || '') } } catch (e) {}
+  try { const ids = [...new Set(savedRows.map(r => r.data().by).filter(Boolean))]; if (user && ids.length) { const ps = await user.profiles(ids); ids.forEach(i => names[i] = (ps[i] && ps[i].name) || '') } } catch (e) {}
   ul.innerHTML = '';
-  rows.forEach(r => {
+  savedRows.forEach(r => {
     const d = r.data(); const li = document.createElement('li'); if (r.id === docId) li.className = 'cur';
     const who = d.by && me && d.by === me ? '나' : (names[d.by] || '팀원');
+    const ids = d.ids || [], sc = srcCounts(ids), keys = Object.keys(sc);
+    const cnt = ids.length + '장' + (keys.length > 1 ? ' (' + keys.map(k => (SRCN[k] ? shortName(SRCN[k]) : k) + ' ' + sc[k]).join(' · ') + ')' : '');
     li.innerHTML = '<div><b></b><small></small></div><button class="btn sm" data-a="open">불러오기</button><button class="ic x" data-a="del" aria-label="삭제">✕</button>';
     li.querySelector('b').textContent = d.title || '이름 없는 구성';
-    li.querySelector('small').textContent = (d.clinic ? d.clinic + ' · ' : '') + (d.ids || []).length + '장 · ' + who + ' · ' + ago(d.updatedAt);
+    li.querySelector('small').textContent = (d.clinic ? d.clinic + ' · ' : '') + cnt + ' · ' + who + ' · ' + ago(d.updatedAt);
     li.addEventListener('click', async e => {
       const a = e.target.closest('[data-a]')?.dataset.a;
-      if (a === 'open') { const ids = L.id === 'yb' && d.v !== 3 ? migIds(d.ids) : (d.ids || []); deck = ids.filter(id => BY[id]); cur = deck[0] || cur; $('deckTitle').value = d.title || ''; docId = r.id; cover = { name: d.clinic || '', who: d.who || '', date: d.date || today() }; $('cName').value = cover.name; $('cWho').value = cover.who; $('cDate').value = cover.date; changed(); buildCover(); renderSaved(); toast('‘' + (d.title || '구성') + '’을 불러왔습니다') }
+      if (a === 'open') { deck = normIds(d); cur = deck[0] || cur; $('deckTitle').value = d.title || ''; docId = r.id; cover = { name: d.clinic || '', who: d.who || '', date: d.date || today() }; $('cName').value = cover.name; $('cWho').value = cover.who; $('cDate').value = cover.date; changed(); buildCover(); renderSaved(); toast('‘' + (d.title || '구성') + '’을 불러왔습니다' + (deck.length < ids.length ? ' · 지금 없는 슬라이드 ' + (ids.length - deck.length) + '장은 뺐습니다' : '')) }
       if (a === 'del') {
         if (li.dataset.confirm !== '1') { li.dataset.confirm = '1'; e.target.textContent = '삭제 확인'; e.target.style.width = 'auto'; setTimeout(() => { li.dataset.confirm = ''; e.target.textContent = '✕'; e.target.style.width = '' }, 3000); return }
         try { await db.collection('decks').doc(r.id).delete(); if (docId === r.id) docId = null; toast('삭제했습니다') } catch (err) { toast('삭제할 권한이 없습니다') }
@@ -784,92 +837,149 @@ async function renderSaved(){
 }
 $('bSave').onclick = async () => {
   if (!db) { toast('로그인한 상태에서만 팀과 공유해 저장할 수 있습니다'); return }
-  const data = { title: $('deckTitle').value.trim() || '이름 없는 구성', v: 3, lib: L.id, ids: deck.slice(), clinic: cover.name.trim(), who: cover.who.trim(), date: cover.date, updatedAt: Date.now(), by: me || '' };
+  const data = { title: $('deckTitle').value.trim() || '이름 없는 구성', v: 4, ids: deck.slice(), clinic: cover.name.trim(), who: cover.who.trim(), date: cover.date, updatedAt: Date.now(), by: me || '' };
   try {
     if (docId && savedRows.some(r => r.id === docId)) { await db.collection('decks').doc(docId).set(data); toast('‘' + data.title + '’을 업데이트했습니다') }
     else { const ref = await db.collection('decks').add(data); docId = ref.id; toast('‘' + data.title + '’을 저장했습니다') }
-  } catch (e) { toast('저장할 권한이 없습니다. 편집 권한이 있는 사람만 저장할 수 있습니다') }
+  } catch (e) { toast('저장할 권한이 없습니다. 기여자 이상 권한이 있는 사람만 저장할 수 있습니다') }
 };
 $('q').addEventListener('input', e => { q = e.target.value.trim(); renderLib() });
 
-/* ---------- admin: menus, uploads, slide editing ---------- */
+/* ---------- managers: 사번 login ---------- */
+function sha256hex(str){
+  const K = [0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+  const bytes = new TextEncoder().encode(str), l = bytes.length, padLen = ((l + 9 + 63) >> 6) << 6, m = new Uint8Array(padLen); m.set(bytes); m[l] = 0x80;
+  const dv = new DataView(m.buffer); dv.setUint32(padLen - 4, (l * 8) >>> 0); dv.setUint32(padLen - 8, Math.floor(l / 536870912));
+  let H = [0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+  const w = new Uint32Array(64), rotr = (x, n) => (x >>> n) | (x << (32 - n));
+  for (let i = 0; i < padLen; i += 64) {
+    for (let t = 0; t < 16; t++) w[t] = dv.getUint32(i + t * 4);
+    for (let t = 16; t < 64; t++) { const s0 = rotr(w[t-15], 7) ^ rotr(w[t-15], 18) ^ (w[t-15] >>> 3), s1 = rotr(w[t-2], 17) ^ rotr(w[t-2], 19) ^ (w[t-2] >>> 10); w[t] = (w[t-16] + s0 + w[t-7] + s1) >>> 0 }
+    let [a, b, c, d, e, f, g, h] = H;
+    for (let t = 0; t < 64; t++) { const S1 = rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25), ch = (e & f) ^ (~e & g), t1 = (h + S1 + ch + K[t] + w[t]) >>> 0, S0 = rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22), mj = (a & b) ^ (a & c) ^ (b & c), t2 = (S0 + mj) >>> 0; h = g; g = f; f = e; e = (d + t1) >>> 0; d = c; c = b; b = a; a = (t1 + t2) >>> 0 }
+    const v = [a, b, c, d, e, f, g, h]; H = H.map((x, k) => (x + v[k]) >>> 0);
+  }
+  return H.map(v => v.toString(16).padStart(8, '0')).join('');
+}
+const hashNo = v => sha256hex(SALT + String(v).replace(/\s+/g, ''));
+function setMgr(m){ const d = m.data(); mgr = { id: m.id, name: d.name || '관리자', libs: Array.isArray(d.libs) ? d.libs : [], hash: d.hash }; renderAdminButtons() }
+function dropMgr(say){ mgr = null; try { localStorage.removeItem('welda-builder-mgr') } catch (e) {} closeAdmin(); renderAdminButtons(); renderLib(); if (say) toast(say) }
+function verifySession(){
+  let h = null; try { h = localStorage.getItem('welda-builder-mgr') } catch (e) {}
+  const want = mgr ? mgr.hash : h; if (!want) return;
+  const m = managers.find(x => x.data().hash && x.data().hash === want);
+  if (m) { if (!mgr || mgr.id !== m.id || mgr.name !== m.data().name || JSON.stringify(mgr.libs) !== JSON.stringify(m.data().libs || [])) { setMgr(m); if (!$('adm').hidden) renderAdmin() } }
+  else if (mgr) dropMgr('관리자 등록이 해제되어 관리 화면을 닫았습니다');
+}
+function openLogin(){ $('mlog').hidden = false; $('mlogIn').value = ''; $('mlogErr').textContent = ''; setTimeout(() => $('mlogIn').focus(), 30) }
+$('mlogX').onclick = () => { $('mlog').hidden = true };
+$('mlog').addEventListener('click', e => { if (e.target === $('mlog')) $('mlog').hidden = true });
+$('mlogOk').onclick = () => {
+  const v = $('mlogIn').value.trim(); if (!v) { $('mlogIn').focus(); return }
+  const h = hashNo(v); const m = managers.find(x => x.data().hash && x.data().hash === h);
+  if (!m) { $('mlogErr').textContent = '등록되지 않은 사번입니다. 유영빈 님께 등록을 요청해 주세요.'; return }
+  setMgr(m); try { localStorage.setItem('welda-builder-mgr', h) } catch (e) {}
+  $('mlog').hidden = true; renderLib(); toast(mgr.name + ' 님, 관리자로 들어왔습니다'); openAdmin();
+};
+$('aOut').onclick = () => dropMgr('관리자에서 나왔습니다');
+
+/* ---------- admin: sources, uploads, slide editing ---------- */
 const libRef = id => db.doc('libs/' + id);
 const slideCol = id => db.collection('libs/' + id + '/slides');
-async function libUpdate(patch){ try { await libRef(L.id).update(patch); return true } catch (e) { toast('저장하지 못했습니다 · ' + (e && e.code || '권한 확인')); return false } }
-function openAdmin(){ if (!canManage(L)) return; $('adm').hidden = false; renderAdmin(); $('admX').focus() }
+function manageable(){ if (!db) return []; const dyn = SRC.filter(s => !s.builtin); if (amOwner) return dyn; if (mgr) return dyn.filter(s => mgr.libs.includes(s.id)); return [] }
+function renderAdminButtons(){ const b = $('bAdmin'); b.hidden = !db; b.textContent = (amOwner || mgr) ? '⚙ 자료 관리' : '관리자 로그인' }
+async function libUpdate(patch){ try { await libRef(A.id).update(patch); return true } catch (e) { toast('저장하지 못했습니다 · ' + ((e && e.code) || '권한을 확인해 주세요')); return false } }
+async function newSource(){
+  if (!db || !amOwner) return;
+  const id = 'lib' + Date.now().toString(36); const order = Math.max(0, ...SRC.map(s => s.order || 0)) + 1;
+  try { openWhen = id; await libRef(id).set({ name: '새 출처', order, chapters: [{ id: 'main', name: '자료' }], presets: [], createdAt: Date.now() }); toast('새 출처를 만들었습니다. 이름을 바꾸고 자료를 올려 주세요') }
+  catch (e) { openWhen = null; toast('출처를 만들지 못했습니다') }
+}
+function openAdmin(){
+  if (!db) return;
+  if (!amOwner && !mgr) { openLogin(); return }
+  const list = manageable();
+  if (!list.length) { if (amOwner) newSource(); else toast('맡은 출처가 없습니다. 유영빈 님께 출처 배정을 요청해 주세요'); return }
+  A = list.find(s => A && s.id === A.id) || list[0];
+  $('adm').hidden = false; renderAdmin(); $('admX').focus();
+}
 function closeAdmin(){ $('adm').hidden = true }
-$('bAdmin').onclick = openAdmin; $('admX').onclick = closeAdmin;
+$('bAdmin').onclick = openAdmin; $('admX').onclick = closeAdmin; $('aNew').onclick = newSource;
 $('adm').addEventListener('click', e => { if (e.target === $('adm')) closeAdmin() });
+$('aLib').onchange = e => { A = SRCN[e.target.value] || A; renderAdmin() };
 
 function chOptions(sel, val){
-  sel.innerHTML = ''; L.chapters.forEach(c => { const o = document.createElement('option'); o.value = c.id; o.textContent = c.name; if (c.id === val) o.selected = true; sel.appendChild(o) });
+  sel.innerHTML = ''; A.chapters.forEach(c => { const o = document.createElement('option'); o.value = c.id; o.textContent = c.name; if (c.id === val) o.selected = true; sel.appendChild(o) });
 }
 function renderAdmin(){
-  $('admT').textContent = '자료 관리 · ' + L.name;
-  if (document.activeElement !== $('aName')) $('aName').value = L.name;
-  const keepCh = $('aCh').value; chOptions($('aCh'), keepCh || L.chapters[0].id);
-  $('aCover').checked = !L.raw.noCover;
-  // slide rows
-  const slides = IDS.map(id => BY[id]).filter(s => !s.cover);
+  if (!A) return;
+  const list = manageable();
+  $('admT').textContent = '자료 관리' + (mgr && !amOwner ? ' · ' + mgr.name + ' 님' : '');
+  const sel = $('aLib'); sel.innerHTML = ''; list.forEach(s => { const o = document.createElement('option'); o.value = s.id; o.textContent = s.name; if (s === A) o.selected = true; sel.appendChild(o) });
+  $('aNew').hidden = !amOwner; $('aOut').hidden = !(mgr && !amOwner); $('aDel').hidden = !amOwner;
+  $('aDel').disabled = A.IDS.length > 0; $('aDel').title = A.IDS.length ? '슬라이드를 모두 지운 뒤에 출처를 지울 수 있습니다' : '';
+  if (document.activeElement !== $('aName')) $('aName').value = A.name;
+  const keepCh = $('aCh').value; chOptions($('aCh'), keepCh || A.chapters[0].id);
+  const noUp = !assets; $('upNo').hidden = !noUp; $('drop').classList.toggle('off', noUp); $('aFile').disabled = noUp; if (noUp) { $('aUp').disabled = true; pending = [] }
+  const slides = A.IDS.map(id => BY[id]);
   $('aCount').textContent = slides.length + '장';
-  const ul = $('aRows');
-  const ae = document.activeElement;
-  if (!(ul.contains(ae) && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName))) {   // never rebuild the field someone is typing in
-  ul.innerHTML = '';
-  if (!slides.length) { const li = document.createElement('li'); li.className = 'note'; li.textContent = '아직 올린 슬라이드가 없습니다. 위에서 PDF를 올려 주세요.'; ul.appendChild(li) }
-  slides.forEach((s, k) => {
-    const li = document.createElement('li'); li.className = 'srow';
-    li.innerHTML = '<span class="k"></span><img alt=""><div class="f"><input data-f="t" aria-label="제목"><textarea data-f="d" rows="2" aria-label="설명" placeholder="설명 (발표 메모 · 검색에 쓰임)"></textarea><div class="f2"><select data-f="c" aria-label="장"></select><input data-f="g" aria-label="태그" placeholder="태그 (쉼표로 구분)"></div></div><div class="o"><button class="btn sm" data-a="up" type="button" aria-label="위로">↑</button><button class="btn sm" data-a="dn" type="button" aria-label="아래로">↓</button><button class="btn sm danger" data-a="rm" type="button">삭제</button></div>';
-    li.querySelector('.k').textContent = k + 1; li.querySelector('img').src = s.thumb;
-    const t = li.querySelector('[data-f=t]'), d = li.querySelector('[data-f=d]'), c = li.querySelector('[data-f=c]'), g = li.querySelector('[data-f=g]');
-    t.value = s.title; d.value = s.desc; g.value = s.tags.join(', '); chOptions(c, s.ch);
-    const save = async patch => { try { await slideCol(L.id).doc(s.docId).update(patch) } catch (e) { toast('저장하지 못했습니다 · ' + (e && e.code || '')) } };
-    t.addEventListener('change', () => save({ title: t.value.trim() || '제목 없음' }));
-    d.addEventListener('change', () => save({ desc: d.value.trim() }));
-    c.addEventListener('change', () => save({ ch: c.value }));
-    g.addEventListener('change', () => save({ tags: g.value.split(/[,，]/).map(x => x.trim()).filter(Boolean).slice(0, 8) }));
-    [t, d, g].forEach(el => el.addEventListener('blur', () => setTimeout(() => { if (!$('aRows').contains(document.activeElement)) renderAdmin() }, 50)));
-    li.addEventListener('click', async e => {
-      const a = e.target.closest('[data-a]')?.dataset.a; if (!a) return;
-      if (a === 'up' || a === 'dn') {
-        const j = a === 'up' ? k - 1 : k + 1; if (j < 0 || j >= slides.length) return;
-        const o = slides[j];
-        try { await slideCol(L.id).doc(s.docId).update({ ord: o.ord }); await slideCol(L.id).doc(o.docId).update({ ord: s.ord === o.ord ? o.ord + (a === 'up' ? 1 : -1) : s.ord }) } catch (err) { toast('순서를 바꾸지 못했습니다') }
-      }
-      if (a === 'rm') {
-        const btn = e.target.closest('button');
-        if (btn.dataset.confirm !== '1') { btn.dataset.confirm = '1'; btn.textContent = '정말 삭제'; setTimeout(() => { btn.dataset.confirm = ''; btn.textContent = '삭제' }, 3000); return }
-        try {
-          const presets = (L.raw.presets || []).map(p => ({ name: p.name, ids: (p.ids || []).filter(x => x !== s.id) })).filter(p => p.ids.length);
-          if (JSON.stringify(presets) !== JSON.stringify(L.raw.presets || [])) await libRef(L.id).update({ presets });
-          await slideCol(L.id).doc(s.docId).delete();
-          for (const a2 of [s.asset, s.thumbAsset]) if (a2) { try { await assets.delete(a2) } catch (err) {} }
-          deck = deck.filter(x => x !== s.id);
-          toast('‘' + s.title + '’ 슬라이드를 지웠습니다');
-        } catch (err) { toast('지우지 못했습니다 · ' + (err && err.code || '')) }
-      }
+  const ul = $('aRows'); const ae = document.activeElement;
+  if (!(ul.contains(ae) && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName))) {
+    ul.innerHTML = '';
+    if (!slides.length) { const li = document.createElement('li'); li.className = 'note'; li.textContent = '아직 올린 슬라이드가 없습니다. 위에서 PDF를 올려 주세요.'; ul.appendChild(li) }
+    slides.forEach((s, k) => {
+      const li = document.createElement('li'); li.className = 'srow';
+      li.innerHTML = '<span class="k"></span><img alt=""><div class="f"><input data-f="t" aria-label="제목"><textarea data-f="d" rows="2" aria-label="설명" placeholder="설명 (발표 메모 · 검색에 쓰임)"></textarea><div class="f2"><select data-f="c" aria-label="장"></select><input data-f="g" aria-label="태그" placeholder="태그 (쉼표로 구분)"></div></div><div class="o"><button class="btn sm" data-a="up" type="button" aria-label="위로">↑</button><button class="btn sm" data-a="dn" type="button" aria-label="아래로">↓</button><button class="btn sm danger" data-a="rm" type="button">삭제</button></div>';
+      li.querySelector('.k').textContent = k + 1; li.querySelector('img').src = s.thumb;
+      const t = li.querySelector('[data-f=t]'), d = li.querySelector('[data-f=d]'), c = li.querySelector('[data-f=c]'), g = li.querySelector('[data-f=g]');
+      t.value = s.title; d.value = s.desc; g.value = s.tags.join(', '); chOptions(c, s.ch);
+      const save = async patch => { try { await slideCol(A.id).doc(s.docId).update(patch) } catch (e) { toast('저장하지 못했습니다 · ' + ((e && e.code) || '권한을 확인해 주세요')) } };
+      t.addEventListener('change', () => save({ title: t.value.trim() || '제목 없음' }));
+      d.addEventListener('change', () => save({ desc: d.value.trim() }));
+      c.addEventListener('change', () => save({ ch: c.value }));
+      g.addEventListener('change', () => save({ tags: g.value.split(/[,，]/).map(x => x.trim()).filter(Boolean).slice(0, 8) }));
+      [t, d, g].forEach(el => el.addEventListener('blur', () => setTimeout(() => { if (!$('aRows').contains(document.activeElement)) renderAdmin() }, 50)));
+      li.addEventListener('click', async e => {
+        const a = e.target.closest('[data-a]')?.dataset.a; if (!a) return;
+        if (a === 'up' || a === 'dn') {
+          const j = a === 'up' ? k - 1 : k + 1; if (j < 0 || j >= slides.length) return;
+          const o = slides[j];
+          try { await slideCol(A.id).doc(s.docId).update({ ord: o.ord }); await slideCol(A.id).doc(o.docId).update({ ord: s.ord === o.ord ? o.ord + (a === 'up' ? 1 : -1) : s.ord }) } catch (err) { toast('순서를 바꾸지 못했습니다') }
+        }
+        if (a === 'rm') {
+          const btn = e.target.closest('button');
+          if (btn.dataset.confirm !== '1') { btn.dataset.confirm = '1'; btn.textContent = '정말 삭제'; setTimeout(() => { btn.dataset.confirm = ''; btn.textContent = '삭제' }, 3000); return }
+          try {
+            const presets = (A.raw.presets || []).map(p => ({ name: p.name, ids: (p.ids || []).filter(x => x !== s.id) })).filter(p => p.ids.length);
+            if (JSON.stringify(presets) !== JSON.stringify(A.raw.presets || [])) await libRef(A.id).update({ presets });
+            await slideCol(A.id).doc(s.docId).delete();
+            if (assets) for (const a2 of [s.asset, s.thumbAsset]) if (a2) { try { await assets.delete(a2) } catch (err) {} }
+            deck = deck.filter(x => x !== s.id);
+            toast('‘' + s.title + '’ 슬라이드를 지웠습니다');
+          } catch (err) { toast('지우지 못했습니다 · ' + ((err && err.code) || '')) }
+        }
+      });
+      ul.appendChild(li);
     });
-    ul.appendChild(li);
-  });
   }
   // chapters
   const cb = $('aChs'); cb.innerHTML = '';
-  L.chapters.forEach((c, k) => {
+  A.chapters.forEach((c, k) => {
     const row = document.createElement('div'); row.className = 'mini';
     row.innerHTML = '<input aria-label="장 이름" maxlength="30"><button class="btn sm" type="button" data-a="up">↑</button><button class="btn sm danger" type="button" data-a="rm">지우기</button>';
     const inp = row.querySelector('input'); inp.value = c.name;
-    inp.addEventListener('change', () => { const chs = L.chapters.map(x => x.id === c.id ? { id: x.id, name: inp.value.trim() || x.name } : x); libUpdate({ chapters: chs }) });
+    inp.addEventListener('change', () => { const chs = A.chapters.map(x => x.id === c.id ? { id: x.id, name: inp.value.trim() || x.name } : x); libUpdate({ chapters: chs }) });
     row.querySelector('[data-a=up]').disabled = k === 0;
-    row.querySelector('[data-a=up]').onclick = () => { const chs = L.chapters.slice(); [chs[k - 1], chs[k]] = [chs[k], chs[k - 1]]; libUpdate({ chapters: chs }) };
+    row.querySelector('[data-a=up]').onclick = () => { const chs = A.chapters.slice(); [chs[k - 1], chs[k]] = [chs[k], chs[k - 1]]; libUpdate({ chapters: chs }) };
     const used = slides.some(s => s.ch === c.id);
-    const rm = row.querySelector('[data-a=rm]'); rm.disabled = used || L.chapters.length < 2; rm.title = used ? '슬라이드가 있는 장은 지울 수 없습니다' : '';
-    rm.onclick = () => libUpdate({ chapters: L.chapters.filter(x => x.id !== c.id) });
+    const rm = row.querySelector('[data-a=rm]'); rm.disabled = used || A.chapters.length < 2; rm.title = used ? '슬라이드가 있는 장은 지울 수 없습니다' : '';
+    rm.onclick = () => libUpdate({ chapters: A.chapters.filter(x => x.id !== c.id) });
     cb.appendChild(row);
   });
   // presets
   const pb = $('aPresets'); pb.innerHTML = '';
-  const own = L.raw.presets || [];
-  if (!own.length) { const n = document.createElement('p'); n.className = 'sub'; n.textContent = '등록한 추천 구성이 없습니다. (‘전체’ 버튼은 자동으로 생깁니다)'; pb.appendChild(n) }
+  const own = A.raw.presets || [];
+  if (!own.length) { const n = document.createElement('p'); n.className = 'sub'; n.textContent = '등록한 추천 구성이 없습니다. (‘전체’ 버튼은 자료가 있으면 자동으로 생깁니다)'; pb.appendChild(n) }
   const hits = document.createElement('div'); hits.className = 'hits';
   own.forEach((p, k) => { const pl = document.createElement('span'); pl.className = 'pill'; pl.textContent = p.name + ' · ' + (p.ids || []).length + '장';
     const x = document.createElement('button'); x.type = 'button'; x.textContent = '✕'; x.setAttribute('aria-label', p.name + ' 지우기'); x.onclick = () => libUpdate({ presets: own.filter((_, j) => j !== k) });
@@ -879,45 +989,58 @@ function renderAdmin(){
   $('aMgrSec').hidden = !amOwner;
   if (amOwner) renderManagers();
 }
-async function renderManagers(){
-  const box = $('aMgrs'); const ids = L.managers || [];
-  let ps = {}; try { if (user && ids.length) ps = await user.profiles(ids) } catch (e) {}
+function libChecks(box, checked){
   box.innerHTML = '';
-  if (!ids.length) { const n = document.createElement('span'); n.className = 'sub'; n.textContent = '지정한 관리자 없음 (편집 권한이 있는 사람 누구나)'; box.appendChild(n) }
-  ids.forEach(id => { const pl = document.createElement('span'); pl.className = 'pill'; pl.textContent = (ps[id] && ps[id].name) || '이름을 볼 수 없는 사용자';
-    const x = document.createElement('button'); x.type = 'button'; x.textContent = '✕'; x.setAttribute('aria-label', '관리자에서 빼기');
-    x.onclick = () => libUpdate({ managers: ids.filter(v => v !== id) }); pl.appendChild(x); box.appendChild(pl) });
+  SRC.filter(s => !s.builtin).forEach(s => { const l = document.createElement('label'); const i = document.createElement('input'); i.type = 'checkbox'; i.value = s.id; i.checked = checked.includes(s.id); l.appendChild(i); l.appendChild(document.createTextNode(s.name)); box.appendChild(l) });
+  return () => [...box.querySelectorAll('input:checked')].map(i => i.value);
 }
-$('aMgrQ').addEventListener('focus', () => mgrSearch(''));
-$('aMgrQ').addEventListener('input', e => mgrSearch(e.target.value));
-async function mgrSearch(qs){
-  const box = $('aMgrHits'); if (!user) return;
-  let hits = []; try { hits = await user.search(qs) } catch (e) {}
-  box.innerHTML = '';
-  hits.filter(h => !(L.managers || []).includes(h.id)).forEach(h => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn sm'; b.textContent = '+ ' + h.name;
-    b.onclick = async () => { if (await libUpdate({ managers: (L.managers || []).concat(h.id) })) { toast(h.name + ' 님을 관리자로 지정했습니다'); $('aMgrQ').value = ''; box.innerHTML = '' } }; box.appendChild(b) });
-  if (qs && !hits.length) { const n = document.createElement('span'); n.className = 'sub'; n.textContent = '찾는 사람이 없습니다'; box.appendChild(n) }
+function renderManagers(){
+  const ul = $('aMgrList'); const ae = document.activeElement;
+  if (ul.contains(ae) && ae.tagName === 'INPUT' && ae.type === 'text') return;
+  ul.innerHTML = '';
+  if (!managers.length) { const li = document.createElement('li'); li.className = 'note'; li.textContent = '등록한 관리자가 없습니다. 아래에서 이름과 사번을 넣어 추가하세요.'; ul.appendChild(li) }
+  managers.forEach(m => {
+    const d = m.data(); const li = document.createElement('li'); li.className = 'mrow';
+    li.innerHTML = '<div class="hd"><b></b><span class="st"></span><button class="ic x" data-a="rm" type="button" aria-label="관리자 삭제">✕</button></div><div class="chk"></div><div class="mini"><input type="text" inputmode="numeric" autocomplete="off" aria-label="사번"><button class="btn sm" data-a="no" type="button"></button></div>';
+    li.querySelector('b').textContent = d.name || '이름 없음';
+    const st = li.querySelector('.st'); st.textContent = d.hash ? '사번 등록됨' : '사번 미등록'; st.classList.toggle('no', !d.hash);
+    const noIn = li.querySelector('input'); noIn.placeholder = d.hash ? '사번 바꾸기' : '사번 입력'; li.querySelector('[data-a=no]').textContent = d.hash ? '바꾸기' : '등록';
+    const get = libChecks(li.querySelector('.chk'), d.libs || []);
+    li.querySelector('.chk').addEventListener('change', async () => { try { await db.collection('managers').doc(m.id).update({ libs: get() }) } catch (e) { toast('저장하지 못했습니다') } });
+    li.addEventListener('click', async e => {
+      const a = e.target.closest('[data-a]')?.dataset.a; if (!a) return;
+      if (a === 'no') { const v = noIn.value.trim(); if (!v) { noIn.focus(); return } try { await db.collection('managers').doc(m.id).update({ hash: hashNo(v) }); toast((d.name || '관리자') + ' 님 사번을 등록했습니다') } catch (err) { toast('저장하지 못했습니다') } }
+      if (a === 'rm') { const btn = e.target.closest('button'); if (btn.dataset.confirm !== '1') { btn.dataset.confirm = '1'; btn.textContent = '삭제 확인'; btn.style.width = 'auto'; setTimeout(() => { btn.dataset.confirm = ''; btn.textContent = '✕'; btn.style.width = '' }, 3000); return }
+        try { await db.collection('managers').doc(m.id).delete(); toast('관리자에서 뺐습니다') } catch (err) { toast('삭제하지 못했습니다') } }
+    });
+    ul.appendChild(li);
+  });
+  if (!$('amLibs').children.length || $('amLibs').dataset.n !== String(SRC.length)) { $('amLibs').dataset.n = String(SRC.length); libChecks($('amLibs'), A ? [A.id] : []) }
 }
-$('aNameSave').onclick = async () => { const v = $('aName').value.trim(); if (!v) return; if (await libUpdate({ name: v })) toast('메뉴 이름을 바꿨습니다') };
-$('aCover').onchange = e => libUpdate({ noCover: !e.target.checked });
-$('aChAdd').onclick = async () => { const v = $('aChNew').value.trim(); if (!v) return; if (await libUpdate({ chapters: L.chapters.concat({ id: 'c' + Date.now().toString(36), name: v }) })) { $('aChNew').value = ''; toast('‘' + v + '’ 장을 추가했습니다') } };
+$('amAdd').onclick = async () => {
+  const name = $('amName').value.trim(), no = $('amNo').value.trim(); const libs = [...$('amLibs').querySelectorAll('input:checked')].map(i => i.value);
+  if (!name) { $('amName').focus(); return } if (!no) { $('amNo').focus(); return }
+  if (managers.some(m => m.data().hash === hashNo(no))) { toast('이미 같은 사번으로 등록된 관리자가 있습니다'); return }
+  try { await db.collection('managers').add({ name, hash: hashNo(no), libs, createdAt: Date.now(), by: me || '' }); $('amName').value = ''; $('amNo').value = ''; toast(name + ' 님을 관리자로 추가했습니다') } catch (e) { toast('추가하지 못했습니다 · ' + ((e && e.code) || '')) }
+};
+$('aNameSave').onclick = async () => { const v = $('aName').value.trim(); if (!v) return; if (await libUpdate({ name: v })) toast('출처 이름을 바꿨습니다') };
+$('aDel').onclick = async e => {
+  if (!amOwner || A.IDS.length) return; const btn = e.target;
+  if (btn.dataset.confirm !== '1') { btn.dataset.confirm = '1'; btn.textContent = '정말 지우기'; setTimeout(() => { btn.dataset.confirm = ''; btn.textContent = '이 출처 지우기' }, 3000); return }
+  try { await libRef(A.id).delete(); toast('‘' + A.name + '’ 출처를 지웠습니다'); closeAdmin(); A = null } catch (err) { toast('지우지 못했습니다') }
+};
+$('aChAdd').onclick = async () => { const v = $('aChNew').value.trim(); if (!v) return; if (await libUpdate({ chapters: A.chapters.concat({ id: 'c' + Date.now().toString(36), name: v }) })) { $('aChNew').value = ''; toast('‘' + v + '’ 장을 추가했습니다') } };
 $('aPresetAdd').onclick = async () => {
   if (!deck.length) { toast('먼저 위에서 교육자료를 구성해 주세요'); return }
   const name = $('deckTitle').value.trim(); if (!name) { toast('위쪽 ‘교육자료 이름’ 칸에 구성 이름을 적어 주세요'); $('deckTitle').focus(); return }
-  if (await libUpdate({ presets: (L.raw.presets || []).concat({ name, ids: deck.slice() }) })) toast('‘' + name + '’을 추천 구성으로 등록했습니다');
-};
-$('bNewLib').onclick = async () => {
-  if (!db || !amOwner) return;
-  const id = 'lib' + Date.now().toString(36); const order = Math.max(0, ...LIBS.map(l => l.order || 0)) + 1;
-  try { await libRef(id).set({ name: '새 메뉴', order, chapters: [{ id: 'main', name: '자료' }], presets: [], managers: [], createdAt: Date.now() }); toast('새 메뉴를 만들었습니다. 이름을 바꾸고 자료를 올려 주세요'); setTimeout(() => { if (LIBS.find(l => l.id === id)) { useLib(id); openAdmin() } }, 600) }
-  catch (e) { toast('메뉴를 만들지 못했습니다') }
+  if (await libUpdate({ presets: (A.raw.presets || []).concat({ name, ids: deck.slice() }) })) toast('‘' + name + '’을 추천 구성으로 등록했습니다');
 };
 
 /* uploads: PDF pages / images -> 2400x1350 JPEG (+480 thumb) -> assets -> slide docs */
 let pending = [];
-function setFiles(list){ pending = [...list].filter(f => /pdf$/i.test(f.type) || /\.pdf$/i.test(f.name) || /^image\/(png|jpeg|webp)$/.test(f.type)); $('aUp').disabled = !pending.length; $('upMsg').textContent = pending.length ? pending.map(f => f.name).join(', ') + ' · 올리기를 누르세요' : (list.length ? 'PDF나 이미지 파일만 올릴 수 있습니다' : '') }
+function setFiles(list){ if (!assets) return; pending = [...list].filter(f => /pdf$/i.test(f.type) || /\.pdf$/i.test(f.name) || /^image\/(png|jpeg|webp)$/.test(f.type)); $('aUp').disabled = !pending.length; $('upMsg').textContent = pending.length ? pending.map(f => f.name).join(', ') + ' · 올리기를 누르세요' : (list.length ? 'PDF나 이미지 파일만 올릴 수 있습니다' : '') }
 $('aFile').onchange = e => setFiles(e.target.files);
-['dragenter', 'dragover'].forEach(t => $('drop').addEventListener(t, e => { e.preventDefault(); $('drop').classList.add('over') }));
+['dragenter', 'dragover'].forEach(t => $('drop').addEventListener(t, e => { e.preventDefault(); if (assets) $('drop').classList.add('over') }));
 ['dragleave', 'drop'].forEach(t => $('drop').addEventListener(t, e => { e.preventDefault(); $('drop').classList.remove('over') }));
 $('drop').addEventListener('drop', e => setFiles(e.dataTransfer.files));
 async function ensurePdf(){
@@ -936,26 +1059,28 @@ function letterbox(src, w, h){
 }
 const toBlob = (c, q) => new Promise(r => c.toBlob(r, 'image/jpeg', q));
 async function thumbOf(c){ const t = document.createElement('canvas'); t.width = 480; t.height = 270; const g = t.getContext('2d'); g.imageSmoothingQuality = 'high'; g.drawImage(c, 0, 0, 480, 270); return await toBlob(t, .82) }
-function joinRuns(list){   // glue glyph runs back into words: a gap narrower than ~1/4 of the font height is not a space
+function joinRuns(list){   // glue glyph runs back into words; word-level runs get a space at any real gap, glyph-level runs only at a space-sized gap
   const L2 = list.slice().sort((a, b) => (Math.abs(b.y - a.y) > a.h * .5 ? b.y - a.y : a.x - b.x));
   let out = '', prev = null;
-  L2.forEach(i => { if (prev) { const sameLine = Math.abs(prev.y - i.y) <= prev.h * .5; const gap = i.x - (prev.x + prev.w);
-      out += (!sameLine || gap > i.h * .22 || / $/.test(prev.raw) || /^ /.test(i.raw)) ? ' ' : '' }
+  L2.forEach(i => { if (prev) { const sameLine = Math.abs(prev.y - i.y) <= prev.h * .5, gap = i.x - (prev.x + prev.w), wordy = prev.s.length >= 2 && i.s.length >= 2;
+      out += (!sameLine || gap > i.h * .15 || (wordy && gap > i.h * .04) || / $/.test(prev.raw) || /^ /.test(i.raw)) ? ' ' : '' }
     out += i.s; prev = i });
   return out.replace(/\s+/g, ' ').trim();
 }
 function titleFrom(tc){
   const items = (tc.items || []).filter(i => i.str && i.str.trim()).map(i => ({ s: i.str.trim(), raw: i.str, h: Math.hypot(i.transform[2], i.transform[3]) || 1, y: i.transform[5], x: i.transform[4], w: i.width || 0 }));
   if (!items.length) return { title: '', desc: '' };
-  const maxH = Math.max(...items.map(i => i.h));
-  const title = joinRuns(items.filter(i => i.h >= maxH * .88)).slice(0, 70);
-  const desc = joinRuns(items.filter(i => i.h < maxH * .88)).slice(0, 160);
+  const clusters = []; [...new Set(items.map(i => Math.round(i.h)))].sort((a, b) => b - a).forEach(sz => { if (clusters.some(c => Math.abs(c.sz - sz) <= c.sz * .1)) return; clusters.push({ sz, items: items.filter(i => Math.abs(i.h - sz) <= sz * .1) }) });
+  const wordy = txt => { const nz = txt.replace(/\s/g, ''), letters = (nz.match(/[가-힣A-Za-z]/g) || []).length; return letters >= 6 && letters / Math.max(1, nz.length) >= .7 };
+  const pick = clusters.find(c => wordy(joinRuns(c.items))) || clusters[0];   // the biggest text that reads like a headline, not a big number
+  const title = joinRuns(pick.items).slice(0, 70);
+  const desc = joinRuns(items.filter(i => !pick.items.includes(i))).slice(0, 160);
   return { title, desc };
 }
 let uploading = false;
 $('aUp').onclick = async () => {
-  if (uploading || !pending.length || !canManage(L)) return;
-  uploading = true; $('aUp').disabled = true; const lib = L, ch = $('aCh').value; const msg = $('upMsg');
+  if (uploading || !pending.length || !assets || !A || !manageable().includes(A)) return;
+  uploading = true; $('aUp').disabled = true; const lib = A, ch = $('aCh').value; const msg = $('upMsg');
   let ord = Math.max(0, ...lib.IDS.map(x => lib.BY[x].ord || 0)), done = 0, failed = 0;
   const put = async (canvas, meta) => {
     const big = await toBlob(canvas, .88), small = await thumbOf(canvas);
@@ -979,16 +1104,17 @@ $('aUp').onclick = async () => {
             if (!meta.title) meta.title = f.name.replace(/\.pdf$/i, '') + ' ' + p + '쪽';
             meta.file = f.name + ' p' + p;
             await put(letterbox(c, c.width, c.height), meta);
-          } catch (e) { failed++; if (e && e.code === 'quota_or_state') throw e }
+          } catch (e) { failed++; if (e && (e.code === 'quota_or_state' || e.code === 'not_granted' || e.code === 'invalid_argument')) throw e }
         }
       } else {
         msg.textContent = f.name + ' 올리는 중';
-        try { const bm = await createImageBitmap(f); await put(letterbox(bm, bm.width, bm.height), { title: f.name.replace(/\.[a-z]+$/i, ''), desc: '', file: f.name }) } catch (e) { failed++; if (e && e.code === 'quota_or_state') throw e }
+        try { const bm = await createImageBitmap(f); await put(letterbox(bm, bm.width, bm.height), { title: f.name.replace(/\.[a-z]+$/i, ''), desc: '', file: f.name }) } catch (e) { failed++; if (e && (e.code === 'quota_or_state' || e.code === 'not_granted' || e.code === 'invalid_argument')) throw e }
       }
     }
     msg.textContent = done + '장을 올렸습니다' + (failed ? ' · ' + failed + '장은 실패했습니다' : '') + '. 아래에서 제목과 장을 확인해 주세요.';
   } catch (e) {
-    msg.textContent = (e && e.code === 'quota_or_state' ? '저장 공간이 가득 찼습니다. 쓰지 않는 슬라이드를 지운 뒤 다시 올려 주세요.' : '올리지 못했습니다 · ' + ((e && (e.code || e.message)) || '')) + (done ? ' (' + done + '장은 올라갔습니다)' : '');
+    const code = e && e.code;
+    msg.textContent = (code === 'quota_or_state' ? '저장 공간이 가득 찼습니다. 쓰지 않는 슬라이드를 지운 뒤 다시 올려 주세요.' : code === 'invalid_argument' || code === 'not_granted' ? '이 계정에는 자료를 올릴 권한이 없습니다. 공유 설정에서 기여자 이상 권한을 받아야 합니다.' : '올리지 못했습니다 · ' + ((e && (e.code || e.message)) || '')) + (done ? ' (' + done + '장은 올라갔습니다)' : '');
   }
   pending = []; $('aFile').value = ''; uploading = false; $('aUp').disabled = true;
 };
@@ -997,7 +1123,7 @@ $('aUp').onclick = async () => {
 cover.date = today();
 $('cName').value = ''; $('cWho').value = ''; $('cDate').value = cover.date;
 ['cName', 'cWho', 'cDate'].forEach(i => $(i).addEventListener('input', coverChanged));
-useLib('yb'); buildCover();
+rebuild(); buildCover();
 (async () => {
   if (!window.claude || !claude.use) {
     dl = { save: async ({ filename, data }) => { const u = URL.createObjectURL(data); const a = document.createElement('a'); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 60000) } };
@@ -1008,16 +1134,16 @@ useLib('yb'); buildCover();
   renderAdminButtons();
   if (db) {
     db.collection('decks').orderBy('updatedAt', 'desc').limit(200).onSnapshot(s => { savedRows = s.docs; renderSaved() }, () => { $('savedHint').hidden = false; $('savedHint').textContent = '저장한 구성을 불러오지 못했습니다.' });
-    let wanted = null; try { wanted = localStorage.getItem('welda-builder-lib') } catch (e) {}
+    db.collection('managers').limit(200).onSnapshot(s => { managers = s.docs; verifySession(); if (!$('adm').hidden && amOwner) renderManagers() }, () => {});
+    let wanted = null; try { wanted = localStorage.getItem('welda-builder-src') } catch (e) {}
     db.collection('libs').limit(50).onSnapshot(s => {
       const seen = new Set();
       s.docs.forEach(d => { seen.add(d.id); dynDocs[d.id] = d.data();
         if (!slideSubs[d.id]) slideSubs[d.id] = slideCol(d.id).limit(1000).onSnapshot(ss => { dynSlides[d.id] = ss.docs; refreshLib(d.id) }, () => {});
         refreshLib(d.id) });
-      LIBS.filter(l => !l.builtin && !seen.has(l.id)).forEach(l => { delete dynDocs[l.id]; if (slideSubs[l.id]) { slideSubs[l.id](); delete slideSubs[l.id] } });
-      LIBS = LIBS.filter(l => l.builtin || seen.has(l.id));
-      if (!LIBS.includes(L)) useLib('yb'); else renderTabs();
-      if (wanted) { if (wanted !== L.id && LIBS.find(l => l.id === wanted)) useLib(wanted); wanted = null }
+      SRC.filter(x => !x.builtin && !seen.has(x.id)).forEach(x => { delete dynDocs[x.id]; if (slideSubs[x.id]) { slideSubs[x.id](); delete slideSubs[x.id] } });
+      const n = SRC.length; SRC = SRC.filter(x => x.builtin || seen.has(x.id)); if (SRC.length !== n) rebuild();
+      if (wanted) { if (wanted !== srcFilter && (wanted === '전체' || SRCN[wanted])) { srcFilter = wanted; renderSrcs(); renderTags(); renderLib() } wanted = null }
     }, () => {});
   } else renderSaved();
 })();
