@@ -168,9 +168,31 @@ img{display:block;max-width:100%}
 .srchead{display:flex;align-items:baseline;gap:8px;margin:16px 2px 0;padding:0 2px 5px;border-bottom:2px solid var(--wash)}
 .srchead b{font-size:13.5px;color:var(--ink)}
 .srchead small{color:var(--soft);font-size:12px}
-.presets .btn .src{font-weight:800;color:var(--violet);margin-right:7px}
-.presets .btn.multi span{font-weight:500;color:var(--ink)}
-.presets .btn.multi:hover span{color:var(--violet)}
+.startbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.btn.pick{display:inline-flex;align-items:center;gap:8px;border-color:#C9BEF7;background:var(--wash);color:var(--violet);padding:10px 16px}
+.btn.pick:hover{border-color:var(--violet)}
+.btn.pick small{font-weight:500;color:var(--muted);font-size:12px}
+.btn.pick .car{transition:transform .15s;font-size:12px}
+.btn.pick[aria-expanded=true] .car{transform:rotate(180deg)}
+.btn.pick:disabled{opacity:.5}
+.sbh{font-size:12.5px;color:var(--soft)}
+.picker{grid-column:1/-1;border:1px solid var(--line);border-radius:14px;padding:14px;background:#fff;box-shadow:0 8px 24px rgba(20,24,110,.08);margin-top:8px}
+.pk-head{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;margin-bottom:12px}
+.pk-head>b{font-size:14px}
+.pk-head .pk-srcs{margin:0;flex:1 1 auto}
+.pk-head .tag{font-size:13px;padding:5px 12px;font-weight:700}
+.pk-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.pk-card{border:1.5px solid var(--line);border-radius:12px;background:#fff;padding:8px 8px 10px;text-align:left;display:grid;gap:3px;cursor:pointer;font:inherit;color:var(--ink);align-content:start}
+.pk-card:hover{border-color:var(--lilac);box-shadow:0 4px 14px rgba(20,24,110,.08)}
+.pk-card.on{border-color:var(--violet);background:var(--wash)}
+.pk-card .strip{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-bottom:5px}
+.pk-card .strip img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:4px;border:1px solid var(--line);background:var(--wash);display:block}
+.pk-card b{font-size:14px;padding:0 2px}
+.pk-card small{font-size:12px;color:var(--muted);padding:0 2px}
+.pk-card small em{font-style:normal;color:var(--violet);font-weight:700}
+.pk-foot{margin:10px 2px 0;font-size:12px;color:var(--soft)}
+@media (max-width:620px){.pk-list{grid-template-columns:1fr 1fr}.pk-head>b{flex-basis:100%}}
+@media (max-width:980px){.deckbox>header>*{order:5}.deckbox>header h2{order:0}.deckbox>header .startbar{order:1}.deckbox>header .picker{order:2}}
 .lib-empty{margin:12px 2px 4px;border:2px dashed var(--line);border-radius:14px;padding:18px 14px;text-align:center;color:var(--muted);font-size:13px}
 .lib-empty b{display:block;color:var(--ink);font-size:14px;margin-bottom:4px}
 
@@ -287,7 +309,7 @@ details.more .sub{margin:0}
   <section class="col deckbox" aria-labelledby="hDeck">
       <header>
         <h2 id="hDeck">지금 만드는 교육자료</h2>
-        <div class="presets" id="presets" role="group" aria-label="추천 구성으로 시작"></div>
+        <div class="startbar"><button class="btn pick" id="bPick" type="button" aria-expanded="false" aria-controls="picker">추천 구성 불러오기 <small id="bPickN"></small><span class="car" aria-hidden="true">▾</span></button><span class="sbh">또는 아래 보관함에서 한 장씩 고르기</span></div>
         <div class="cust" id="cust">
           <b>맞춤 표지 <span>의원 이름을 적으면 표지에 바로 들어갑니다</span><span class="on-badge" id="custOn" hidden>표지에 반영됨</span></b>
           <div class="fs">
@@ -297,6 +319,11 @@ details.more .sub{margin:0}
           </div>
         </div>
         <div class="meta"><span><b id="mN">0</b>장</span><span>발표 약 <b id="mMin">0</b>분</span><span id="mCh"></span></div>
+        <div class="picker" id="picker" hidden>
+          <div class="pk-head"><b>어느 출처의 구성으로 시작할까요?</b><div class="tags pk-srcs" id="pkSrcs" role="group" aria-label="출처"></div><button class="btn sm" id="pkX" type="button">닫기</button></div>
+          <div class="pk-list" id="pkList" role="list"></div>
+          <p class="pk-foot">고른 뒤에도 보관함에서 다른 출처 슬라이드를 더 넣거나 뺄 수 있습니다.</p>
+        </div>
       </header>
       <ol id="deck"></ol>
       <div class="hint2" id="dHint">순서 바꾸기: 카드를 꾹 눌러 끌어서 놓기 (PC는 바로 끌기) · ← → 버튼도 됩니다</div>
@@ -371,7 +398,7 @@ details.more .sub{margin:0}
           <div id="aChs"></div>
           <div class="mini"><input id="aChNew" maxlength="30" placeholder="새 장 이름 (예: 1장 GLP-1 치료 현황)" aria-label="새 장 이름"><button class="btn sm" id="aChAdd" type="button">장 추가</button></div>
           <h4>추천 구성</h4>
-          <p class="sub">빌더 위쪽의 추천 구성 버튼입니다. 지금 만드는 교육자료(순서 포함)를 위쪽 ‘교육자료 이름’으로 등록합니다.</p>
+          <p class="sub">빌더 위쪽 ‘추천 구성 불러오기’에 보이는 구성입니다. 지금 만드는 교육자료(순서 포함)를 위쪽 ‘교육자료 이름’으로 등록합니다.</p>
           <div id="aPresets"></div>
           <div class="mini"><button class="btn sm" id="aPresetAdd" type="button">지금 구성을 추천 구성으로 등록</button></div>
           <h4>출처 지우기</h4>
@@ -730,15 +757,35 @@ function toggle(id, say){
   if (say) toast(k >= 0 ? '‘' + BY[id].title + '’ 뺐습니다' : (deck.length) + '번째로 넣었습니다 · ' + BY[id].title, () => { deck = before; changed() });
 }
 function changed(){ renderDeck(); renderLib(); renderPreview() }
+let pkSrc = null; try { pkSrc = localStorage.getItem('welda-builder-pksrc') } catch (e) {}
+function presetSources(){ return SRC.filter(s => PRESETS.some(p => p.src === s.id)) }
+function presetMinutes(ids){ return Math.round(ids.reduce((a, id) => a + (BY[id].tags.includes('간지') || BY[id].tags.includes('표지') || BY[id].tags.includes('마무리') ? .3 : 1.5), 0)) }
 function renderPresets(){
-  $('presets').innerHTML = ''; const multi = SRC.length > 1;
-  PRESETS.forEach(p => { const b = document.createElement('button'); b.className = 'btn sm'; b.type = 'button';
-    if (multi) { const sb = document.createElement('b'); sb.className = 'src'; sb.textContent = shortName(SRCN[p.src]); b.appendChild(sb); b.classList.add('multi') }
-    const sp = document.createElement('span'); sp.textContent = p.name + ' · ' + p.ids.length + '장'; b.appendChild(sp);
-    b.title = SRCN[p.src].name;
-    b.onclick = () => { deck = p.ids.filter(x => BY[x]); cur = deck[0] || cur; $('deckTitle').value = p.name === '전체' ? SRCN[p.src].name : p.name; docId = null; changed(); renderSaved(); toast('‘' + p.name + '’ 구성으로 시작합니다') };
-    $('presets').appendChild(b) });
+  const srcs = presetSources(), n = PRESETS.length;
+  $('bPickN').textContent = n ? (srcs.length > 1 ? srcs.length + '개 출처 · ' : '') + n + '개' : '';
+  $('bPick').disabled = !n; if (!n) togglePicker(false);
+  if (!srcs.some(s => s.id === pkSrc)) pkSrc = srcs[0] ? srcs[0].id : null;
+  const tabs = $('pkSrcs'); tabs.innerHTML = ''; tabs.hidden = srcs.length < 2;
+  srcs.forEach(s => { const b = document.createElement('button'); b.type = 'button'; b.className = 'tag'; b.title = s.name;
+    b.textContent = shortName(s) + ' · ' + PRESETS.filter(p => p.src === s.id).length; b.setAttribute('aria-pressed', String(s.id === pkSrc));
+    b.onclick = () => { pkSrc = s.id; try { localStorage.setItem('welda-builder-pksrc', pkSrc) } catch (e) {} renderPresets() };
+    tabs.appendChild(b) });
+  const list = $('pkList'); list.innerHTML = '';
+  PRESETS.filter(p => p.src === pkSrc).forEach(p => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'pk-card'; b.setAttribute('role', 'listitem');
+    const same = deck.length === p.ids.length && deck.every((x, k) => x === p.ids[k]);
+    const strip = document.createElement('div'); strip.className = 'strip';
+    p.ids.slice(0, 4).forEach(id => { const im = document.createElement('img'); im.alt = ''; im.loading = 'lazy'; im.src = BY[id].thumb; strip.appendChild(im) });
+    const t = document.createElement('b'); t.textContent = p.name === '전체' ? '전체 슬라이드' : p.name;
+    const m = document.createElement('small'); m.textContent = p.ids.length + '장 · 발표 약 ' + presetMinutes(p.ids) + '분';
+    if (same) { b.classList.add('on'); const e = document.createElement('em'); e.textContent = ' · 지금 구성'; m.appendChild(e) }
+    b.append(strip, t, m); b.title = SRCN[p.src].name + ' › ' + t.textContent;
+    b.onclick = () => { deck = p.ids.filter(x => BY[x]); cur = deck[0] || cur; $('deckTitle').value = p.name === '전체' ? SRCN[p.src].name : p.name; docId = null; changed(); renderSaved(); togglePicker(false); toast('‘' + t.textContent + '’ 구성으로 시작합니다 · ' + deck.length + '장') };
+    list.appendChild(b) });
 }
+function togglePicker(open){ if (open === undefined) open = $('picker').hidden; if (open && !PRESETS.length) return; $('picker').hidden = !open; $('bPick').setAttribute('aria-expanded', String(open)); if (open) renderPresets() }
+$('bPick').onclick = () => togglePicker();
+$('pkX').onclick = () => { togglePicker(false); $('bPick').focus() };
 
 /* ---------- preview ---------- */
 function renderPreview(){
@@ -768,6 +815,7 @@ $('shImg').onclick = () => show(si + 1);
 document.addEventListener('keydown', e => {
   if (!$('mlog').hidden) { if (e.key === 'Escape') $('mlog').hidden = true; if (e.key === 'Enter' && e.target === $('mlogIn')) { e.preventDefault(); $('mlogOk').click() } return }
   if (!$('adm').hidden && e.key === 'Escape') { closeAdmin(); return }
+  if (!$('picker').hidden && e.key === 'Escape' && $('show').hidden) { togglePicker(false); return }
   if ($('show').hidden) return;
   if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); show(si + 1) }
   else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); show(si - 1) }
