@@ -187,19 +187,56 @@ img{display:block;max-width:100%}
 #adm input[type=text],#adm input:not([type]),#adm textarea,#adm select{font:inherit;font-size:13.5px;border:1px solid var(--line);border-radius:8px;padding:6px 9px;background:#fff;min-width:0;width:100%}
 #adm textarea{resize:vertical;min-height:52px;line-height:1.45}
 #adm input:focus,#adm textarea:focus,#adm select:focus{border-color:var(--lilac);outline:none}
-.up{display:grid;grid-template-columns:minmax(0,1fr) 170px auto;gap:8px;align-items:center}
-@media (max-width:620px){.up{grid-template-columns:1fr}}
-.drop{border:2px dashed var(--line);border-radius:12px;padding:14px;text-align:center;color:var(--muted);font-size:13px;cursor:pointer;background:var(--bg)}
+.drop{border:2px dashed #C9BEF7;border-radius:14px;padding:22px 16px;text-align:center;color:var(--muted);font-size:13px;cursor:pointer;background:var(--bg);display:grid;gap:6px;justify-items:center;transition:background .15s,border-color .15s}
+.drop:hover{border-color:var(--violet);background:var(--wash)}
 .drop.over{border-color:var(--violet);background:var(--wash)}
-.drop b{color:var(--violet)}
+.drop .ico{width:40px;height:40px;border-radius:50%;background:var(--violet);color:#fff;display:grid;place-items:center;font-size:18px;font-weight:800}
+.drop b{color:var(--ink);font-size:14.5px}
+.drop small{font-size:12.5px;color:var(--soft)}
 .drop.off{opacity:.5;cursor:not-allowed}
+.upbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:10px;padding:10px 12px;border-radius:12px;background:var(--wash)}
+.upbar #upFiles{flex:1 1 220px;font-size:13px;color:var(--ink);min-width:0;overflow-wrap:anywhere}
+.upbar #upFiles::before{content:'📄 ';}
+.chsel{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);white-space:nowrap}
+#adm .chsel select{width:auto}
+.hint3{font-size:12px;color:var(--soft);margin:8px 0 0}
+/* drawer header, tabs, steps */
+#adm .ttl{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;min-width:0}
+#adm .ttl span{font-size:13px;color:var(--muted)}
+.atabs{grid-column:1/-1;display:flex;gap:4px;background:var(--bg);border-radius:12px;padding:4px}
+.atabs button{flex:1;border:0;background:none;border-radius:9px;padding:9px 10px;font:inherit;font-size:13.5px;font-weight:700;color:var(--muted);cursor:pointer}
+.atabs button[aria-selected=true]{background:#fff;color:var(--violet);box-shadow:0 1px 4px rgba(20,24,110,.12)}
+#adm .step h3{display:flex;align-items:center;gap:8px;font-size:15px;margin:0 0 10px;flex-wrap:wrap}
+#adm .step h3 small{font-weight:400;color:var(--soft);font-size:12.5px}
+.num{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--violet);color:#fff;font-size:13px;font-weight:800;flex:none}
+.srcpick{display:flex;flex-wrap:wrap;gap:8px}
+.srcpick button{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:9px 14px;font:inherit;font-size:14px;font-weight:700;color:var(--ink);text-align:left;display:grid;gap:1px;cursor:pointer;max-width:100%}
+.srcpick button small{font-size:12px;font-weight:500;color:var(--soft)}
+.srcpick button:hover{border-color:var(--lilac)}
+.srcpick button[aria-checked=true]{border-color:var(--violet);background:var(--wash);color:var(--violet);box-shadow:0 0 0 3px rgba(114,82,238,.14)}
+.srcpick button.add{border-style:dashed;color:var(--muted);font-weight:600;align-content:center}
+.newsrc{display:flex;gap:8px;margin-top:10px}
+.newsrc input{flex:1}
+details.more{border-bottom:1px solid var(--line)}
+details.more summary{padding:16px 20px;cursor:pointer;font-weight:700;font-size:14.5px;list-style:none;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+details.more summary::-webkit-details-marker{display:none}
+details.more summary::before{content:'▸';color:var(--violet)}
+details.more[open] summary::before{content:'▾'}
+details.more summary small{font-weight:400;color:var(--soft);font-size:12.5px}
+details.more .mb{padding:0 20px 18px;display:grid;gap:8px}
+details.more h4{margin:12px 0 0;font-size:13.5px}
+details.more h4:first-child{margin-top:0}
+details.more .sub{margin:0}
 #upMsg{margin-top:8px;font-size:13px;color:var(--violet);min-height:1.2em}
 .srows{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.srow{display:grid;grid-template-columns:28px 128px minmax(0,1fr) auto;gap:10px;align-items:start;border:1px solid var(--line);border-radius:12px;padding:8px}
+.srow{display:grid;grid-template-columns:28px 150px minmax(0,1fr) auto;gap:10px;align-items:start;border:1px solid var(--line);border-radius:12px;padding:10px}
+#adm .srow input[data-f=t]{font-weight:700;color:var(--ink)}
+.srow .saved{font-size:12px;color:#1B8A5A;min-height:1.2em;text-align:center}
 .srow .k{font-weight:700;color:var(--violet);font-size:13px;padding-top:4px;text-align:center;font-variant-numeric:tabular-nums}
-.srow img{width:128px;aspect-ratio:16/9;object-fit:cover;border-radius:6px;border:1px solid var(--line);background:var(--wash)}
+.srow img{width:150px;aspect-ratio:16/9;object-fit:cover;border-radius:6px;border:1px solid var(--line);background:var(--wash)}
 .srow .f{display:grid;gap:6px;min-width:0}
-.srow .f2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px}
+.srow .f2{display:flex;gap:6px}
+.srow .f2>*{flex:1;min-width:0}
 .srow .o{display:grid;gap:4px}
 @media (max-width:620px){.srow{grid-template-columns:24px minmax(0,1fr)}.srow img{grid-column:2;width:100%}.srow .f,.srow .o{grid-column:1/-1}.srow .o{display:flex;gap:6px}}
 .mini{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
@@ -299,50 +336,59 @@ img{display:block;max-width:100%}
 <div id="adm" hidden role="dialog" aria-labelledby="admT">
   <div class="pan">
     <div class="ah">
-      <h2 id="admT">자료 관리</h2>
+      <div class="ttl"><h2 id="admT">자료 관리</h2><span id="admWho"></span></div>
       <div class="mini" style="justify-content:flex-end"><button class="btn" id="aOut" type="button" hidden>관리자 나가기</button><button class="btn" id="admX" type="button">닫기</button></div>
-      <div class="who"><span>관리할 출처</span><select id="aLib" aria-label="관리할 출처"></select><button class="btn sm" id="aNew" type="button" hidden>+ 출처 추가</button></div>
+      <div class="atabs" id="aTabs" role="tablist" hidden><button type="button" role="tab" data-t="data" aria-selected="true">자료 올리기 · 고치기</button><button type="button" role="tab" data-t="mgr" aria-selected="false">관리자 등록</button></div>
     </div>
-    <section>
-      <h3>출처 이름</h3>
-      <p class="sub">보관함과 추천 구성에 이 이름으로 표시됩니다. 밑줄 뒤의 글자(예: _미래)가 짧은 이름으로 쓰입니다.</p>
-      <div class="mini"><input id="aName" maxlength="40" aria-label="출처 이름"><button class="btn sm" id="aNameSave" type="button">이름 바꾸기</button><button class="btn sm danger" id="aDel" type="button" hidden>이 출처 지우기</button></div>
-    </section>
-    <section>
-      <h3>자료 올리기</h3>
-      <p class="sub">PDF는 한 페이지가 슬라이드 한 장이 됩니다. PPT는 PowerPoint에서 ‘다른 이름으로 저장 → PDF’로 바꿔서 올려 주세요. 이미지(PNG·JPG)도 됩니다. 올린 자료는 이 빌더에는 바로, GitHub 빌더에는 1시간 안에(매일 07–21시) 자동 반영됩니다.</p>
-      <div class="note warn" id="upNo" hidden>이 계정에는 파일 올리기 권한이 없습니다. 이 페이지의 공유 설정에서 <b>기여자(Contributor)</b> 이상 권한이 있어야 올릴 수 있습니다. 유영빈 님께 요청해 주세요.</div>
-      <div class="up">
-        <label class="drop" id="drop" for="aFile"><b>파일 고르기</b> 또는 여기로 끌어 놓기<input id="aFile" type="file" accept=".pdf,application/pdf,image/png,image/jpeg,image/webp" multiple hidden></label>
-        <select id="aCh" aria-label="넣을 장"></select>
-        <button class="btn pri" id="aUp" type="button" disabled>올리기</button>
-      </div>
-      <div id="upMsg" role="status"></div>
-    </section>
-    <section>
-      <h3>슬라이드 <small id="aCount" style="color:var(--soft);font-weight:400"></small></h3>
-      <p class="sub">제목·설명·태그는 빌더 화면과 검색에 그대로 쓰입니다. 칸을 고치고 다른 곳을 누르면 저장됩니다.</p>
-      <ul class="srows" id="aRows"></ul>
-    </section>
-    <section>
-      <h3>장 (챕터)</h3>
-      <p class="sub">보관함에서 슬라이드를 묶어 보여 주는 단위입니다. 슬라이드가 없는 장만 지울 수 있습니다.</p>
-      <div id="aChs"></div>
-      <div class="mini"><input id="aChNew" maxlength="30" placeholder="새 장 이름 (예: 1장 GLP-1 치료 현황)"><button class="btn sm" id="aChAdd" type="button">장 추가</button></div>
-    </section>
-    <section>
-      <h3>추천 구성</h3>
-      <p class="sub">빌더 위쪽의 추천 구성 버튼입니다. 지금 만드는 교육자료(순서 포함, 다른 출처 슬라이드도 그대로)를 등록합니다. 이름은 위쪽 ‘교육자료 이름’ 칸의 글자를 씁니다.</p>
-      <div id="aPresets"></div>
-      <div class="mini"><button class="btn sm" id="aPresetAdd" type="button">지금 구성을 추천 구성으로 등록</button></div>
-    </section>
-    <section id="aMgrSec" hidden>
-      <h3>관리자</h3>
-      <p class="sub">여기 등록된 사람만 ‘관리자 로그인’에 사번을 넣고 자료를 올리고 고칠 수 있습니다. 사번은 변환값으로만 저장합니다.</p>
-      <ul class="mgrs" id="aMgrList"></ul>
-      <div class="mgr-add"><input id="amName" placeholder="이름" maxlength="20" autocomplete="off" aria-label="관리자 이름"><input id="amNo" placeholder="사번" inputmode="numeric" autocomplete="off" aria-label="사번"><button class="btn sm pri" id="amAdd" type="button">추가</button></div>
-      <p class="sub" style="margin:10px 0 0">파일을 올리려면 이 페이지 공유 메뉴에서 그 사람에게 기여자(Contributor) 이상 권한도 줘야 합니다.</p>
-    </section>
+    <div id="tData">
+      <section class="step">
+        <h3><span class="num">1</span>어느 출처에 올릴까요?</h3>
+        <div class="srcpick" id="aSrcs" role="radiogroup" aria-label="출처 고르기"></div>
+        <div class="newsrc" id="aNewForm" hidden><input id="aNewName" maxlength="40" placeholder="새 출처 이름 (예: GLP-1 제안_미래)" aria-label="새 출처 이름"><button class="btn sm pri" id="aNewOk" type="button">만들기</button><button class="btn sm" id="aNewX" type="button">취소</button></div>
+        <p class="sub" id="aStepHint" hidden style="margin:10px 0 0">출처가 아직 없습니다. 이름을 적고 ‘만들기’를 눌러 주세요.</p>
+      </section>
+      <section class="step" id="aStep2">
+        <h3><span class="num">2</span><span id="aUpTitle">파일 올리기</span></h3>
+        <div class="note warn" id="upNo" hidden>이 계정에는 파일 올리기 권한이 없습니다. 이 페이지 공유 설정에서 <b>기여자(Contributor)</b> 이상 권한을 받아야 올릴 수 있습니다. 유영빈 님께 요청해 주세요.</div>
+        <label class="drop" id="drop" for="aFile"><span class="ico" aria-hidden="true">⬆</span><b>PDF · 이미지 파일을 여기로 끌어 놓거나, 눌러서 고르세요</b><small>PDF 한 쪽이 슬라이드 한 장이 됩니다 · PPT는 ‘다른 이름으로 저장 → PDF’로 바꿔서 올려 주세요</small><input id="aFile" type="file" accept=".pdf,application/pdf,image/png,image/jpeg,image/webp" multiple hidden></label>
+        <div class="upbar" id="upBar" hidden><span id="upFiles"></span><label class="chsel" id="aChWrap">넣을 장 <select id="aCh" aria-label="넣을 장"></select></label><button class="btn pri" id="aUp" type="button" disabled>올리기</button></div>
+        <div id="upMsg" role="status"></div>
+        <p class="hint3">올린 자료는 이 빌더에 바로, GitHub 빌더에는 1시간 안에(매일 07–21시) 자동 반영됩니다.</p>
+      </section>
+      <section class="step" id="aStep3">
+        <h3><span class="num">3</span>올린 슬라이드 확인 · 고치기 <small id="aCount"></small></h3>
+        <p class="sub">제목과 설명은 빌더 화면과 검색에 그대로 쓰입니다. 칸을 고치고 다른 곳을 누르면 바로 저장됩니다.</p>
+        <ul class="srows" id="aRows"></ul>
+      </section>
+      <details class="more" id="aMore">
+        <summary>출처 설정 <small>이름 바꾸기 · 장(챕터) · 추천 구성 · 출처 지우기</small></summary>
+        <div class="mb">
+          <h4>출처 이름</h4>
+          <p class="sub">보관함과 추천 구성 버튼에 이 이름으로 보입니다. 밑줄 뒤 글자(예: _미래)가 짧은 이름으로 쓰입니다.</p>
+          <div class="mini"><input id="aName" maxlength="40" aria-label="출처 이름"><button class="btn sm" id="aNameSave" type="button">이름 바꾸기</button></div>
+          <h4>장 (챕터)</h4>
+          <p class="sub">보관함에서 슬라이드를 묶어 보여 주는 단위입니다. 장이 하나뿐이면 신경 쓰지 않아도 됩니다.</p>
+          <div id="aChs"></div>
+          <div class="mini"><input id="aChNew" maxlength="30" placeholder="새 장 이름 (예: 1장 GLP-1 치료 현황)" aria-label="새 장 이름"><button class="btn sm" id="aChAdd" type="button">장 추가</button></div>
+          <h4>추천 구성</h4>
+          <p class="sub">빌더 위쪽의 추천 구성 버튼입니다. 지금 만드는 교육자료(순서 포함)를 위쪽 ‘교육자료 이름’으로 등록합니다.</p>
+          <div id="aPresets"></div>
+          <div class="mini"><button class="btn sm" id="aPresetAdd" type="button">지금 구성을 추천 구성으로 등록</button></div>
+          <h4>출처 지우기</h4>
+          <p class="sub">슬라이드를 모두 지운 뒤에 지울 수 있습니다.</p>
+          <div class="mini"><button class="btn sm danger" id="aDel" type="button">이 출처 지우기</button></div>
+        </div>
+      </details>
+    </div>
+    <div id="tMgr" hidden>
+      <section id="aMgrSec">
+        <h3>관리자 등록</h3>
+        <p class="sub">여기 등록된 사람만 빌더의 ‘관리자 로그인’에 사번을 넣고 자료를 올리고 고칠 수 있습니다. 사번은 변환값으로만 저장합니다.</p>
+        <ul class="mgrs" id="aMgrList"></ul>
+        <div class="mgr-add"><input id="amName" placeholder="이름" maxlength="20" autocomplete="off" aria-label="관리자 이름"><input id="amNo" placeholder="사번" inputmode="numeric" autocomplete="off" aria-label="사번"><button class="btn sm pri" id="amAdd" type="button">추가</button></div>
+        <p class="sub" style="margin:10px 0 0">파일을 올리려면 이 페이지 공유 메뉴에서 그 사람에게 기여자(Contributor) 이상 권한도 줘야 합니다.</p>
+      </section>
+    </div>
   </div>
 </div>
 
@@ -481,7 +527,7 @@ function rebuild(){
   if (srcFilter !== '전체' && !SRCN[srcFilter]) srcFilter = '전체';
   if (A) A = SRCN[A.id] || null;
   renderSrcs(); renderTags(); renderPresets(); changed(); renderAdminButtons();
-  if (!$('adm').hidden) { if (A && manageable().includes(A)) renderAdmin(); else closeAdmin() }
+  if (!$('adm').hidden) { if (amOwner || mgr) renderAdmin(); else closeAdmin() }
 }
 function refreshLib(id){
   const d = dynDocs[id]; if (!d) return;
@@ -881,51 +927,75 @@ const slideCol = id => db.collection('libs/' + id + '/slides');
 function manageable(){ if (!db) return []; const dyn = SRC.filter(s => !s.builtin && !s.mirror); return (amOwner || mgr) ? dyn : [] }
 function renderAdminButtons(){ const b = $('bAdmin'); b.hidden = !db; b.textContent = (amOwner || mgr) ? '⚙ 자료 관리' : '관리자 로그인' }
 async function libUpdate(patch){ try { await libRef(A.id).update(patch); return true } catch (e) { toast('저장하지 못했습니다 · ' + ((e && e.code) || '권한을 확인해 주세요')); return false } }
-async function newSource(){
+async function newSource(name){
   if (!db || !(amOwner || mgr)) return;
+  name = (name || '').trim(); if (!name) { $('aNewForm').hidden = false; $('aNewName').focus(); return }
   const id = 'lib' + Date.now().toString(36); const order = Math.max(0, ...SRC.map(s => s.order || 0)) + 1;
-  try { openWhen = id; await libRef(id).set({ name: '새 출처', order, chapters: [{ id: 'main', name: '자료' }], presets: [], createdAt: Date.now() }); toast('새 출처를 만들었습니다. 이름을 바꾸고 자료를 올려 주세요') }
+  try { openWhen = id; await libRef(id).set({ name, order, chapters: [{ id: 'main', name: '자료' }], presets: [], createdAt: Date.now() }); $('aNewName').value = ''; $('aNewForm').hidden = true; toast('‘' + name + '’ 출처를 만들었습니다. 이제 파일을 올려 주세요') }
   catch (e) { openWhen = null; toast('출처를 만들지 못했습니다') }
 }
 function openAdmin(){
   if (!db) return;
   if (!amOwner && !mgr) { openLogin(); return }
   const list = manageable();
-  if (!list.length) { newSource(); return }
-  A = list.find(s => A && s.id === A.id) || list[0];
+  A = list.find(s => A && s.id === A.id) || list[0] || null;
+  if (!amOwner) setTab('data');
   $('adm').hidden = false; renderAdmin(); $('admX').focus();
 }
 function closeAdmin(){ $('adm').hidden = true }
-$('bAdmin').onclick = openAdmin; $('admX').onclick = closeAdmin; $('aNew').onclick = newSource;
+$('bAdmin').onclick = openAdmin; $('admX').onclick = closeAdmin;
 $('adm').addEventListener('click', e => { if (e.target === $('adm')) closeAdmin() });
-$('aLib').onchange = e => { A = SRCN[e.target.value] || A; renderAdmin() };
+function setTab(t){ $('tData').hidden = t !== 'data'; $('tMgr').hidden = t !== 'mgr'; [...$('aTabs').children].forEach(b => b.setAttribute('aria-selected', String(b.dataset.t === t))) }
+$('aTabs').onclick = e => { const b = e.target.closest('[data-t]'); if (b) setTab(b.dataset.t) };
+$('aNewOk').onclick = () => newSource($('aNewName').value);
+$('aNewX').onclick = () => { $('aNewForm').hidden = true; $('aNewName').value = '' };
+$('aNewName').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); newSource($('aNewName').value) } });
+function renderSrcPick(){
+  const box = $('aSrcs'); box.innerHTML = '';
+  manageable().forEach(s => { const b = document.createElement('button'); b.type = 'button'; b.setAttribute('role', 'radio'); b.setAttribute('aria-checked', String(s === A));
+    const n = document.createElement('span'); n.textContent = s.name; const c = document.createElement('small'); c.textContent = '슬라이드 ' + s.IDS.length + '장';
+    b.append(n, c); b.onclick = () => { if (A === s) return; if (uploading) { toast('올리는 중에는 출처를 바꿀 수 없습니다'); return } A = s; pending = []; $('aFile').value = ''; $('upMsg').textContent = ''; showUpBar(); renderAdmin() }; box.appendChild(b) });
+  const add = document.createElement('button'); add.type = 'button'; add.className = 'add'; add.textContent = '+ 새 출처 만들기';
+  add.onclick = () => { $('aNewForm').hidden = false; $('aNewName').focus() }; box.appendChild(add);
+}
 
 function chOptions(sel, val){
   sel.innerHTML = ''; A.chapters.forEach(c => { const o = document.createElement('option'); o.value = c.id; o.textContent = c.name; if (c.id === val) o.selected = true; sel.appendChild(o) });
 }
 function renderAdmin(){
-  if (!A) return;
   const list = manageable();
-  $('admT').textContent = '자료 관리' + (mgr && !amOwner ? ' · ' + mgr.name + ' 님' : '');
-  const sel = $('aLib'); sel.innerHTML = ''; list.forEach(s => { const o = document.createElement('option'); o.value = s.id; o.textContent = s.name; if (s === A) o.selected = true; sel.appendChild(o) });
-  $('aNew').hidden = false; $('aOut').hidden = !(mgr && !amOwner); $('aDel').hidden = false;
+  if (A && !list.includes(A)) A = null;
+  if (!A) A = list[0] || null;
+  $('admWho').textContent = mgr && !amOwner ? mgr.name + ' 님' : '소유자';
+  $('aOut').hidden = !(mgr && !amOwner);
+  $('aTabs').hidden = !amOwner;
+  if (amOwner) renderManagers();
+  renderSrcPick();
+  if (!list.length) $('aNewForm').hidden = false;
+  $('aStepHint').hidden = !!list.length;
+  ['aStep2', 'aStep3', 'aMore'].forEach(i => { $(i).hidden = !A });
+  if (!A) return;
+  $('aUpTitle').textContent = '‘' + A.name + '’에 파일 올리기';
   $('aDel').disabled = A.IDS.length > 0; $('aDel').title = A.IDS.length ? '슬라이드를 모두 지운 뒤에 출처를 지울 수 있습니다' : '';
   if (document.activeElement !== $('aName')) $('aName').value = A.name;
-  const keepCh = $('aCh').value; chOptions($('aCh'), keepCh || A.chapters[0].id);
+  const keepCh = $('aCh').value; chOptions($('aCh'), A.chapters.some(c => c.id === keepCh) ? keepCh : A.chapters[0].id);
+  $('aChWrap').hidden = A.chapters.length < 2;
   const noUp = !assets; $('upNo').hidden = !noUp; $('drop').classList.toggle('off', noUp); $('aFile').disabled = noUp; if (noUp) { $('aUp').disabled = true; pending = [] }
   const slides = A.IDS.map(id => BY[id]);
   $('aCount').textContent = slides.length + '장';
   const ul = $('aRows'); const ae = document.activeElement;
   if (!(ul.contains(ae) && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName))) {
     ul.innerHTML = '';
-    if (!slides.length) { const li = document.createElement('li'); li.className = 'note'; li.textContent = '아직 올린 슬라이드가 없습니다. 위에서 PDF를 올려 주세요.'; ul.appendChild(li) }
+    if (!slides.length) { const li = document.createElement('li'); li.className = 'note'; li.textContent = '아직 올린 슬라이드가 없습니다. 위 2번에서 파일을 올리면 여기에 한 장씩 보입니다.'; ul.appendChild(li) }
     slides.forEach((s, k) => {
       const li = document.createElement('li'); li.className = 'srow';
-      li.innerHTML = '<span class="k"></span><img alt=""><div class="f"><input data-f="t" aria-label="제목"><textarea data-f="d" rows="2" aria-label="설명" placeholder="설명 (발표 메모 · 검색에 쓰임)"></textarea><div class="f2"><select data-f="c" aria-label="장"></select><input data-f="g" aria-label="태그" placeholder="태그 (쉼표로 구분)"></div></div><div class="o"><button class="btn sm" data-a="up" type="button" aria-label="위로">↑</button><button class="btn sm" data-a="dn" type="button" aria-label="아래로">↓</button><button class="btn sm danger" data-a="rm" type="button">삭제</button></div>';
+      li.innerHTML = '<span class="k"></span><img alt=""><div class="f"><input data-f="t" aria-label="제목"><textarea data-f="d" rows="2" aria-label="설명" placeholder="설명 (발표 메모 · 검색에 쓰임)"></textarea><div class="f2"><select data-f="c" aria-label="장"></select><input data-f="g" aria-label="태그" placeholder="태그 (쉼표로 구분)"></div></div><div class="o"><button class="btn sm" data-a="up" type="button" aria-label="위로">↑</button><button class="btn sm" data-a="dn" type="button" aria-label="아래로">↓</button><button class="btn sm danger" data-a="rm" type="button">삭제</button><span class="saved" aria-live="polite"></span></div>';
       li.querySelector('.k').textContent = k + 1; li.querySelector('img').src = s.thumb;
+      li.querySelector('[data-a=up]').disabled = k === 0; li.querySelector('[data-a=dn]').disabled = k === slides.length - 1;
       const t = li.querySelector('[data-f=t]'), d = li.querySelector('[data-f=d]'), c = li.querySelector('[data-f=c]'), g = li.querySelector('[data-f=g]');
-      t.value = s.title; d.value = s.desc; g.value = s.tags.join(', '); chOptions(c, s.ch);
-      const save = async patch => { try { await slideCol(A.id).doc(s.docId).update(patch) } catch (e) { toast('저장하지 못했습니다 · ' + ((e && e.code) || '권한을 확인해 주세요')) } };
+      t.value = s.title; d.value = s.desc; g.value = s.tags.join(', '); chOptions(c, s.ch); c.hidden = A.chapters.length < 2;
+      const sv = li.querySelector('.saved');
+      const save = async patch => { try { await slideCol(A.id).doc(s.docId).update(patch); sv.textContent = '✓ 저장됨'; setTimeout(() => { sv.textContent = '' }, 1800) } catch (e) { toast('저장하지 못했습니다 · ' + ((e && e.code) || '권한을 확인해 주세요')) } };
       t.addEventListener('change', () => save({ title: t.value.trim() || '제목 없음' }));
       d.addEventListener('change', () => save({ desc: d.value.trim() }));
       c.addEventListener('change', () => save({ ch: c.value }));
@@ -977,9 +1047,6 @@ function renderAdmin(){
     const x = document.createElement('button'); x.type = 'button'; x.textContent = '✕'; x.setAttribute('aria-label', p.name + ' 지우기'); x.onclick = () => libUpdate({ presets: own.filter((_, j) => j !== k) });
     pl.appendChild(x); hits.appendChild(pl) });
   pb.appendChild(hits);
-  // managers (owner only)
-  $('aMgrSec').hidden = !amOwner;
-  if (amOwner) renderManagers();
 }
 function renderManagers(){
   const ul = $('aMgrList'); ul.innerHTML = '';
@@ -1006,7 +1073,7 @@ $('aNameSave').onclick = async () => { const v = $('aName').value.trim(); if (!v
 $('aDel').onclick = async e => {
   if (!(amOwner || mgr) || A.IDS.length) return; const btn = e.target;
   if (btn.dataset.confirm !== '1') { btn.dataset.confirm = '1'; btn.textContent = '정말 지우기'; setTimeout(() => { btn.dataset.confirm = ''; btn.textContent = '이 출처 지우기' }, 3000); return }
-  try { await libRef(A.id).delete(); toast('‘' + A.name + '’ 출처를 지웠습니다'); closeAdmin(); A = null } catch (err) { toast('지우지 못했습니다') }
+  try { const nm = A.name; await libRef(A.id).delete(); A = null; toast('‘' + nm + '’ 출처를 지웠습니다') } catch (err) { toast('지우지 못했습니다') }
 };
 $('aChAdd').onclick = async () => { const v = $('aChNew').value.trim(); if (!v) return; if (await libUpdate({ chapters: A.chapters.concat({ id: 'c' + Date.now().toString(36), name: v }) })) { $('aChNew').value = ''; toast('‘' + v + '’ 장을 추가했습니다') } };
 $('aPresetAdd').onclick = async () => {
@@ -1017,7 +1084,9 @@ $('aPresetAdd').onclick = async () => {
 
 /* uploads: PDF pages / images -> 2400x1350 JPEG (+480 thumb) -> assets -> slide docs */
 let pending = [];
-function setFiles(list){ if (!assets) return; pending = [...list].filter(f => /pdf$/i.test(f.type) || /\.pdf$/i.test(f.name) || /^image\/(png|jpeg|webp)$/.test(f.type)); $('aUp').disabled = !pending.length; $('upMsg').textContent = pending.length ? pending.map(f => f.name).join(', ') + ' · 올리기를 누르세요' : (list.length ? 'PDF나 이미지 파일만 올릴 수 있습니다' : '') }
+function showUpBar(){ const on = pending.length > 0; $('upBar').hidden = !on; $('aUp').disabled = !on || uploading;
+  if (on) { $('upFiles').textContent = pending.map(f => f.name).join(', '); $('aUp').textContent = pending.length > 1 ? pending.length + '개 파일 올리기' : '올리기' } }
+function setFiles(list){ if (!assets) return; pending = [...list].filter(f => /pdf$/i.test(f.type) || /\.pdf$/i.test(f.name) || /^image\/(png|jpeg|webp)$/.test(f.type)); showUpBar(); $('upMsg').textContent = pending.length ? '' : (list.length ? 'PDF나 이미지 파일만 올릴 수 있습니다' : '') }
 $('aFile').onchange = e => setFiles(e.target.files);
 ['dragenter', 'dragover'].forEach(t => $('drop').addEventListener(t, e => { e.preventDefault(); if (assets) $('drop').classList.add('over') }));
 ['dragleave', 'drop'].forEach(t => $('drop').addEventListener(t, e => { e.preventDefault(); $('drop').classList.remove('over') }));
@@ -1090,12 +1159,12 @@ $('aUp').onclick = async () => {
         try { const bm = await createImageBitmap(f); await put(letterbox(bm, bm.width, bm.height), { title: f.name.replace(/\.[a-z]+$/i, ''), desc: '', file: f.name }) } catch (e) { failed++; if (e && (e.code === 'quota_or_state' || e.code === 'not_granted' || e.code === 'invalid_argument')) throw e }
       }
     }
-    msg.textContent = done + '장을 올렸습니다' + (failed ? ' · ' + failed + '장은 실패했습니다' : '') + '. 아래에서 제목과 장을 확인해 주세요.';
+    msg.textContent = done + '장을 올렸습니다' + (failed ? ' · ' + failed + '장은 실패했습니다' : '') + '. 아래 3번에서 제목과 설명을 확인해 주세요.';
   } catch (e) {
     const code = e && e.code;
     msg.textContent = (code === 'quota_or_state' ? '저장 공간이 가득 찼습니다. 쓰지 않는 슬라이드를 지운 뒤 다시 올려 주세요.' : code === 'invalid_argument' || code === 'not_granted' ? '이 계정에는 자료를 올릴 권한이 없습니다. 공유 설정에서 기여자 이상 권한을 받아야 합니다.' : '올리지 못했습니다 · ' + ((e && (e.code || e.message)) || '')) + (done ? ' (' + done + '장은 올라갔습니다)' : '');
   }
-  pending = []; $('aFile').value = ''; uploading = false; $('aUp').disabled = true;
+  pending = []; $('aFile').value = ''; uploading = false; $('aUp').disabled = true; $('upBar').hidden = true;
 };
 
 /* ---------- boot ---------- */
