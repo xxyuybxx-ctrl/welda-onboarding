@@ -1,6 +1,6 @@
 # 빌더 출처 GitHub 자동 동기화
 
-Claude 빌더(https://claude.ai/artifact/2cPSivYa2w5pLaQMvq3bSG)에서 관리자가 올리거나 고친 출처(GLP-1 제안_미래, 여성의원 제안 …)를
+Claude 빌더(https://claude.ai/artifact/2cPSivYa2w5pLaQMvq3bSG)에서 관리자가 올리거나 고친 출처(GLP-1 온보딩, 여성의원 제안 …)를
 GitHub 빌더(https://xxyuybxx-ctrl.github.io/welda-onboarding/builder/)에 읽기 전용으로 옮긴다.
 
 - **언제**: 예약 작업 「웰다 빌더 출처 GitHub 자동 동기화」가 매일 07:42–20:42(KST) 매시간 실행. 빌더·교육자료를 고치는 작업이 있으면 그 작업 끝에도 항상 실행 (묻지 않고).
