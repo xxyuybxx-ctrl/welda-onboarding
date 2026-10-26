@@ -212,19 +212,13 @@ img{display:block;max-width:100%}
 .danger{color:var(--danger)!important;border-color:#F2D3DA!important}
 .note{background:var(--wash);border-radius:10px;padding:10px 12px;font-size:12.5px;color:var(--muted)}
 .note.warn{background:#FFF4E5;color:#8A5A00}
-.mrows{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:8px}
-.mrow{border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:grid;gap:8px}
-.mrow .hd{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.mrow .hd b{font-size:14px}
-.mrow .st{font-size:12px;border-radius:999px;padding:2px 9px;background:var(--wash);color:var(--violet)}
-.mrow .st.no{background:#FFF4E5;color:#8A5A00}
-.mrow .hd .ic{margin-left:auto}
-.chk{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
-.chk label{display:inline-flex;align-items:center;gap:5px}
-.chk input{width:auto!important}
-.addm{border:1px dashed var(--line);border-radius:12px;padding:12px}
-.addm .g{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:8px;margin-bottom:8px}
-@media (max-width:620px){.addm .g{grid-template-columns:1fr}}
+.mgrs{list-style:none;margin:0 0 10px;padding:0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.mgrs li{display:flex;align-items:center;gap:10px;padding:9px 12px;font-size:14px;min-height:46px}
+.mgrs li+li{border-top:1px solid var(--line)}
+.mgrs li small{color:var(--soft);font-size:12px}
+.mgrs li .btn{margin-left:auto}
+.mgrs li.empty{color:var(--muted);font-size:13px}
+.mgr-add{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:8px}
 
 /* manager login */
 #mlog{position:fixed;inset:0;z-index:58;background:rgba(14,16,64,.32);display:grid;place-items:center;padding:16px}
@@ -344,14 +338,10 @@ img{display:block;max-width:100%}
     </section>
     <section id="aMgrSec" hidden>
       <h3>관리자</h3>
-      <p class="sub">관리자는 빌더에서 ‘관리자 로그인’을 누르고 본인 사번을 입력하면, 배정된 출처의 자료를 올리고 고칠 수 있습니다. 사번 자체는 저장하지 않고 변환값만 저장합니다.</p>
-      <div class="note">관리자가 실제로 파일을 올리려면, 이 페이지 오른쪽 위 공유 메뉴에서 그 사람에게 <b>기여자(Contributor)</b> 이상 권한을 줘야 합니다. 올리기가 막히면 <b>편집자(Editor)</b>로 올려 주세요.</div>
-      <ul class="mrows" id="aMgrList" style="margin-top:12px"></ul>
-      <div class="addm">
-        <b style="font-size:13.5px">관리자 추가</b>
-        <div class="g" style="margin-top:8px"><input id="amName" placeholder="이름 (예: 김미래)" maxlength="20" autocomplete="off"><input id="amNo" placeholder="사번" inputmode="numeric" autocomplete="off"><button class="btn sm pri" id="amAdd" type="button">추가</button></div>
-        <div class="chk" id="amLibs"></div>
-      </div>
+      <p class="sub">여기 등록된 사람만 ‘관리자 로그인’에 사번을 넣고 자료를 올리고 고칠 수 있습니다. 사번은 변환값으로만 저장합니다.</p>
+      <ul class="mgrs" id="aMgrList"></ul>
+      <div class="mgr-add"><input id="amName" placeholder="이름" maxlength="20" autocomplete="off" aria-label="관리자 이름"><input id="amNo" placeholder="사번" inputmode="numeric" autocomplete="off" aria-label="사번"><button class="btn sm pri" id="amAdd" type="button">추가</button></div>
+      <p class="sub" style="margin:10px 0 0">파일을 올리려면 이 페이지 공유 메뉴에서 그 사람에게 기여자(Contributor) 이상 권한도 줘야 합니다.</p>
     </section>
   </div>
 </div>
@@ -359,7 +349,7 @@ img{display:block;max-width:100%}
 <div id="mlog" hidden role="dialog" aria-labelledby="mlogT">
   <div class="box">
     <h2 id="mlogT">관리자 로그인</h2>
-    <p>등록된 관리자는 사번을 입력하면 본인이 맡은 출처의 자료를 올리고 고칠 수 있습니다.</p>
+    <p>등록된 관리자는 사번을 입력하면 자료를 올리고 고칠 수 있습니다.</p>
     <input id="mlogIn" inputmode="numeric" autocomplete="off" placeholder="사번" aria-label="사번">
     <div id="mlogErr" class="err" role="alert"></div>
     <div class="row"><button class="btn" id="mlogX" type="button">취소</button><button class="btn pri" id="mlogOk" type="button">들어가기</button></div>
@@ -441,7 +431,7 @@ const shortName = l => { const n = (l && l.name) || ''; const i = n.lastIndexOf(
    One library, one deck. 'yb' is built in (its images ship with the page). Other sources live in db:
    libs/<id>            { name, order, chapters:[{id,name}], presets:[{name,ids}], createdAt }
    libs/<id>/slides/<d> { ord, ch, title, desc, tags:[], asset, thumb, file, by, createdAt }   asset/thumb = asset ids
-   managers/<d>         { name, hash (사번 해시), libs:[libId], createdAt, by }
+   managers/<d>         { name, hash (사번 해시), createdAt, by }   등록된 관리자는 업로드한 출처 전부를 관리
    Slide ids are global: 's01'..'s42' for yb, '<libId>:<docId>' for the rest. */
 function makeYB(){
   const s = { id: 'yb', name: 'GLP-1 제안_ver.B', builtin: true, order: 0 };
@@ -864,13 +854,13 @@ function sha256hex(str){
   return H.map(v => v.toString(16).padStart(8, '0')).join('');
 }
 const hashNo = v => sha256hex(SALT + String(v).replace(/\s+/g, ''));
-function setMgr(m){ const d = m.data(); mgr = { id: m.id, name: d.name || '관리자', libs: Array.isArray(d.libs) ? d.libs : [], hash: d.hash }; renderAdminButtons() }
+function setMgr(m){ const d = m.data(); mgr = { id: m.id, name: d.name || '관리자', hash: d.hash }; renderAdminButtons() }
 function dropMgr(say){ mgr = null; try { localStorage.removeItem('welda-builder-mgr') } catch (e) {} closeAdmin(); renderAdminButtons(); renderLib(); if (say) toast(say) }
 function verifySession(){
   let h = null; try { h = localStorage.getItem('welda-builder-mgr') } catch (e) {}
   const want = mgr ? mgr.hash : h; if (!want) return;
   const m = managers.find(x => x.data().hash && x.data().hash === want);
-  if (m) { if (!mgr || mgr.id !== m.id || mgr.name !== m.data().name || JSON.stringify(mgr.libs) !== JSON.stringify(m.data().libs || [])) { setMgr(m); if (!$('adm').hidden) renderAdmin() } }
+  if (m) { if (!mgr || mgr.id !== m.id || mgr.name !== m.data().name) { setMgr(m); if (!$('adm').hidden) renderAdmin() } }
   else if (mgr) dropMgr('관리자 등록이 해제되어 관리 화면을 닫았습니다');
 }
 function openLogin(){ $('mlog').hidden = false; $('mlogIn').value = ''; $('mlogErr').textContent = ''; setTimeout(() => $('mlogIn').focus(), 30) }
@@ -888,11 +878,11 @@ $('aOut').onclick = () => dropMgr('관리자에서 나왔습니다');
 /* ---------- admin: sources, uploads, slide editing ---------- */
 const libRef = id => db.doc('libs/' + id);
 const slideCol = id => db.collection('libs/' + id + '/slides');
-function manageable(){ if (!db) return []; const dyn = SRC.filter(s => !s.builtin && !s.mirror); if (amOwner) return dyn; if (mgr) return dyn.filter(s => mgr.libs.includes(s.id)); return [] }
+function manageable(){ if (!db) return []; const dyn = SRC.filter(s => !s.builtin && !s.mirror); return (amOwner || mgr) ? dyn : [] }
 function renderAdminButtons(){ const b = $('bAdmin'); b.hidden = !db; b.textContent = (amOwner || mgr) ? '⚙ 자료 관리' : '관리자 로그인' }
 async function libUpdate(patch){ try { await libRef(A.id).update(patch); return true } catch (e) { toast('저장하지 못했습니다 · ' + ((e && e.code) || '권한을 확인해 주세요')); return false } }
 async function newSource(){
-  if (!db || !amOwner) return;
+  if (!db || !(amOwner || mgr)) return;
   const id = 'lib' + Date.now().toString(36); const order = Math.max(0, ...SRC.map(s => s.order || 0)) + 1;
   try { openWhen = id; await libRef(id).set({ name: '새 출처', order, chapters: [{ id: 'main', name: '자료' }], presets: [], createdAt: Date.now() }); toast('새 출처를 만들었습니다. 이름을 바꾸고 자료를 올려 주세요') }
   catch (e) { openWhen = null; toast('출처를 만들지 못했습니다') }
@@ -901,7 +891,7 @@ function openAdmin(){
   if (!db) return;
   if (!amOwner && !mgr) { openLogin(); return }
   const list = manageable();
-  if (!list.length) { if (amOwner) newSource(); else toast('맡은 출처가 없습니다. 유영빈 님께 출처 배정을 요청해 주세요'); return }
+  if (!list.length) { newSource(); return }
   A = list.find(s => A && s.id === A.id) || list[0];
   $('adm').hidden = false; renderAdmin(); $('admX').focus();
 }
@@ -918,7 +908,7 @@ function renderAdmin(){
   const list = manageable();
   $('admT').textContent = '자료 관리' + (mgr && !amOwner ? ' · ' + mgr.name + ' 님' : '');
   const sel = $('aLib'); sel.innerHTML = ''; list.forEach(s => { const o = document.createElement('option'); o.value = s.id; o.textContent = s.name; if (s === A) o.selected = true; sel.appendChild(o) });
-  $('aNew').hidden = !amOwner; $('aOut').hidden = !(mgr && !amOwner); $('aDel').hidden = !amOwner;
+  $('aNew').hidden = false; $('aOut').hidden = !(mgr && !amOwner); $('aDel').hidden = false;
   $('aDel').disabled = A.IDS.length > 0; $('aDel').title = A.IDS.length ? '슬라이드를 모두 지운 뒤에 출처를 지울 수 있습니다' : '';
   if (document.activeElement !== $('aName')) $('aName').value = A.name;
   const keepCh = $('aCh').value; chOptions($('aCh'), keepCh || A.chapters[0].id);
@@ -991,43 +981,30 @@ function renderAdmin(){
   $('aMgrSec').hidden = !amOwner;
   if (amOwner) renderManagers();
 }
-function libChecks(box, checked){
-  box.innerHTML = '';
-  SRC.filter(s => !s.builtin).forEach(s => { const l = document.createElement('label'); const i = document.createElement('input'); i.type = 'checkbox'; i.value = s.id; i.checked = checked.includes(s.id); l.appendChild(i); l.appendChild(document.createTextNode(s.name)); box.appendChild(l) });
-  return () => [...box.querySelectorAll('input:checked')].map(i => i.value);
-}
 function renderManagers(){
-  const ul = $('aMgrList'); const ae = document.activeElement;
-  if (ul.contains(ae) && ae.tagName === 'INPUT' && ae.type === 'text') return;
-  ul.innerHTML = '';
-  if (!managers.length) { const li = document.createElement('li'); li.className = 'note'; li.textContent = '등록한 관리자가 없습니다. 아래에서 이름과 사번을 넣어 추가하세요.'; ul.appendChild(li) }
+  const ul = $('aMgrList'); ul.innerHTML = '';
+  if (!managers.length) { const li = document.createElement('li'); li.className = 'empty'; li.textContent = '등록한 관리자가 없습니다. 아래에 이름과 사번을 넣어 추가하세요.'; ul.appendChild(li) }
   managers.forEach(m => {
-    const d = m.data(); const li = document.createElement('li'); li.className = 'mrow';
-    li.innerHTML = '<div class="hd"><b></b><span class="st"></span><button class="ic x" data-a="rm" type="button" aria-label="관리자 삭제">✕</button></div><div class="chk"></div><div class="mini"><input type="text" inputmode="numeric" autocomplete="off" aria-label="사번"><button class="btn sm" data-a="no" type="button"></button></div>';
-    li.querySelector('b').textContent = d.name || '이름 없음';
-    const st = li.querySelector('.st'); st.textContent = d.hash ? '사번 등록됨' : '사번 미등록'; st.classList.toggle('no', !d.hash);
-    const noIn = li.querySelector('input'); noIn.placeholder = d.hash ? '사번 바꾸기' : '사번 입력'; li.querySelector('[data-a=no]').textContent = d.hash ? '바꾸기' : '등록';
-    const get = libChecks(li.querySelector('.chk'), d.libs || []);
-    li.querySelector('.chk').addEventListener('change', async () => { try { await db.collection('managers').doc(m.id).update({ libs: get() }) } catch (e) { toast('저장하지 못했습니다') } });
-    li.addEventListener('click', async e => {
-      const a = e.target.closest('[data-a]')?.dataset.a; if (!a) return;
-      if (a === 'no') { const v = noIn.value.trim(); if (!v) { noIn.focus(); return } try { await db.collection('managers').doc(m.id).update({ hash: hashNo(v) }); toast((d.name || '관리자') + ' 님 사번을 등록했습니다') } catch (err) { toast('저장하지 못했습니다') } }
-      if (a === 'rm') { const btn = e.target.closest('button'); if (btn.dataset.confirm !== '1') { btn.dataset.confirm = '1'; btn.textContent = '삭제 확인'; btn.style.width = 'auto'; setTimeout(() => { btn.dataset.confirm = ''; btn.textContent = '✕'; btn.style.width = '' }, 3000); return }
-        try { await db.collection('managers').doc(m.id).delete(); toast('관리자에서 뺐습니다') } catch (err) { toast('삭제하지 못했습니다') } }
-    });
-    ul.appendChild(li);
+    const d = m.data(); const li = document.createElement('li');
+    const b = document.createElement('b'); b.textContent = d.name || '이름 없음';
+    const sm = document.createElement('small'); sm.textContent = d.hash ? '사번 등록됨' : '사번 없음';
+    const x = document.createElement('button'); x.type = 'button'; x.className = 'btn sm danger'; x.textContent = '삭제';
+    x.onclick = async () => {
+      if (x.dataset.confirm !== '1') { x.dataset.confirm = '1'; x.textContent = '정말 삭제'; setTimeout(() => { x.dataset.confirm = ''; x.textContent = '삭제' }, 3000); return }
+      try { await db.collection('managers').doc(m.id).delete(); toast((d.name || '관리자') + ' 님을 관리자에서 뺐습니다') } catch (err) { toast('삭제하지 못했습니다') }
+    };
+    li.append(b, sm, x); ul.appendChild(li);
   });
-  if (!$('amLibs').children.length || $('amLibs').dataset.n !== String(SRC.length)) { $('amLibs').dataset.n = String(SRC.length); libChecks($('amLibs'), A ? [A.id] : []) }
 }
 $('amAdd').onclick = async () => {
-  const name = $('amName').value.trim(), no = $('amNo').value.trim(); const libs = [...$('amLibs').querySelectorAll('input:checked')].map(i => i.value);
+  const name = $('amName').value.trim(), no = $('amNo').value.replace(/\s+/g, '');
   if (!name) { $('amName').focus(); return } if (!no) { $('amNo').focus(); return }
   if (managers.some(m => m.data().hash === hashNo(no))) { toast('이미 같은 사번으로 등록된 관리자가 있습니다'); return }
-  try { await db.collection('managers').add({ name, hash: hashNo(no), libs, createdAt: Date.now(), by: me || '' }); $('amName').value = ''; $('amNo').value = ''; toast(name + ' 님을 관리자로 추가했습니다') } catch (e) { toast('추가하지 못했습니다 · ' + ((e && e.code) || '')) }
+  try { await db.collection('managers').add({ name, hash: hashNo(no), createdAt: Date.now(), by: me || '' }); $('amName').value = ''; $('amNo').value = ''; toast(name + ' 님을 관리자로 추가했습니다') } catch (e) { toast('추가하지 못했습니다 · ' + ((e && e.code) || '')) }
 };
 $('aNameSave').onclick = async () => { const v = $('aName').value.trim(); if (!v) return; if (await libUpdate({ name: v })) toast('출처 이름을 바꿨습니다') };
 $('aDel').onclick = async e => {
-  if (!amOwner || A.IDS.length) return; const btn = e.target;
+  if (!(amOwner || mgr) || A.IDS.length) return; const btn = e.target;
   if (btn.dataset.confirm !== '1') { btn.dataset.confirm = '1'; btn.textContent = '정말 지우기'; setTimeout(() => { btn.dataset.confirm = ''; btn.textContent = '이 출처 지우기' }, 3000); return }
   try { await libRef(A.id).delete(); toast('‘' + A.name + '’ 출처를 지웠습니다'); closeAdmin(); A = null } catch (err) { toast('지우지 못했습니다') }
 };
