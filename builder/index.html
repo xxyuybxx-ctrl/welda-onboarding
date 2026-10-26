@@ -168,7 +168,9 @@ img{display:block;max-width:100%}
 .srchead{display:flex;align-items:baseline;gap:8px;margin:16px 2px 0;padding:0 2px 5px;border-bottom:2px solid var(--wash)}
 .srchead b{font-size:13.5px;color:var(--ink)}
 .srchead small{color:var(--soft);font-size:12px}
-.presets .btn small{margin-left:6px;color:var(--soft);font-weight:400;font-size:11.5px}
+.presets .btn .src{font-weight:800;color:var(--violet);margin-right:7px}
+.presets .btn.multi span{font-weight:500;color:var(--ink)}
+.presets .btn.multi:hover span{color:var(--violet)}
 .lib-empty{margin:12px 2px 4px;border:2px dashed var(--line);border-radius:14px;padding:18px 14px;text-align:center;color:var(--muted);font-size:13px}
 .lib-empty b{display:block;color:var(--ink);font-size:14px;margin-bottom:4px}
 
@@ -442,7 +444,7 @@ const shortName = l => { const n = (l && l.name) || ''; const i = n.lastIndexOf(
    managers/<d>         { name, hash (사번 해시), libs:[libId], createdAt, by }
    Slide ids are global: 's01'..'s42' for yb, '<libId>:<docId>' for the rest. */
 function makeYB(){
-  const s = { id: 'yb', name: 'GLP-1 제안_영빈', builtin: true, order: 0 };
+  const s = { id: 'yb', name: 'GLP-1 제안_ver.B', builtin: true, order: 0 };
   s.chapters = YB.CH.map(c => ({ id: c.id, name: c.name }));
   s.CH = YB.CH.map(c => ({ id: c.id, label: c.label, name: c.name }));
   s.IDS = YB.S.map((_, i) => 's' + pad(i + 1));
@@ -528,7 +530,7 @@ async function buildCover(){
   } catch (e) { coverURL = coverThumb = null }
   if (job === coverJob) refreshCover();
 }
-function coverBadge(){ const b = $('custOn'); b.hidden = !coverURL; b.textContent = deck.includes(COVER_ID) ? '표지에 반영됨' : '표지 슬라이드(영빈 1번)를 넣으면 반영돼요' }
+function coverBadge(){ const b = $('custOn'); b.hidden = !coverURL; b.textContent = deck.includes(COVER_ID) ? '표지에 반영됨' : '표지 슬라이드(ver.B 1번)를 넣으면 반영돼요' }
 function refreshCover(){ coverBadge(); renderLib(); renderDeck(); renderPreview(); if (!$('show').hidden) show(si) }
 let ct; function coverChanged(){ cover = { name: $('cName').value, who: $('cWho').value, date: $('cDate').value }; clearTimeout(ct); ct = setTimeout(buildCover, 250) }
 /* 2026-10-19 개편(43→42장): 그 전에 저장된 구성의 번호를 새 번호로 바꿈 */
@@ -695,8 +697,8 @@ function changed(){ renderDeck(); renderLib(); renderPreview() }
 function renderPresets(){
   $('presets').innerHTML = ''; const multi = SRC.length > 1;
   PRESETS.forEach(p => { const b = document.createElement('button'); b.className = 'btn sm'; b.type = 'button';
+    if (multi) { const sb = document.createElement('b'); sb.className = 'src'; sb.textContent = shortName(SRCN[p.src]); b.appendChild(sb); b.classList.add('multi') }
     const sp = document.createElement('span'); sp.textContent = p.name + ' · ' + p.ids.length + '장'; b.appendChild(sp);
-    if (multi) { const sm = document.createElement('small'); sm.textContent = shortName(SRCN[p.src]); b.appendChild(sm) }
     b.title = SRCN[p.src].name;
     b.onclick = () => { deck = p.ids.filter(x => BY[x]); cur = deck[0] || cur; $('deckTitle').value = p.name === '전체' ? SRCN[p.src].name : p.name; docId = null; changed(); renderSaved(); toast('‘' + p.name + '’ 구성으로 시작합니다') };
     $('presets').appendChild(b) });

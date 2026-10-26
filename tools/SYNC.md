@@ -4,7 +4,7 @@ Claude 빌더(https://claude.ai/artifact/2cPSivYa2w5pLaQMvq3bSG)에서 관리자
 GitHub 빌더(https://xxyuybxx-ctrl.github.io/welda-onboarding/builder/)에 읽기 전용으로 옮긴다.
 
 - **언제**: 예약 작업 「웰다 빌더 출처 GitHub 자동 동기화」가 매일 07:42–20:42(KST) 매시간 실행. 빌더·교육자료를 고치는 작업이 있으면 그 작업 끝에도 항상 실행 (묻지 않고).
-- **무엇을**: `builder/data/sources.json` + `builder/data/<출처>/<슬라이드>.jpg`, `t-<슬라이드>.jpg`(썸네일). 영빈 자료(GLP-1 제안_영빈 42장)는 빌더에 내장돼 있어 대상 아님.
+- **무엇을**: `builder/data/sources.json` + `builder/data/<출처>/<슬라이드>.jpg`, `t-<슬라이드>.jpg`(썸네일). 기존 자료(GLP-1 제안_ver.B 42장)는 빌더에 내장돼 있어 대상 아님.
 - 바뀐 게 없으면 커밋하지 않는다.
 
 ## 절차 (Claude가 실행)
