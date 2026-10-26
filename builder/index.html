@@ -459,7 +459,7 @@ function makeYB(){
   return s;
 }
 function makeDyn(id, d, slideDocs){
-  const s = { id, name: d.name || '이름 없는 출처', builtin: false, order: d.order || 9, raw: d };
+  const s = { id, name: d.name || '이름 없는 출처', builtin: false, order: d.order || 9, raw: d, mirror: !!d.mirror };
   const chs = (d.chapters && d.chapters.length) ? d.chapters : [{ id: 'main', name: '자료' }];
   s.chapters = chs;
   s.CH = chs.map(c => ({ id: c.id, label: '', name: c.name }));
@@ -467,7 +467,7 @@ function makeDyn(id, d, slideDocs){
   const docs = slideDocs.slice().sort((a, b) => (a.data().ord || 0) - (b.data().ord || 0));
   s.IDS = []; s.BY = {};
   docs.forEach((doc, i) => { const x = doc.data(); const sid = id + ':' + doc.id; s.IDS.push(sid);
-    s.BY[sid] = { id: sid, src: id, docId: doc.id, n: i + 1, ch: known.has(x.ch) ? x.ch : chs[0].id, title: x.title || '제목 없음', desc: x.desc || '', tags: Array.isArray(x.tags) ? x.tags : [], url: x.asset ? '/_blob/' + x.asset : '', thumb: x.thumb ? '/_blob/' + x.thumb : (x.asset ? '/_blob/' + x.asset : ''), asset: x.asset, thumbAsset: x.thumb, ord: x.ord || 0 } });
+    s.BY[sid] = { id: sid, src: id, docId: doc.id, n: i + 1, ch: known.has(x.ch) ? x.ch : chs[0].id, title: x.title || '제목 없음', desc: x.desc || '', tags: Array.isArray(x.tags) ? x.tags : [], url: x.img || (x.asset ? '/_blob/' + x.asset : ''), thumb: x.thumbUrl || (x.thumb ? '/_blob/' + x.thumb : (x.asset ? '/_blob/' + x.asset : '')), asset: x.asset, thumbAsset: x.thumb, ord: x.ord || 0 } });
   s.TAGS = []; docs.forEach(doc => (doc.data().tags || []).forEach(x => { if (x && !s.TAGS.includes(x)) s.TAGS.push(x) }));
   s.PRESETS = (d.presets || []).map(p => ({ name: p.name, ids: p.ids || [] }));
   if (docs.length) s.PRESETS.push({ name: '전체', ids: s.IDS.slice() });
@@ -570,7 +570,7 @@ function renderLib(){
     if (multi && srcFilter === '전체') { const h = document.createElement('div'); h.className = 'srchead'; const b = document.createElement('b'); b.textContent = s.name; const sm = document.createElement('small'); sm.textContent = s.IDS.length + '장'; h.appendChild(b); h.appendChild(sm); lib.appendChild(h) }
     if (!s.builtin && !s.IDS.length) {
       const e = document.createElement('div'); e.className = 'lib-empty';
-      e.innerHTML = '<b>아직 올린 자료가 없습니다</b>' + (manageable().includes(s) ? '위쪽 ‘⚙ 자료 관리’에서 PDF를 올리면 여기에 슬라이드로 나타납니다.' : '자료를 맡은 분이 올리면 여기에 나타납니다.');
+      e.innerHTML = '<b>아직 올린 자료가 없습니다</b>' + (manageable().includes(s) ? '위쪽 ‘⚙ 자료 관리’에서 PDF를 올리면 여기에 슬라이드로 나타납니다.' : '자료를 맡은 분이 Claude 빌더에서 올리면 여기에 나타납니다.');
       lib.appendChild(e); return;
     }
     s.CH.forEach(c => {
@@ -886,7 +886,7 @@ $('aOut').onclick = () => dropMgr('관리자에서 나왔습니다');
 /* ---------- admin: sources, uploads, slide editing ---------- */
 const libRef = id => db.doc('libs/' + id);
 const slideCol = id => db.collection('libs/' + id + '/slides');
-function manageable(){ if (!db) return []; const dyn = SRC.filter(s => !s.builtin); if (amOwner) return dyn; if (mgr) return dyn.filter(s => mgr.libs.includes(s.id)); return [] }
+function manageable(){ if (!db) return []; const dyn = SRC.filter(s => !s.builtin && !s.mirror); if (amOwner) return dyn; if (mgr) return dyn.filter(s => mgr.libs.includes(s.id)); return [] }
 function renderAdminButtons(){ const b = $('bAdmin'); b.hidden = !db; b.textContent = (amOwner || mgr) ? '⚙ 자료 관리' : '관리자 로그인' }
 async function libUpdate(patch){ try { await libRef(A.id).update(patch); return true } catch (e) { toast('저장하지 못했습니다 · ' + ((e && e.code) || '권한을 확인해 주세요')); return false } }
 async function newSource(){
@@ -1127,7 +1127,17 @@ rebuild(); buildCover();
 (async () => {
   if (!window.claude || !claude.use) {
     dl = { save: async ({ filename, data }) => { const u = URL.createObjectURL(data); const a = document.createElement('a'); a.href = u; a.download = filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(u), 60000) } };
-    $('bSave').hidden = true; renderSaved(); return }
+    $('bSave').hidden = true; renderSaved();
+    /* GitHub(정적) 버전: Claude 빌더에서 올린 출처를 data/sources.json 으로 미러링해 읽기 전용으로 보여 준다 */
+    try {
+      const r = await fetch('data/sources.json', { cache: 'no-cache' }); if (!r.ok) return;
+      const j = await r.json();
+      (j.sources || []).forEach(src => { const docs = (src.slides || []).map(x => ({ id: x.id, data: () => x })); SRC.push(makeDyn(src.id, Object.assign({ mirror: true }, src), docs)) });
+      rebuild();
+      let wanted = null; try { wanted = localStorage.getItem('welda-builder-src') } catch (e) {}
+      if (wanted && wanted !== srcFilter && (wanted === '전체' || SRCN[wanted])) { srcFilter = wanted; renderSrcs(); renderTags(); renderLib() }
+    } catch (e) {}
+    return }
   [db, user, dl, assets] = await Promise.all([claude.use('db'), claude.use('user'), claude.use('downloads'), claude.use('assets')]);
   try { me = user ? await user.id() : null; amOwner = user ? await user.isOwner() : false } catch (e) { me = null }
   if (!dl) { $('bPptx').hidden = true; $('bPdf').hidden = true }
