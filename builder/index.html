@@ -554,10 +554,15 @@ const S = [
  ['c4','부가 질문과 코멘트 · 스트레스 · 운동 · 수면',"스트레스 · 운동 · 수면에 대한\n짧은 코멘트입니다. (선택)",['상담']],
  ['c5','Chapter 5 · FAQ',"5장 간지입니다.",['간지']],
  ['c5','자주 묻는 질문',"자주 묻는 질문입니다.\n\n• 저혈당 표시\n• 운동 후 혈당 상승\n• 스파이크와 음식\n• 센서 오류 · 탈락",['FAQ']],
- ['end','감사합니다',"마무리 장입니다.",['마무리']]
+ ['end','감사합니다',"마무리 장입니다.",['마무리']],
+ /* 2026-11-18 추가 (서울미즈병원 제안 6·7p) — id는 s43·s44로 붙이고, 순서는 ORDER에서 5번 뒤에 둠 */
+ ['c1','생활습관 기록 · 앱 화면',"환자 앱의 기록 화면입니다.\n\n• 식사 기록(사진 · AI 인식)\n• 식사별 혈당 등급\n• AI 코치 코멘트\n• 식후 활동 미션\n\n일상 속 생활습관 관리를 돕습니다.",['화면','환자 안내']],
+ ['c1','생활습관 기록 · 웰다 Pro 화면',"진료실 PC의 웰다 Pro 화면입니다.\n\n• 요약 정보 · 여정 현황\n• 리포트 페이지\n• 주간 실천 현황\n• 식사 상세 · 식사 혈당 그래프\n\n다음 진료 상담에 활용합니다.",['화면','원장 제안']]
 ];
+/* 빌더에 보이는 순서 (s번호 = YB.S 순번, 저장된 구성과 호환되도록 번호는 고정) */
+const ORDER = [1,2,3,4,5,43,44,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42];
 
-return { CH, S } })();
+return { CH, S, ORDER } })();
 const $ = id => document.getElementById(id);
 const pad = n => String(n).padStart(2, '0');
 const COVER_ID = 's01', COVER_BASE = 'slides/s01.jpg';
@@ -569,16 +574,16 @@ const shortName = l => { const n = (l && l.name) || ''; const i = n.lastIndexOf(
    libs/<id>            { name, order, chapters:[{id,name}], presets:[{name,ids}], createdAt }
    libs/<id>/slides/<d> { ord, ch, title, desc, tags:[], asset, thumb, file, by, createdAt }   asset/thumb = asset ids
    managers/<d>         { name, hash (사번 해시), createdAt, by }   등록된 관리자는 업로드한 출처 전부를 관리
-   Slide ids are global: 's01'..'s42' for yb, '<libId>:<docId>' for the rest. */
+   Slide ids are global: 's01'..'s44' for yb (display order in YB.ORDER), '<libId>:<docId>' for the rest. */
 function makeYB(){
   const s = { id: 'yb', name: 'GLP-1 제안_ver.B', builtin: true, order: 0 };
   s.chapters = YB.CH.map(c => ({ id: c.id, name: c.name }));
   s.CH = YB.CH.map(c => ({ id: c.id, label: c.label, name: c.name }));
-  s.IDS = YB.S.map((_, i) => 's' + pad(i + 1));
+  s.IDS = YB.ORDER.map(k => 's' + pad(k));
   s.BY = {};
-  s.IDS.forEach((id, i) => s.BY[id] = { id, src: 'yb', n: i + 1, ch: YB.S[i][0], title: YB.S[i][1], desc: YB.S[i][2], tags: YB.S[i][3], url: 'slides/' + id + '.jpg', thumb: 'thumbs/t' + id.slice(1) + '.jpg' });
+  s.IDS.forEach((id, i) => { const x = YB.S[+id.slice(1) - 1]; s.BY[id] = { id, src: 'yb', n: i + 1, ch: x[0], title: x[1], desc: x[2], tags: x[3], url: 'slides/' + id + '.jpg', thumb: 'thumbs/t' + id.slice(1) + '.jpg' } });
   s.TAGS = ['원장 제안', '스태프', '환자 안내', '화면', '상담', '간지'];
-  const P = n => n.map(k => s.IDS[k - 1]);
+  const P = n => n.map(k => 's' + pad(k));
   s.PRESETS = [
     { name: '원장님 도입 제안', ids: P([1,4,6,7,8,9,10,11,12,15,16,33,42]) },
     { name: '스태프 운영 교육', ids: P([1,14,15,17,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42]) },
