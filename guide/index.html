@@ -5,8 +5,8 @@
 
 /* Layout: one reading column (max 1120px) under a sticky chapter bar; each chapter opens with the deck's own label + violet title */
 :root{
-  --bg:#FFFFFF; --ink:#14186E; --violet:#7252EE; --lilac:#8B6CE6; --deep:#2E2A8F;
-  --wash:#F5F3FF; --line:#E4E0FB; --muted:#5F6488; --soft:#9A9CB8; --onDeep:#FFFFFF; --onDeepSoft:#C9C3FF;
+  --bg:#FFFFFF; --ink:#1B2559; --violet:#6B4EF0; --lilac:#6B4EF0; --deep:#4A36B8;
+  --wash:#F5F7FC; --line:#E3E7F0; --muted:#545E72; --soft:#8B94A7; --onDeep:#FFFFFF; --onDeepSoft:#C9C3FF;
   --f:"Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",sans-serif;
   --w:1120px; --r:18px;
   color-scheme:light;
@@ -49,7 +49,7 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--lilac);outline-off
 .chapter + .chapter{border-top:1px solid var(--line)}
 .chap-head{margin-bottom:12px}
 .chap-head small{display:block;color:var(--lilac);font-size:clamp(18px,2vw,22px);font-weight:400}
-.chap-head h2{margin:2px 0 0;font-size:clamp(36px,5vw,56px);line-height:1.15;letter-spacing:-.025em;color:var(--violet)}
+.chap-head h2{margin:2px 0 0;font-size:clamp(36px,5vw,56px);line-height:1.15;letter-spacing:-.025em;color:var(--ink)}
 .block{padding-block:48px}
 .block + .block{border-top:1px dashed var(--line)}
 .block h3{font-size:clamp(22px,2.8vw,30px);line-height:1.35;letter-spacing:-.02em;margin:0 0 10px;color:var(--ink);text-wrap:balance}
@@ -279,7 +279,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   <div class="chap-head"><small>Chapter 1</small><h2>프로그램 개요</h2></div>
 
   <div class="block">
-    <h3>웰다는 혈당 데이터 기반 대사 건강 솔루션입니다</h3>
+    <h3>웰다는 혈당 데이터 기반 대사 건강 관리 프로그램입니다</h3>
     <p class="lede">환자는 앱에 기록하고, 의원은 웰다 Pro로 확인합니다. 세 환자군 모두 기록 → 확인 → 지속의 같은 흐름입니다.</p>
     <div class="what">
       <div class="shot"><img src="img/app-pro.jpg" alt="환자 웰다 앱 화면과 의료진 웰다 Pro 화면" width="1053" height="578"></div>
@@ -303,7 +303,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   </div>
 
   <div class="block" id="seoul">
-    <h3>서울시가 선택한 혈당관리 프로그램, 웰다</h3>
+    <h3>서울시가 선택한 혈당 관리 프로그램, 웰다</h3>
     <p class="lede">서울시가 공개 모집으로 4개 기업의 제안서를 평가해 대웅제약을 「혈당캐치9988」 협력사업자로 선정했습니다.</p>
     <div class="seoul">
       <div class="poster"><img src="img/poster9988.jpg" alt="서울시 손목닥터9988 혈당캐치9988 안내 포스터" width="900" height="1091"></div>
@@ -419,13 +419,15 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     <h3>비만주사 치료, 처방만으로 충분할까요?</h3>
     <div class="glp">
       <div>
-        <div class="card"><h4>1. 가격 경쟁</h4><p>최저가 중심의 경쟁으로 환자 이탈 · 지속적인 관리와 재방문 저하</p></div>
-        <div class="card"><h4>2. 요요</h4><p>주사치료 중단 후 체중 유지를 위한 생활습관 관리 필요</p></div>
-        <div class="card"><h4>3. 생활습관 관리의 필요성</h4><p>삭센다 · 위고비 · 마운자로의 미국 허가사항에는 모두 식이와 신체활동 병행이 포함</p></div>
+        <div class="card"><h4>1. 가격 경쟁</h4><p>최저가 중심의 경쟁으로 환자가 이탈하고, 지속 관리와 재방문이 줄어듭니다.</p></div>
+        <div class="card"><h4>2. 중단 후 체중 재증가</h4><p>투약을 멈추면 체중과 대사 지표가 치료 전 수준으로 돌아가는 경향이 보고됩니다.</p></div>
+        <div class="card"><h4>3. 허가사항의 전제</h4><p>삭센다 · 위고비 · 마운자로의 미국 허가사항은 모두 식이요법 · 신체활동 병행을 전제로 합니다.</p></div>
       </div>
-      <div class="shot"><img src="img/glp1-graph.jpg" alt="비만주사 단독과 생활습관 병행 시 중단 후 체중 증가 비교 그래프" width="935" height="823"></div>
+      <div class="card wash"><span class="k">투약 중단 후 월평균 체중 재증가 · 37편 9,341명 메타분석</span>
+        <div class="bars" style="height:200px;margin-top:16px"><div><b>0.4kg</b><i style="height:45%;background:#B9A8F8"></i><span>전체 비만치료제</span></div><div><b>0.8kg</b><i style="height:90%"></i><span>세마글루타이드 · 터제파타이드</span></div></div>
+        <p style="margin:18px 0 0"><b>약 1.5년</b> · 세마 · 터제 중단 후 치료 전 체중으로 돌아가는 데 걸리는 기간(모델 추정)<br><b>월 0.3kg</b> · 행동요법 프로그램을 마친 뒤보다 약물 중단 뒤 체중이 더 빨리 늘어난 차이</p></div>
     </div>
-    <p class="note">※ FDA: 미국 식품의약국. 삭센다 · 위고비 · 마운자로 허가사항(처방정보) 기준. Ref. West S, et al. BMJ. 2026;392:e085304.</p>
+    <p class="note">출처: West S, et al. BMJ 2026;392:e085304. 세마 · 터제 자료는 8편, 중단 후 최대 12개월 추적이며 이후는 모델 추정입니다. 이 연구에서 투약 중 행동 지원 병행이 중단 후 재증가 속도를 늦추지는 않았습니다. 허가사항: 미국 FDA 처방정보 기준.</p>
   </div>
 
   <div class="block">
@@ -546,7 +548,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     <div class="screen">
       <div class="card">
         <ol>
-          <li>임산부 혹은 수유부</li><li>성장기 청소년</li><li>만 75세 이상 노약자</li><li>2형 당뇨병 (경구 혈당강하제 복용 중)</li><li>2형 당뇨병 (인슐린 제제 사용 중)</li><li>1형 당뇨병</li><li>페닐케톤뇨증</li><li>글리코겐 저장병</li><li>갈락토오스혈증</li><li>유전적 과당 불내증</li><li>단풍시럽뇨증 (MSUD)</li><li>기타 선천적 대사 질환</li><li>심각한 피부 감염 혹은 접착제 알레르기</li><li>피부 질환으로 스테로이드 복용 중</li><li>암 (항암 치료 중)</li><li>투석 중인 신장 질환</li><li>의학적 식단이 요구되는 경우</li><li>만성 폐쇄성 폐질환 (COPD)</li><li>관상동맥질환 또는 심장마비 병력</li><li>뇌졸중 (뇌혈관 사고) 병력</li>
+          <li>임산부 혹은 수유부</li><li>성장기 청소년</li><li>만 75세 이상 고령자</li><li>2형 당뇨병 (경구 혈당강하제 복용 중)</li><li>2형 당뇨병 (인슐린 제제 사용 중)</li><li>1형 당뇨병</li><li>페닐케톤뇨증</li><li>글리코겐 저장병</li><li>갈락토오스혈증</li><li>유전적 과당 불내증</li><li>단풍시럽뇨증 (MSUD)</li><li>기타 선천적 대사 질환</li><li>심각한 피부 감염 혹은 접착제 알레르기</li><li>피부 질환으로 스테로이드 복용 중</li><li>암 (항암 치료 중)</li><li>투석 중인 신장 질환</li><li>의학적 식단이 요구되는 경우</li><li>만성 폐쇄성 폐질환 (COPD)</li><li>관상동맥질환 또는 심장마비 병력</li><li>뇌졸중 (뇌혈관 사고) 병력</li>
         </ol>
       </div>
       <div class="shot"><img src="img/screening-pro.jpg" alt="웰다 Pro에서 사전 문진 미통과 환자 요청을 승인하는 화면" width="1179" height="824"></div>

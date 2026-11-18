@@ -6,16 +6,16 @@
 :root{
   --bg:#FFFFFF;        /* 페이지 바탕 (흰색 통일) */
   --panel:#FFFFFF;
-  --lav:#F6F5FD;       /* 옅은 강조 면 */
-  --line:#DDD8F6;      /* 덱 카드 테두리 */
-  --title:#2A2FA3;     /* 덱 제목색 */
-  --ink:#14186E;       /* 덱 항목 제목 */
-  --body:#4B5599;      /* 덱 본문 */
-  --sub:#5D67A4;
-  --muted:#9AA2D6;
-  --accent:#7664F3;
-  --step:#8377E5;
-  --pill:#E8EDFF; --pill-ink:#5B55D6;
+  --lav:#F5F7FC;       /* 옅은 강조 면 */
+  --line:#E3E7F0;      /* 카드 테두리 */
+  --title:#1B2559;     /* 제목 (의료진용 네이비) */
+  --ink:#1B2559;       /* 항목 제목 */
+  --body:#252B3B;      /* 본문 */
+  --sub:#545E72;
+  --muted:#8B94A7;
+  --accent:#6B4EF0;
+  --step:#6B4EF0;
+  --pill:#EEEAFE; --pill-ink:#4A36B8;
   --f:"Pretendard",-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
   color-scheme:light;
 }
@@ -98,7 +98,7 @@ body.present .stage{position:fixed;inset:0;margin:auto;width:min(100vw,177.78vh)
   <aside aria-label="장별 목차">
     <div class="brand">
       <svg class="hex" viewBox="0 0 40 44" aria-hidden="true"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7664F3"/><stop offset="1" stop-color="#C9A6F0"/></linearGradient></defs><path d="M20 2 37 12v20L20 42 3 32V12Z" fill="none" stroke="url(#hg)" stroke-width="6" stroke-linejoin="round"/></svg>
-      <div><b>웰다 의원 도입 교육자료</b><span>2026.10.19 · 42장</span></div>
+      <div><b>웰다 의원 도입 교육자료</b><span>2026.11.18 · 44장 · 의료진용</span></div>
     </div>
     <nav id="toc"></nav>
   </aside>
@@ -139,22 +139,24 @@ const S = [
  ['intro','표지',"웰다(Welda) 표지입니다.\n\n혈당 데이터 기반 생활습관 관리 프로그램,\n내일을 바꾸는 대사 건강 솔루션입니다.",['표지']],
  ['intro','목차',"전체 구성입니다.\n\n• 1장 프로그램 개요\n• 2장 상담 개요 · 도입 절차\n• 3장 첫방문 프로토콜\n• 4장 재방문 프로토콜\n• 5장 FAQ",['목차']],
  ['c1','Chapter 1 · 프로그램 개요',"1장 간지입니다.",['간지']],
- ['c1','웰다는 혈당 데이터 기반 대사 건강 솔루션입니다',"웰다가 무엇인지 보여 주는 장입니다.\n\n환자는 앱에 기록하고,\n의원은 웰다 Pro로 확인합니다.\n\n세 환자군 모두\n기록 → 확인 → 지속의 같은 흐름입니다.",['원장 제안']],
+ ['c1','웰다는 혈당 데이터 기반 대사 건강 관리 프로그램입니다',"웰다가 무엇인지 보여 주는 장입니다.\n\n환자는 앱에 기록하고,\n의료진은 웰다 Pro에서 확인합니다.\n\n세 환자군 모두\n기록 → 확인 → 지속의 같은 흐름입니다.",['원장 제안']],
  ['c1','환자가 기록하면, 진료실에서 바로 봅니다',"환자가 앱에 식사 · 운동을 기록합니다.\n\n진료실 PC에서 실시간으로 확인하고\n다음 진료 상담에 활용합니다.",['화면']],
- ['c1','서울시가 선택한 혈당관리 프로그램, 웰다',"서울시 「혈당캐치9988」 협력사업자로\n대웅제약 웰다가 선정되었습니다.\n\n공개 모집에서 4개 기업 제안서를\n평가한 결과입니다.\n\n• 당뇨 전단계 서울시민 1,000명\n• 25개 자치구 보건소 연계\n\n공공 평가를 거친 프로그램을\n의원 · 병원에서 바로 권할 수 있습니다.",['원장 제안','신뢰']],
+ ['c1','생활습관 기록 · 앱 화면',"환자 앱의 기록 화면 다섯 가지입니다.\n\n1. 식사 기록: 카메라 버튼으로 사진만 찍어도 됩니다\n2. 양 · 단위 확인 후 저장\n3. 식사별 혈당 등급 · AI 코치 코멘트 · 식후 활동 미션\n4. 오늘의 혈당: 혈당 점수와 기록을 한 화면에\n5. AI 코치 대화",['화면','환자 안내']],
+ ['c1','생활습관 기록 · 웰다 Pro 화면',"진료실 PC의 웰다 Pro 화면입니다.\n\n1. 요약 정보: 기록 건수 · 평균 혈당 · 혈당 변동성 · 허리 둘레\n2. 리포트 페이지: AGP 리포트 등 출력\n3. 주간 실천 현황: 한 주의 혈당 흐름과 기록\n4. 식사 혈당 그래프: 혈당 등급 · 최대 상승폭\n\n다음 진료 상담에 활용합니다.",['화면','원장 제안']],
+ ['c1','서울시가 선택한 혈당 관리 프로그램, 웰다',"서울시 「혈당캐치9988」 협력사업자로\n대웅제약 웰다가 선정되었습니다.\n\n공개 모집에서 4개 기업 제안서를\n평가한 결과입니다.\n\n• 당뇨 전단계 서울시민 1,000명\n• 25개 자치구 보건소 연계\n\n공공 평가를 거친 프로그램을\n의원 · 병원에서 바로 권할 수 있습니다.",['원장 제안','신뢰']],
  ['c1','외래에서 이런 환자에게 권해 주세요',"웰다를 권할 세 환자군입니다.\n\n• 당뇨전단계\n• GLP-1 계열 투약 환자\n• 생활습관 개선군\n\n군별 대상 기준과\n핵심 포인트를 함께 담았습니다.\n\n• 약보다 먼저, 생활습관 관리\n• 단약 이후를 미리 준비\n• 앱 기록부터 가볍게 시작",['원장 제안']],
  ['c1','BD 1장만 나눠 주시면, 환자 연결은 웰다가 이어갑니다',"의원이 할 일은 BD 1장 건네기입니다.\n\n1. 진료 중 BD 전달\n2. 환자가 QR로 앱 설치\n3. 가입 후 의원 파트너 코드 입력\n4. 의원 웰다 Pro에 연결\n\n비만주사 · 전당뇨/당뇨 두 버전이 있고,\n의원 코드는 빨간 글씨로 인쇄됩니다.",['원장 제안','운영']],
  ['c1','기록이 쌓일수록, 환자도 의원도 얻습니다',"환자득 · 병원득을\n하나의 관리 루프로 보여 줍니다.\n\n환자 기록 → 의원 확인\n→ 데이터 상담 → 재방문\n\n환자: 체중 유지 관리, 생활습관 개선,\n맞춤 관리, 혈당 변화 확인\n\n의원: 신뢰 형성, 재방문 유도,\n차별화된 진료, 무료 도입 · 추가 수익",['원장 제안']],
  ['c1','무료 도입 · 추가 수익',"웰다는 무료로 도입합니다.\n\n연속혈당측정기 활용 시\n환자 1명당 3.8~6.8만원이 남습니다.\n\n환자 100명 기준\n최대 675만원의 추가 수익입니다.",['원장 제안','수치']],
- ['c1','비만주사 치료, 처방만으로 충분할까요?',"처방만으로는 부족한 이유 세 가지입니다.\n\n• 가격 경쟁으로 인한 환자 이탈\n• 주사 중단 후 요요\n• 생활습관 관리의 필요성\n\n오른쪽 그래프는\n생활습관 병행 여부에 따른 체중 변화입니다.",['원장 제안']],
- ['c1','웰다 프로그램',"웰다 프로그램의 4단계입니다.\n\n1. 웰다 가입\n2. 생활습관 기록\n3. 재방문 상담\n4. 센서 부착",['원장 제안']],
+ ['c1','비만주사 치료, 처방만으로 충분할까요?',"처방만으로는 부족한 이유 세 가지입니다.\n\n• 가격 경쟁으로 인한 환자 이탈\n• 투약 중단 후 체중 재증가\n• 허가사항의 생활습관 병행 전제\n\n근거: BMJ 2026 메타분석\n중단 후 월평균 재증가\n전체 0.4kg · 세마/터제 0.8kg",['원장 제안']],
+ ['c1','웰다 프로그램 4단계',"웰다 프로그램의 4단계입니다.\n\n1. 웰다 가입\n2. 생활습관 기록\n3. 재방문 상담\n4. 센서 부착",['원장 제안']],
  ['c2','Chapter 2 · 상담 개요',"2장 간지입니다.",['간지']],
  ['c2','프로그램 시작과 점검',"첫방문과 재방문에서\n다루는 항목을 한눈에 보여 줍니다.\n\n• 첫방문: 온보딩\n• 재방문: 점검\n\n연속혈당측정기 부착은\n필요한 환자만 하는 선택 사항입니다.",['구조']],
  ['c2','환자는 2주마다 센서 교체, 4주마다 상담으로 내원합니다',"환자의 내원 주기입니다.\n\n• 2주마다 센서 교체\n• 4주마다 상담\n\n센서 부착 시점은 두 가지입니다.\n\n• 경로 A: 첫 내원 당일\n• 경로 B: 앱 기록 후 다음 내원",['운영']],
  ['c2','오늘 세 가지만 정해 주시면 바로 시작할 수 있습니다',"도입 6단계입니다.\n\n오늘 정할 것은 세 가지입니다.\n\n1. 상담료\n2. 첫 스태프 교육 방문일\n3. 먼저 권유할 환자군",['원장 제안']],
  ['c3','Chapter 3 · 첫방문 프로토콜',"3장 간지입니다.",['간지']],
- ['c3','웰다 시작하기',"웰다 시작 3단계입니다.\n\n1. 웰다 앱 세팅\n2. 건강 상태 입력\n3. 웰다 여정 시작\n\n사전 체크리스트 QR도 함께 있습니다.",['환자 안내']],
- ['c3','의원: 파트너 링크 발송 (웰다 Pro)',"웰다 Pro 유저 관리에서\n파트너 링크를 발송하는 화면입니다.",['스태프']],
+ ['c3','환자에게 안내하는 웰다 시작 3단계',"환자에게 안내하는 웰다 시작 3단계입니다.\n\n1. 웰다 앱 세팅\n2. 건강 상태 입력\n3. 웰다 여정 시작\n\n사전 체크리스트 QR도 함께 있습니다.",['환자 안내']],
+ ['c3','의원: 웰다 Pro에서 파트너 링크 발송',"웰다 Pro 유저 관리에서\n파트너 링크를 발송하는 화면입니다.",['스태프']],
  ['c3','환자가 받는 알림톡',"환자가 받는 카카오 알림톡과\n앱 설치 링크입니다.",['스태프']],
  ['c3','환자 앱 온보딩, 4단계로 진행합니다',"환자가 앱에서 거치는 순서입니다.\n\n1. 웰다 앱 설치\n2. 사전 설문\n3. 목표 · 현재 허리둘레 입력\n4. 리브레 앱 설치 · 연동\n\n4단계는 센서를 부착하는 환자만 진행합니다.\n\n문의 채널(채널톡 웰다)도 함께 안내합니다.",['환자 안내']],
  ['c3','웰다 앱 설치 · 회원가입',"QR로 앱을 받고 회원가입합니다.\n\n파트너 코드가 있으면\n가입 후 입력합니다.\n\n사전 문진까지 이어서 진행합니다.",['환자 안내']],
@@ -176,7 +178,7 @@ const S = [
  ['c4','부가 질문과 코멘트 · 증상 변화',"증상 변화를 묻는 선택 질문입니다.\n\n식곤증, 잦은 허기,\n만성 피로 등을 확인합니다.\n\n이전보다 나아졌는지 물어봅니다.",['상담']],
  ['c4','부가 질문과 코멘트 · 스트레스 · 운동 · 수면',"스트레스 · 운동 · 수면에 대한\n짧은 코멘트입니다. (선택)",['상담']],
  ['c5','Chapter 5 · FAQ',"5장 간지입니다.",['간지']],
- ['c5','자주 묻는 질문',"자주 묻는 질문입니다.\n\n• 저혈당 표시\n• 운동 후 혈당 상승\n• 스파이크와 음식\n• 센서 오류 · 탈락",['FAQ']],
+ ['c5','환자가 자주 묻는 질문',"환자가 자주 묻는 질문과 안내 예시입니다.\n\n• 저혈당 표시\n• 운동 후 혈당 상승\n• 스파이크와 음식\n• 센서 오류 · 탈락",['FAQ']],
  ['end','감사합니다',"마무리 장입니다.",['마무리']]
 ];
 const N = S.length;
@@ -200,7 +202,7 @@ CH.forEach(c => {
   // 전체 보기
   const sec=document.createElement('section'); sec.innerHTML=`<h2><small>${c.label}</small>${c.name}</h2>`;
   const cards=document.createElement('div'); cards.className='cards';
-  idx.forEach(i=>{ const b=slideBtn(i,'thumb'); b.innerHTML=`<img loading="lazy" src="thumbs/t${String(i+1).padStart(2,'0')}.jpg" alt=""><span>${i+1}. ${S[i][1]}</span>`; cards.appendChild(b); });
+  idx.forEach(i=>{ const b=slideBtn(i,'thumb'); b.innerHTML=`<img loading="lazy" src="thumbs/t${String(i+1).padStart(2,'0')}.jpg?v=1118c" alt=""><span>${i+1}. ${S[i][1]}</span>`; cards.appendChild(b); });
   sec.appendChild(cards); $('grid').appendChild(sec);
 });
 $('chsel').addEventListener('change', e => go(+e.target.value));
@@ -208,7 +210,7 @@ $('chsel').addEventListener('change', e => go(+e.target.value));
 function go(i){
   cur = Math.max(0, Math.min(N-1, i));
   const s = S[cur], c = CH.find(c=>c.id===s[0]), n2 = String(cur+1).padStart(2,'0');
-  $('img').src = `slides/s${n2}.jpg`; $('img').alt = `${cur+1}장: ${s[1]}`;
+  $('img').src = `slides/s${n2}.jpg?v=1118c`; $('img').alt = `${cur+1}장: ${s[1]}`;
   $('ttl').textContent = s[1]; $('chip').textContent = `${c.label} · ${c.name}`;
   $('desc').textContent = s[2];
   $('tags').innerHTML = s[3].map(t=>`<span class="tag">${t}</span>`).join('');
@@ -218,11 +220,11 @@ function go(i){
   $('chsel').value = [...$('chsel').options].reverse().find(o=>+o.value<=cur).value;
   // 같은 장 썸네일
   const strip=$('strip'); strip.innerHTML='';
-  S.forEach((x,j)=>{ if(x[0]!==s[0]) return; const b=slideBtn(j,'thumb'); b.setAttribute('aria-current',String(j===cur)); b.innerHTML=`<img loading="lazy" src="thumbs/t${String(j+1).padStart(2,'0')}.jpg" alt=""><span>${j+1}. ${x[1]}</span>`; strip.appendChild(b); });
+  S.forEach((x,j)=>{ if(x[0]!==s[0]) return; const b=slideBtn(j,'thumb'); b.setAttribute('aria-current',String(j===cur)); b.innerHTML=`<img loading="lazy" src="thumbs/t${String(j+1).padStart(2,'0')}.jpg?v=1118c" alt=""><span>${j+1}. ${x[1]}</span>`; strip.appendChild(b); });
   const act = strip.querySelector('[aria-current="true"]'); if (act) act.scrollIntoView({block:'nearest',inline:'nearest'});
   const tocAct = document.querySelector('#toc [aria-current="true"]'); if (tocAct) tocAct.scrollIntoView({block:'nearest'});
   try { history.replaceState(null,'',`#s${cur+1}`); } catch(e){}
-  if (cur+1<N){ const pre=new Image(); pre.src=`slides/s${String(cur+2).padStart(2,'0')}.jpg`; }
+  if (cur+1<N){ const pre=new Image(); pre.src=`slides/s${String(cur+2).padStart(2,'0')}.jpg?v=1118c`; }
 }
 function setGrid(on){ document.body.classList.toggle('gridmode',on); $('btn-grid').classList.toggle('on',on); $('btn-grid').setAttribute('aria-pressed',String(on)); $('btn-grid').textContent = on?'슬라이드 보기':'전체 보기'; }
 $('btn-grid').addEventListener('click', ()=> setGrid(!document.body.classList.contains('gridmode')));
