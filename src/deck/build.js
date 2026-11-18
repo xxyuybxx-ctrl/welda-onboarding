@@ -9,7 +9,7 @@ const OUT = process.argv[2] || require('path').join(__dirname, 'welda_clinical.p
   const sec = t => pres.addSection({ title: t });
   sec('시작'); C1.cover(pres); C1.toc(pres);
   sec('Chapter 1 프로그램 개요');
-  C1.divider(pres, 1, '프로그램 개요', ['웰다 소개 · 생활습관 기록 화면', '서울시 혈당캐치9988 · 권유 대상', 'BD 1장 환자 연결 · 환자와 의원이 얻는 것', '무료 도입 · 비만주사 이후 관리 · 프로그램 4단계']);
+  C1.divider(pres, 1, '프로그램 개요', ['웰다 소개 · 생활습관 기록 화면', '서울시 혈당캐치9988 · 권유 대상', '파트너 링크 환자 연결 · 환자와 의원이 얻는 것', '무료 도입 · 비만주사 이후 관리 · 프로그램 4단계']);
   C1.s04(pres); C1.s05(pres); C1.s43(pres); C1.s44(pres); C1.s06(pres); C1.s07(pres); C1.s08(pres); C1.s09(pres); C1.s10(pres); C1.s11(pres); C1.s12(pres);
   sec('Chapter 2 상담 개요');
   C1.divider(pres, 2, '상담 개요', ['프로그램 시작과 점검', '내원 주기 · 센서 부착 경로', '도입 6단계 · 오늘 정할 세 가지']);
