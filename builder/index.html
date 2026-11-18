@@ -575,13 +575,14 @@ const shortName = l => { const n = (l && l.name) || ''; const i = n.lastIndexOf(
    libs/<id>/slides/<d> { ord, ch, title, desc, tags:[], asset, thumb, file, by, createdAt }   asset/thumb = asset ids
    managers/<d>         { name, hash (사번 해시), createdAt, by }   등록된 관리자는 업로드한 출처 전부를 관리
    Slide ids are global: 's01'..'s44' for yb (display order in YB.ORDER), '<libId>:<docId>' for the rest. */
+const IMGV = { s43: '?v=1118b', s44: '?v=1118b' }; /* 다시 그린 장: 캐시된 옛 이미지 대신 새 이미지 */
 function makeYB(){
   const s = { id: 'yb', name: 'GLP-1 제안_ver.B', builtin: true, order: 0 };
   s.chapters = YB.CH.map(c => ({ id: c.id, name: c.name }));
   s.CH = YB.CH.map(c => ({ id: c.id, label: c.label, name: c.name }));
   s.IDS = YB.ORDER.map(k => 's' + pad(k));
   s.BY = {};
-  s.IDS.forEach((id, i) => { const x = YB.S[+id.slice(1) - 1]; s.BY[id] = { id, src: 'yb', n: i + 1, ch: x[0], title: x[1], desc: x[2], tags: x[3], url: 'slides/' + id + '.jpg', thumb: 'thumbs/t' + id.slice(1) + '.jpg' } });
+  s.IDS.forEach((id, i) => { const x = YB.S[+id.slice(1) - 1]; s.BY[id] = { id, src: 'yb', n: i + 1, ch: x[0], title: x[1], desc: x[2], tags: x[3], url: 'slides/' + id + '.jpg' + (IMGV[id] || ''), thumb: 'thumbs/t' + id.slice(1) + '.jpg' + (IMGV[id] || '') } });
   s.TAGS = ['원장 제안', '스태프', '환자 안내', '화면', '상담', '간지'];
   const P = n => n.map(k => 's' + pad(k));
   s.PRESETS = [
