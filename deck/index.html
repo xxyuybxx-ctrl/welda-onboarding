@@ -202,7 +202,7 @@ CH.forEach(c => {
   // 전체 보기
   const sec=document.createElement('section'); sec.innerHTML=`<h2><small>${c.label}</small>${c.name}</h2>`;
   const cards=document.createElement('div'); cards.className='cards';
-  idx.forEach(i=>{ const b=slideBtn(i,'thumb'); b.innerHTML=`<img loading="lazy" src="thumbs/t${String(i+1).padStart(2,'0')}.jpg?v=1118c" alt=""><span>${i+1}. ${S[i][1]}</span>`; cards.appendChild(b); });
+  idx.forEach(i=>{ const b=slideBtn(i,'thumb'); b.innerHTML=`<img loading="lazy" src="thumbs/t${String(i+1).padStart(2,'0')}.jpg?v=1118d" alt=""><span>${i+1}. ${S[i][1]}</span>`; cards.appendChild(b); });
   sec.appendChild(cards); $('grid').appendChild(sec);
 });
 $('chsel').addEventListener('change', e => go(+e.target.value));
@@ -210,7 +210,7 @@ $('chsel').addEventListener('change', e => go(+e.target.value));
 function go(i){
   cur = Math.max(0, Math.min(N-1, i));
   const s = S[cur], c = CH.find(c=>c.id===s[0]), n2 = String(cur+1).padStart(2,'0');
-  $('img').src = `slides/s${n2}.jpg?v=1118c`; $('img').alt = `${cur+1}장: ${s[1]}`;
+  $('img').src = `slides/s${n2}.jpg?v=1118d`; $('img').alt = `${cur+1}장: ${s[1]}`;
   $('ttl').textContent = s[1]; $('chip').textContent = `${c.label} · ${c.name}`;
   $('desc').textContent = s[2];
   $('tags').innerHTML = s[3].map(t=>`<span class="tag">${t}</span>`).join('');
@@ -220,11 +220,11 @@ function go(i){
   $('chsel').value = [...$('chsel').options].reverse().find(o=>+o.value<=cur).value;
   // 같은 장 썸네일
   const strip=$('strip'); strip.innerHTML='';
-  S.forEach((x,j)=>{ if(x[0]!==s[0]) return; const b=slideBtn(j,'thumb'); b.setAttribute('aria-current',String(j===cur)); b.innerHTML=`<img loading="lazy" src="thumbs/t${String(j+1).padStart(2,'0')}.jpg?v=1118c" alt=""><span>${j+1}. ${x[1]}</span>`; strip.appendChild(b); });
+  S.forEach((x,j)=>{ if(x[0]!==s[0]) return; const b=slideBtn(j,'thumb'); b.setAttribute('aria-current',String(j===cur)); b.innerHTML=`<img loading="lazy" src="thumbs/t${String(j+1).padStart(2,'0')}.jpg?v=1118d" alt=""><span>${j+1}. ${x[1]}</span>`; strip.appendChild(b); });
   const act = strip.querySelector('[aria-current="true"]'); if (act) act.scrollIntoView({block:'nearest',inline:'nearest'});
   const tocAct = document.querySelector('#toc [aria-current="true"]'); if (tocAct) tocAct.scrollIntoView({block:'nearest'});
   try { history.replaceState(null,'',`#s${cur+1}`); } catch(e){}
-  if (cur+1<N){ const pre=new Image(); pre.src=`slides/s${String(cur+2).padStart(2,'0')}.jpg?v=1118c`; }
+  if (cur+1<N){ const pre=new Image(); pre.src=`slides/s${String(cur+2).padStart(2,'0')}.jpg?v=1118d`; }
 }
 function setGrid(on){ document.body.classList.toggle('gridmode',on); $('btn-grid').classList.toggle('on',on); $('btn-grid').setAttribute('aria-pressed',String(on)); $('btn-grid').textContent = on?'슬라이드 보기':'전체 보기'; }
 $('btn-grid').addEventListener('click', ()=> setGrid(!document.body.classList.contains('gridmode')));
