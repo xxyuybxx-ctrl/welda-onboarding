@@ -18,7 +18,7 @@ const THEME = {
 };
 // 색 (hex 전용 옵션에서 쓰는 값)
 const K = {
-  navy: '1B2559', ink: '252B3B', sub: '545E72', muted: '8B94A7', line: 'E3E7F0', panel: 'F5F7FC',
+  navy: '1B2559', ink: '252B3B', sub: '545E72', muted: '8B94A7', line: 'E3E7F0', panel: 'F6F4FF', glassLine: 'E6E1FB',
   violet: '6B4EF0', violetDk: '4A36B8', violetLt: 'EEEAFE', violetMd: 'B9A8F8',
   teal: '1497A8', tealLt: 'E4F5F7', red: 'C2410C', redLt: 'FDF0E8', white: 'FFFFFF'
 };
@@ -40,23 +40,28 @@ function newDeck() {
   const num = { x: W - MX - 0.8, y: 7.06, w: 0.8, h: 0.26, fontFace: FONT, fontSize: 9, color: K.muted, align: 'right', margin: 0 };
 
   pres.defineSlideMaster({
-    title: 'CONTENT', background: { color: 'FFFFFF' },
+    title: 'CONTENT', background: { path: A('bg_content.jpg') },
     objects: [
       ...footer,
-      { placeholder: { options: { name: 'kicker', type: 'body', x: MX, y: 0.42, w: 9, h: 0.3, fontFace: FONT_SB, fontSize: 12, color: K.violet, margin: 0, valign: 'middle', align: 'left' }, text: '' } },
-      { placeholder: { options: { name: 'title', type: 'title', x: MX, y: 0.74, w: W - 2 * MX, h: 0.62, fontFace: FONT, fontSize: 28, bold: true, color: K.navy, margin: 0, valign: 'middle', align: 'left', charSpacing: -0.5 }, text: '' } },
-      { placeholder: { options: { name: 'lead', type: 'body', x: MX, y: 1.42, w: W - 2 * MX, h: 0.5, fontFace: FONT, fontSize: 14, color: K.sub, margin: 0, valign: 'top', align: 'left', lineSpacingMultiple: 1.25 }, text: '' } }
+      { image: { x: MX, y: 0.385, w: 0.25, h: 0.25 * 991 / 832, path: A('hex_violet.png') } },
+      { placeholder: { options: { name: 'kicker', type: 'body', x: MX + 0.36, y: 0.4, w: 9, h: 0.3, fontFace: FONT_SB, fontSize: 12, color: K.violet, margin: 0, valign: 'middle', align: 'left' }, text: '' } },
+      { placeholder: { options: { name: 'title', type: 'title', x: MX, y: 0.76, w: W - 2 * MX, h: 0.62, fontFace: FONT, fontSize: 28, bold: true, color: K.navy, margin: 0, valign: 'middle', align: 'left', charSpacing: -0.85 }, text: '' } },
+      { placeholder: { options: { name: 'lead', type: 'body', x: MX, y: 1.42, w: W - 2 * MX, h: 0.5, fontFace: FONT, fontSize: 14, color: K.sub, margin: 0, valign: 'top', align: 'left', lineSpacingMultiple: 1.28, charSpacing: -0.15 }, text: '' } }
     ],
     slideNumber: num
   });
-  pres.defineSlideMaster({ title: 'DIVIDER', background: { color: 'FFFFFF' }, objects: [...footer], slideNumber: num });
-  pres.defineSlideMaster({ title: 'COVER', background: { color: 'FFFFFF' }, objects: [] });
+  pres.defineSlideMaster({ title: 'DIVIDER', background: { path: A('bg_cover.jpg') }, objects: [...footer], slideNumber: num });
+  pres.defineSlideMaster({ title: 'COVER', background: { path: A('bg_cover.jpg') }, objects: [] });
   return { pres, C };
 }
 
 // 텍스트 상자 (기본: 여백 0, Pretendard)
+// 자간: 24pt 이상 -3%, 16pt 이상 -2%, 그 아래 -1% (charSpacing은 pt 단위)
+function track(fs) { return +(fs * (fs >= 24 ? -0.03 : fs >= 16 ? -0.02 : -0.01)).toFixed(2); }
 function T(slide, text, o) {
-  slide.addText(text, Object.assign({ fontFace: FONT, fontSize: 13, color: K.ink, margin: 0, isTextBox: true, valign: 'top' }, o));
+  const fs = (o && o.fontSize) || 13;
+  const cs = o && o.charSpacing !== undefined ? o.charSpacing : track(fs);
+  slide.addText(text, Object.assign({ fontFace: FONT, fontSize: 13, color: K.ink, margin: 0, isTextBox: true, valign: 'top' }, o, { charSpacing: cs }));
 }
 // 내용 장 머리글
 function head(pres, sec, kicker, title, lead) {
@@ -67,17 +72,29 @@ function head(pres, sec, kicker, title, lead) {
   return s;
 }
 // 육각형 번호 배지 (웰다 로고 모양)
+const HEX3D = { '6B4EF0': 'hex_violet.png', '1497A8': 'hex_teal.png', 'B9A8F8': 'hex_lilac.png', 'EEEAFE': 'hex_lilac.png', 'FFFFFF': 'hex_pearl.png' };
 function hexNum(slide, x, y, n, d = 0.42, o = {}) {
-  slide.addShape('hexagon', { x, y, w: d * 1.08, h: d, fill: { color: o.fill || K.violet }, line: { color: o.fill || K.violet, width: 0 }, objectName: 'badge ' + n });
-  slide.addText(String(n), { x, y, w: d * 1.08, h: d, fontFace: FONT, fontSize: o.size || Math.round(d * 30), bold: true, color: o.color || K.white, align: 'center', valign: 'middle', margin: 0, isTextBox: true });
+  const fill = o.fill || K.violet, img = HEX3D[fill];
+  const fsz = o.size || Math.round(d * 30);
+  if (!img) {
+    slide.addShape('hexagon', { x, y, w: d * 1.08, h: d, fill: { color: fill }, line: { color: fill, width: 0 }, objectName: 'badge ' + n });
+    slide.addText(String(n), { x, y, w: d * 1.08, h: d, fontFace: FONT, fontSize: fsz, bold: true, color: o.color || K.white, align: 'center', valign: 'middle', margin: 0, isTextBox: true });
+    return;
+  }
+  const iw = d * 0.98, ih = iw * 991 / 832;
+  const ix = x + d * 0.54 - iw / 2, iy = y + d / 2 - ih * 0.4465;
+  slide.addImage({ path: A(img), x: ix, y: iy, w: iw, h: ih, altText: '' , objectName: 'badge ' + n });
+  const light = fill === 'EEEAFE' || fill === 'FFFFFF' || fill === 'B9A8F8';
+  slide.addText(String(n), { x: ix, y: iy + ih * 0.011, w: iw, h: ih * 0.871, fontFace: FONT, fontSize: fsz, bold: true, color: o.color || (light ? K.violetDk : K.white), align: 'center', valign: 'middle', margin: 0, isTextBox: true });
 }
 // 카드
 function card(slide, x, y, w, h, o = {}) {
+  const white = !o.fill || o.fill === K.white;
+  const sh = o.shadow === false ? undefined : (o.shadow || white) ? { type: 'outer', color: '4A36B8', opacity: 0.11, blur: 14, offset: 4, angle: 90 } : undefined;
   slide.addShape('roundRect', {
-    x, y, w, h, rectRadius: o.r ?? 0.08,
-    fill: { color: o.fill || K.white }, line: o.line === false ? { type: 'none' } : { color: o.line || K.line, width: 0.75 },
-    shadow: o.shadow ? { type: 'outer', color: '1B2559', opacity: 0.08, blur: 8, offset: 2, angle: 90 } : undefined,
-    objectName: o.name
+    x, y, w, h, rectRadius: o.r ?? 0.12,
+    fill: { color: o.fill || K.white }, line: o.line === false ? { type: 'none' } : { color: o.line || (white ? K.glassLine : K.line), width: 0.75 },
+    shadow: sh, objectName: o.name
   });
 }
 // 이미지를 상자 안에 비율 유지로 넣기 (align: c|l|r, valign: m|t|b)
@@ -91,7 +108,7 @@ function fit(name, x, y, w, h, al = 'c', va = 'm') {
 // 화면 캡처 (흰 테두리 + 그림자)
 function shot(slide, name, x, y, w, h, o = {}) {
   const b = fit(name, x, y, w, h, o.al, o.va);
-  if (o.frame !== false) card(slide, b.x - 0.04, b.y - 0.04, b.w + 0.08, b.h + 0.08, { r: 0.05, shadow: true, line: K.line });
+  if (o.frame !== false) card(slide, b.x - 0.05, b.y - 0.05, b.w + 0.1, b.h + 0.1, { r: 0.07, line: K.glassLine });
   slide.addImage({ path: A(name), x: b.x, y: b.y, w: b.w, h: b.h, altText: o.alt || name, rounding: false });
   return b;
 }
@@ -118,8 +135,16 @@ function notes(slide, t) { if (t) slide.addNotes(t); }
 // 아이콘 (원형 배경 + Lucide 아이콘). ICON[name+color] 경로는 빌드 전에 만들어 둠
 const ICON = {};
 const icoPath = (n, c) => path.join(__dirname, 'assets', 'icons', `${n}_${c}.png`);
+const ICON3D = { LuUtensils: 'ic_meal', LuSalad: 'ic_meal', LuFootprints: 'ic_walk', LuDumbbell: 'ic_walk', LuTimer: 'ic_fast', LuThermometer: 'ic_symptom',
+  LuTag: 'ic_tag', LuRuler: 'ic_body', LuScale: 'ic_body', LuActivity: 'ic_heart', LuClipboardList: 'ic_clip', LuNotebookPen: 'ic_clip', LuSearch: 'ic_search' };
+function img3d(slide, file, x, y, d, sc = 1.0) {
+  const [iw, ih] = SIZES['3d/' + file]; const r = Math.min(d * sc / iw, d * sc / ih);
+  const w = iw * r, h = ih * r;
+  slide.addImage({ path: A('3d/' + file), x: x + (d - w) / 2, y: y + (d - h) / 2, w, h, altText: '' });
+}
 function ico(slide, name, x, y, d = 0.5, o = {}) {
   const bg = o.bg === undefined ? K.violetLt : o.bg, col = o.color || K.violet;
+  if (bg && ICON3D[name] && o.flat !== true) { img3d(slide, ICON3D[name] + '.png', x, y, d, 1.15); return; }
   ICON[name + '|' + col] = 1;
   if (bg) slide.addShape('ellipse', { x, y, w: d, h: d, fill: { color: bg }, line: { type: 'none' } });
   const p = bg ? d * 0.24 : 0;
@@ -173,4 +198,4 @@ function guideRow(slide, items, y, h, o = {}) {
 }
 function iconsNeeded() { return Object.keys(ICON).map(k => k.split('|')); }
 
-module.exports = { pptxgen, THEME, K, FONT, FONT_SB, W, H, MX, SIZES, A, newDeck, T, head, hexNum, card, fit, shot, hl, source, notes, ico, rich, paras, note, stepText, guideRow, iconsNeeded };
+module.exports = { img3d, track, pptxgen, THEME, K, FONT, FONT_SB, W, H, MX, SIZES, A, newDeck, T, head, hexNum, card, fit, shot, hl, source, notes, ico, rich, paras, note, stepText, guideRow, iconsNeeded };

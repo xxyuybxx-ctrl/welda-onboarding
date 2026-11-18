@@ -1,18 +1,28 @@
 const L = require('./lib');
-const { K, T, head, hexNum, card, shot, hl, source, A, W, MX, FONT, FONT_SB, ico, rich, paras, note, stepText, SIZES } = L;
+const { K, T, head, hexNum, card, shot, hl, source, A, W, MX, FONT, FONT_SB, ico, rich, paras, note, stepText, SIZES, img3d } = L;
 const SEC = 'Chapter 1 프로그램 개요', KC = 'Chapter 1 · 프로그램 개요';
 
+// 이미지 넣기 (w 또는 h 하나만 주면 비율 유지)
+function pic(s, name, x, y, w, h, o = {}) {
+  const [iw, ih] = SIZES[name];
+  if (w && !h) h = w * ih / iw; if (h && !w) w = h * iw / ih;
+  s.addImage(Object.assign({ path: A(name), x, y, w, h, altText: o.alt || '' }, o.tp ? { transparency: o.tp } : {}));
+  return { x, y, w, h };
+}
 function cover(pres) {
   const s = pres.addSlide({ masterName: 'COVER', sectionTitle: '시작' });
-  s.addShape('rect', { x: 6.55, y: 0, w: 6.783, h: 7.5, fill: { color: K.panel }, line: { type: 'none' } });
-  shot(s, 'pro_timeline.png', 7.15, 1.35, 5.4, 4.2);
-  shot(s, 'app_home.png', 6.75, 3.15, 1.75, 3.9);
-  s.addImage({ path: A('logo.png'), x: MX + 0.02, y: 1.55, w: 2.9, h: 2.9 * 409 / 1723, altText: 'Welda 로고' });
-  T(s, '웰다 의원 도입 안내', { x: MX, y: 2.6, w: 5.8, h: 0.8, fontSize: 36, bold: true, color: K.navy, charSpacing: -1 });
-  T(s, '혈당 데이터 기반 생활습관 관리 프로그램', { x: MX, y: 3.42, w: 5.8, h: 0.4, fontSize: 17, color: K.sub });
-  s.addShape('roundRect', { x: MX, y: 4.15, w: 1.55, h: 0.36, rectRadius: 0.18, fill: { color: K.violetLt }, line: { type: 'none' } });
-  T(s, '의료진 교육자료', { x: MX, y: 4.15, w: 1.55, h: 0.36, fontSize: 11.5, fontFace: FONT_SB, color: K.violetDk, align: 'center', valign: 'middle' });
-  T(s, '대웅제약 디지털헬스케어  |  2026.11', { x: MX, y: 6.7, w: 5.5, h: 0.3, fontSize: 10.5, color: K.muted });
+  pic(s, 'hex_lilac.png', 11.55, 0.35, 1.5, null, { tp: 20 });
+  pic(s, 'hex_pearl.png', 6.15, 5.9, 0.95);
+  pic(s, 'm_timeline.png', 6.35, 1.05, 6.3, null, { alt: '웰다 Pro 타임라인 화면' });
+  pic(s, 'p_home.png', 10.75, 2.75, null, 4.35, { alt: '웰다 앱 홈 화면' });
+  pic(s, '3d/char_fork.png', 5.55, 3.85, 1.65);
+  s.addImage({ path: A('logo.png'), x: MX + 0.1, y: 0.62, w: 1.75, h: 1.75 * 409 / 1723, altText: 'Welda 로고' });
+  T(s, '의료진 교육자료', { x: MX + 0.1, y: 2.1, w: 4, h: 0.34, fontSize: 14, fontFace: FONT_SB, color: K.violet, charSpacing: 0 });
+  T(s, '웰다 의원\n도입 안내', { x: MX + 0.1, y: 2.5, w: 5.4, h: 1.9, fontSize: 52, bold: true, color: K.navy, lineSpacingMultiple: 1.05 });
+  T(s, '혈당 데이터 기반 생활습관 관리 프로그램', { x: MX + 0.1, y: 4.5, w: 5.2, h: 0.4, fontSize: 18, color: K.sub });
+  s.addShape('rect', { x: MX + 0.1, y: 5.25, w: 0.5, h: 0.04, fill: { color: K.violet }, line: { type: 'none' } });
+  T(s, '대웅제약 디지털헬스케어', { x: MX + 0.1, y: 5.45, w: 4.5, h: 0.3, fontSize: 13, fontFace: FONT_SB, color: K.navy });
+  T(s, '2026.11', { x: MX + 0.1, y: 5.78, w: 4.5, h: 0.3, fontSize: 13, color: K.muted });
 }
 
 const TOC = [
@@ -35,14 +45,18 @@ function toc(pres) {
   });
 }
 
+const DIV_CHAR = { 1: '3d/char_fork.png', 2: '3d/char_glasses.png', 3: '3d/char_gym.png', 4: '3d/char_pillow.png', 5: '3d/char_bubble.png' };
 function divider(pres, no, title, items) {
   const s = pres.addSlide({ masterName: 'DIVIDER', sectionTitle: 'Chapter ' + no + ' ' + title });
-  s.addShape('hexagon', { x: 8.55, y: 1.35, w: 4.3, h: 3.75, fill: { type: 'none' }, line: { color: K.violetLt, width: 22 } });
-  s.addShape('hexagon', { x: 11.35, y: 4.55, w: 1.25, h: 1.08, fill: { color: K.violetLt }, line: { type: 'none' } });
-  T(s, String(no).padStart(2, '0'), { x: MX, y: 1.5, w: 3, h: 1.3, fontSize: 88, bold: true, color: K.violet, charSpacing: -2 });
-  T(s, 'Chapter ' + no, { x: MX + 0.04, y: 2.9, w: 4, h: 0.4, fontSize: 16, fontFace: FONT_SB, color: K.violet });
-  T(s, title, { x: MX, y: 3.3, w: 7.5, h: 0.9, fontSize: 40, bold: true, color: K.navy, charSpacing: -1 });
-  T(s, items.map((t, i) => ({ text: t, options: { breakLine: i < items.length - 1 } })), { x: MX + 0.04, y: 4.5, w: 7.5, h: 2.2, fontSize: 15, color: K.sub, lineSpacingMultiple: 1.55 });
+  pic(s, 'hex_lilac.png', 8.3, 0.75, 3.9, null, { tp: 35 });
+  pic(s, 'hex_pearl.png', 11.75, 4.9, 0.9);
+  pic(s, 'hex_violet.png', 7.75, 5.35, 0.55);
+  const c = DIV_CHAR[no]; const [iw, ih] = SIZES[c]; const ch = 3.0, cw = ch * iw / ih;
+  pic(s, c, 10.25 - cw / 2, 2.05, cw, ch);
+  T(s, String(no).padStart(2, '0'), { x: MX, y: 1.5, w: 3, h: 1.3, fontSize: 88, bold: true, color: K.violet });
+  T(s, 'Chapter ' + no, { x: MX + 0.04, y: 2.9, w: 4, h: 0.4, fontSize: 16, fontFace: FONT_SB, color: K.violet, charSpacing: 0 });
+  T(s, title, { x: MX, y: 3.3, w: 7.0, h: 0.9, fontSize: 40, bold: true, color: K.navy });
+  T(s, items.map((t, i) => ({ text: t, options: { breakLine: i < items.length - 1 } })), { x: MX + 0.04, y: 4.5, w: 6.8, h: 2.2, fontSize: 15, color: K.sub, lineSpacingMultiple: 1.55 });
 }
 
 function s04(pres) {
@@ -184,24 +198,23 @@ function s07(pres) {
 
 function s08(pres) {
   const s = head(pres, SEC, KC, '파트너 링크 한 번이면, 환자 연결은 웰다가 이어갑니다',
-    '웰다 Pro에서 환자 이름과 전화번호로 파트너 링크를 보내면, 환자가 카카오톡 알림톡으로 앱을 설치하고 의원 웰다 Pro에 연결됩니다.');
-  const b = shot(s, 's19_pro.png', MX, 2.05, 6.9, 4.4, { al: 'l', va: 't' });
-  hl(s, b, 's19_pro.png', [3480, 170, 4130, 385], 1, { badge: 'tl' });
-  hl(s, b, 's19_pro.png', [1350, 875, 2965, 2405], 2);
-  T(s, '웰다 Pro › 유저 관리 · 파트너 연결 링크 발송 화면', { x: b.x, y: b.y + b.h + 0.12, w: b.w, h: 0.26, fontSize: 10.5, color: K.sub });
-  const x0 = b.x + b.w + 0.5, w0 = W - MX - x0;
+    '웰다 Pro에서 환자 이름과 전화번호로 링크를 보내면, 환자가 알림톡으로 앱을 설치하고 의원 웰다 Pro에 연결됩니다.');
+  const m = pic(s, 'm_link.png', 0.4, 2.2, 5.3, null, { alt: '웰다 Pro 파트너 연결 링크 발송 화면' });
+  s.addShape('roundRect', { x: m.x + m.w * 0.78, y: m.y + m.h * 0.094, w: m.w * 0.155, h: m.h * 0.056, rectRadius: 0.06, fill: { type: 'none' }, line: { color: 'F59E0B', width: 2.25 } });
+  pic(s, 'p_kakao.png', 4.7, 3.25, null, 3.3, { alt: '카카오톡 알림톡 화면' });
   const st = [['[파트너 링크 발송]', '웰다 Pro › 유저 관리 오른쪽 위 버튼'], ['환자 정보 입력 후 발송', '파트너 코드 · 이름 · 전화번호'], ['알림톡으로 앱 설치', '카카오톡 「웰다」 링크 · 24시간 유효'], ['의원 웰다 Pro에 연결', '사전 문진 확인 후 기록이 진료실로']];
+  const sx = 7.75, sw = W - MX - sx;
   st.forEach((t, i) => {
-    const y = 2.05 + i * 0.78;
-    hexNum(s, x0, y + 0.06, i + 1, 0.42);
-    T(s, t[0], { x: x0 + 0.62, y, w: w0 - 0.62, h: 0.3, fontSize: 14.5, bold: true, color: K.navy });
-    T(s, t[1], { x: x0 + 0.62, y: y + 0.33, w: w0 - 0.62, h: 0.28, fontSize: 12, color: K.sub });
+    const y = 2.3 + i * 0.96;
+    card(s, sx, y, sw, 0.8);
+    hexNum(s, sx + 0.2, y + 0.17, i + 1, 0.46, { size: 15 });
+    T(s, t[0], { x: sx + 0.88, y: y + 0.13, w: sw - 1.0, h: 0.32, fontSize: 15.5, bold: true, color: K.navy });
+    T(s, t[1], { x: sx + 0.88, y: y + 0.45, w: sw - 1.0, h: 0.28, fontSize: 12.5, color: K.sub });
   });
-  card(s, x0, 5.25, w0, 1.2, { fill: K.violetLt, line: false, r: 0.08 });
-  T(s, '의원이 할 일은', { x: x0 + 0.3, y: 5.38, w: w0 - 0.6, h: 0.26, fontSize: 11.5, fontFace: FONT_SB, color: K.violetDk });
-  T(s, '링크 발송 하나', { x: x0 + 0.3, y: 5.64, w: w0 - 0.6, h: 0.45, fontSize: 22, bold: true, color: K.violet });
-  T(s, '설치 · 가입 · 기록 안내는 알림톡과 앱이 맡습니다', { x: x0 + 0.3, y: 6.08, w: w0 - 0.6, h: 0.26, fontSize: 11, color: K.ink });
-  source(s, '알림톡을 받지 못했다면 웰다 Pro에서 링크를 다시 보낼 수 있습니다. 화면별 순서는 Chapter 3 「의원: 웰다 Pro에서 파트너 링크 발송」을 참고하세요.', 6.6);
+  s.addShape('roundRect', { x: sx, y: 6.2, w: sw, h: 0.5, rectRadius: 0.25, fill: { color: K.violet }, line: { type: 'none' } });
+  T(s, [{ text: '의원이 할 일은 ', options: {} }, { text: '링크 발송 하나', options: { bold: true } }, { text: '. 설치 · 가입 안내는 알림톡이 맡습니다', options: {} }],
+    { x: sx, y: 6.2, w: sw, h: 0.5, fontSize: 12.5, color: K.white, align: 'center', valign: 'middle' });
+  pic(s, '3d/char_gym.png', 12.0, 0.3, 0.8);
 }
 
 function s09(pres) {
@@ -283,35 +296,37 @@ function s11(pres) {
   const s = head(pres, SEC, KC, '비만주사 치료, 처방만으로 충분할까요?',
     '치료를 중단하면 체중이 빠르게 다시 늘 수 있습니다. 투약 중부터 생활습관 관리를 함께 시작해야 하는 이유입니다.');
   const items = [
-    ['가격 경쟁', '최저가 중심의 경쟁으로 환자가 이탈하고, 지속 관리와 재방문이 줄어듭니다'],
-    ['중단 후 체중 재증가', '투약을 멈추면 체중과 대사 지표가 치료 전 수준으로 돌아가는 경향이 보고됩니다'],
-    ['허가사항의 전제', '삭센다 · 위고비 · 마운자로의 미국 허가사항은 모두 식이요법 · 신체활동 병행을 전제로 합니다']
+    ['ic_tag.png', '가격 경쟁', '최저가 중심 경쟁으로 환자가 이탈하고, 지속 관리와 재방문이 줄어듭니다'],
+    ['ic_heart.png', '중단 후 체중 재증가', '투약을 멈추면 체중과 대사 지표가 치료 전 수준으로 돌아가는 경향이 보고됩니다'],
+    ['ic_clip.png', '허가사항의 전제', '삭센다 · 위고비 · 마운자로 미국 허가사항은 식이요법 · 신체활동 병행을 전제로 합니다']
   ];
-  items.forEach((it, i) => {
-    const y = 2.15 + i * 1.33;
-    card(s, MX, y, 5.6, 1.18, {});
-    hexNum(s, MX + 0.28, y + 0.2, i + 1, 0.42);
-    T(s, it[0], { x: MX + 0.95, y: y + 0.18, w: 4.4, h: 0.32, fontSize: 15.5, bold: true, color: K.navy });
-    T(s, it[1], { x: MX + 0.95, y: y + 0.52, w: 4.45, h: 0.6, fontSize: 12.5, color: K.ink, lineSpacingMultiple: 1.22 });
+  items.forEach((t, i) => {
+    const y = 2.3 + i * 1.3;
+    card(s, MX, y, 5.6, 1.12);
+    img3d(s, t[0], MX + 0.2, y + 0.15, 0.82, 1.0);
+    T(s, t[1], { x: MX + 1.3, y: y + 0.17, w: 4.1, h: 0.32, fontSize: 16, bold: true, color: K.navy });
+    T(s, t[2], { x: MX + 1.3, y: y + 0.52, w: 4.15, h: 0.55, fontSize: 12.5, color: K.ink, lineSpacingMultiple: 1.25 });
   });
-  const px = 6.55, pw = W - MX - px;
-  card(s, px, 2.15, pw, 3.84, { fill: K.panel, line: false, r: 0.1 });
-  T(s, '투약 중단 후 월평균 체중 재증가', { x: px + 0.35, y: 2.35, w: pw - 0.7, h: 0.32, fontSize: 15, bold: true, color: K.navy });
-  T(s, '비만치료제 중단 연구 37편 · 9,341명 메타분석', { x: px + 0.35, y: 2.68, w: pw - 0.7, h: 0.26, fontSize: 11, color: K.sub });
-  s.addChart('bar', [{ name: '중단 후 월평균 재증가(kg)', labels: ['전체 비만치료제', '세마 · 터제'], values: [0.4, 0.8] }], {
-    x: px + 0.2, y: 3.0, w: 3.0, h: 2.85, barDir: 'col', barGapWidthPct: 60, catAxisLabelRotate: 0,
-    chartColors: [K.violetMd, K.violet], showValue: true, dataLabelPosition: 'outEnd', dataLabelFormatCode: '0.0"kg"',
-    dataLabelFontFace: '+mn-lt', dataLabelFontSize: 13, dataLabelFontBold: true, dataLabelColor: K.navy,
-    catAxisLabelFontFace: '+mn-lt', catAxisLabelFontSize: 10, catAxisLabelColor: K.sub, catAxisLineShow: false,
-    valAxisHidden: true, valAxisMinVal: 0, valAxisMaxVal: 1.0, valGridLine: { style: 'none' }, catGridLine: { style: 'none' },
-    showLegend: false, showTitle: false, varyColors: true
+  const px = 6.55, pw = W - MX - px, py = 2.3, ph = 3.72;
+  card(s, px, py, pw, ph, { fill: 'F7F5FF', line: 'E2DCFD', shadow: true });
+  T(s, '투약 중단 후 월평균 체중 재증가', { x: px + 0.4, y: py + 0.3, w: pw - 0.8, h: 0.34, fontSize: 15.5, bold: true, color: K.navy });
+  T(s, '비만치료제 중단 연구 37편 · 9,341명 메타분석', { x: px + 0.4, y: py + 0.66, w: pw - 0.8, h: 0.28, fontSize: 11.5, color: K.sub });
+  const base = py + 3.25, scale = 2.4;
+  [['전체 비만치료제', 0.4, K.violetMd], ['세마 · 터제', 0.8, K.violet]].forEach((b, i) => {
+    const bx = px + 0.55 + i * 1.35, bh = b[1] * scale;
+    s.addShape('roundRect', { x: bx, y: base - bh, w: 0.9, h: bh, rectRadius: 0.12, fill: { color: b[2] }, line: { type: 'none' }, shadow: { type: 'outer', color: '4A36B8', opacity: 0.25, blur: 10, offset: 4, angle: 90 } });
+    s.addShape('roundRect', { x: bx + 0.1, y: base - bh + 0.08, w: 0.2, h: bh - 0.2, rectRadius: 0.1, fill: { color: K.white, transparency: 72 }, line: { type: 'none' } });
+    T(s, b[1].toFixed(1) + 'kg', { x: bx - 0.3, y: base - bh - 0.48, w: 1.5, h: 0.4, fontSize: 20, bold: true, color: K.navy, align: 'center' });
+    T(s, b[0], { x: bx - 0.35, y: base + 0.1, w: 1.6, h: 0.28, fontSize: 11, color: K.sub, align: 'center', charSpacing: 0 });
   });
-  const sx = px + 3.4, sw = pw - 3.7;
-  T(s, '약 1.5년', { x: sx, y: 3.05, w: sw, h: 0.5, fontSize: 26, bold: true, color: K.violet });
-  T(s, '세마글루타이드 · 터제파타이드 중단 후 치료 전 체중으로 돌아가는 데 걸리는 기간(모델 추정)', { x: sx, y: 3.58, w: sw, h: 0.8, fontSize: 11.5, color: K.ink, lineSpacingMultiple: 1.2 });
-  T(s, '월 0.3kg', { x: sx, y: 4.5, w: sw, h: 0.5, fontSize: 26, bold: true, color: K.violet });
-  T(s, '행동요법 프로그램을 마친 뒤보다 약물 중단 뒤 체중이 더 빨리 늘어난 차이', { x: sx, y: 5.03, w: sw, h: 0.8, fontSize: 11.5, color: K.ink, lineSpacingMultiple: 1.2 });
-  source(s, '출처: West S, et al. BMJ 2026;392:e085304 (37편, 9,341명). 세마 · 터제 자료는 8편, 중단 후 최대 12개월 추적이며 이후는 모델 추정입니다. 이 연구에서 투약 중 행동 지원 병행이 중단 후 재증가 속도를 늦추지는 않았습니다. 허가사항: 미국 FDA 처방정보 기준.', 6.25);
+  const sx = px + 3.35, sw = pw - 3.6;
+  s.addShape('line', { x: sx - 0.2, y: py + 1.15, w: 0, h: 2.3, line: { color: 'DCD5FB', width: 1 } });
+  T(s, '약 1.5년', { x: sx, y: py + 1.15, w: sw, h: 0.55, fontSize: 30, bold: true, color: K.violet });
+  T(s, '세마 · 터제 중단 후 치료 전 체중으로 돌아가는 데 걸리는 기간(모델 추정)', { x: sx, y: py + 1.72, w: sw, h: 0.62, fontSize: 11.5, color: K.ink, lineSpacingMultiple: 1.25 });
+  T(s, '월 0.3kg', { x: sx, y: py + 2.42, w: sw, h: 0.55, fontSize: 30, bold: true, color: K.violet });
+  T(s, '행동요법 프로그램 종료 뒤보다 약물 중단 뒤 더 빨리 늘어난 차이', { x: sx, y: py + 2.99, w: sw, h: 0.62, fontSize: 11.5, color: K.ink, lineSpacingMultiple: 1.25 });
+  pic(s, '3d/char_glasses.png', 11.9, 0.3, 0.9);
+  source(s, '출처: West S, et al. BMJ 2026;392:e085304 (37편, 9,341명). 세마 · 터제 자료는 8편, 중단 후 최대 12개월 추적이며 이후는 모델 추정입니다. 이 연구에서 투약 중 행동 지원 병행이 중단 후 재증가 속도를 늦추지는 않았습니다. 허가사항: 미국 FDA 처방정보 기준.', 6.3);
 }
 
 function s12(pres) {

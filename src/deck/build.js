@@ -1,7 +1,7 @@
 const L = require('./lib');
 const C1 = require('./ch1'), C23 = require('./ch23'), C45 = require('./ch45');
 const { icon } = require('./icons');
-const { applyTheme } = (() => { try { return require(process.env.APPLY_THEME || '/root/.claude/skills/synced/d2754c4c-e08e-4051-960e-16da95af79bc_87a7912a-0de5-446e-9f6d-0d29ce33293a/pptx/scripts/apply_theme.js') } catch (e) { return { applyTheme: async () => {} } } })();
+const { applyTheme } = require('/root/.claude/skills/synced/d2754c4c-e08e-4051-960e-16da95af79bc_87a7912a-0de5-446e-9f6d-0d29ce33293a/pptx/scripts/apply_theme.js');
 
 const OUT = process.argv[2] || require('path').join(__dirname, 'welda_clinical.pptx');
 (async () => {

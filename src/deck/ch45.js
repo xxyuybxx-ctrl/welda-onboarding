@@ -1,5 +1,5 @@
 const L = require('./lib');
-const { K, T, head, hexNum, card, shot, hl, source, A, W, MX, FONT, FONT_SB, ico, rich, paras, note } = L;
+const { K, T, head, hexNum, card, shot, hl, source, A, W, MX, FONT, FONT_SB, ico, rich, paras, note, SIZES, img3d } = L;
 const S4 = 'Chapter 4 재방문 프로토콜', K4 = 'Chapter 4 · 재방문 프로토콜';
 const S5 = 'Chapter 5 FAQ', K5 = 'Chapter 5 · FAQ';
 
@@ -152,12 +152,12 @@ function s37(pres) {
 
 function s38(pres) {
   const s = head(pres, S4, K4, '부가 질문과 코멘트 · 증상 변화', '혈당 지표와 식습관이 모두 양호하면, 증상 변화를 묻고 스트레스 · 운동 · 수면에 대해 짧게 코멘트해 주세요. (선택)');
-  const items = [['LuCoffee', '식곤증'], ['LuUtensils', '잦은 허기'], ['LuBatteryLow', '만성 피로'], ['LuDroplet', '부종'], ['LuHand', '피부 염증'], ['LuMoon', '수면 부족'], ['LuCloudRain', '우울 · 불안감'], ['LuCalendarDays', '생리불순']];
+  const items = [['sym_sleepy', '식곤증'], ['sym_hunger', '잦은 허기'], ['sym_fatigue', '만성 피로'], ['sym_edema', '부종'], ['sym_skin', '피부 염증'], ['sym_sleep', '수면 부족'], ['sym_mood', '우울 · 불안감'], ['sym_period', '생리불순']];
   const top = 2.2, cw = (12.133 - 3 * 0.3) / 4, chh = 1.05;
   items.forEach((it, i) => {
     const x = MX + (i % 4) * (cw + 0.3), y = top + Math.floor(i / 4) * (chh + 0.3);
-    card(s, x, y, cw, chh, { fill: K.panel, line: false, r: 0.5 });
-    ico(s, it[0], x + 0.25, y + (chh - 0.6) / 2, 0.6, { bg: K.white });
+    card(s, x, y, cw, chh, { r: 0.5 });
+    img3d(s, it[0] + '.png', x + 0.2, y + (chh - 0.72) / 2, 0.72, 1.0);
     T(s, it[1], { x: x + 1.05, y, w: cw - 1.2, h: chh, fontSize: 17, bold: true, color: K.navy, valign: 'middle' });
   });
   card(s, MX, 5.15, 12.133, 1.15, { fill: K.violetLt, line: false });
@@ -205,10 +205,14 @@ function s41(pres) {
 
 function s42(pres) {
   const s = pres.addSlide({ masterName: 'COVER', sectionTitle: '마무리' });
-  s.addShape('hexagon', { x: 8.55, y: 1.35, w: 4.3, h: 3.75, fill: { type: 'none' }, line: { color: K.violetLt, width: 22 } });
-  s.addShape('hexagon', { x: 11.35, y: 4.55, w: 1.25, h: 1.08, fill: { color: K.violetLt }, line: { type: 'none' } });
+  const pic = (n, x, y, w, tp) => { const [iw, ih] = SIZES[n]; s.addImage(Object.assign({ path: A(n), x, y, w, h: w * ih / iw, altText: '' }, tp ? { transparency: tp } : {})); };
+  pic('hex_lilac.png', 8.2, 0.7, 4.2, 35);
+  pic('3d/char_glasses.png', 9.15, 2.85, 2.3);
+  pic('3d/char_fork.png', 7.55, 3.85, 1.75);
+  pic('3d/char_gym.png', 11.45, 4.05, 1.4);
+  pic('hex_pearl.png', 6.9, 1.6, 0.7);
   s.addImage({ path: A('logo.png'), x: MX + 0.02, y: 2.05, w: 2.3, h: 2.3 * 409 / 1723, altText: 'Welda 로고' });
-  T(s, '감사합니다', { x: MX, y: 2.85, w: 7, h: 1.0, fontSize: 48, bold: true, color: K.navy, charSpacing: -1.5 });
+  T(s, '감사합니다', { x: MX, y: 2.85, w: 7, h: 1.0, fontSize: 48, bold: true, color: K.navy });
   T(s, '웰다 도입과 운영은 교육간호사가 함께합니다.', { x: MX, y: 3.95, w: 7, h: 0.4, fontSize: 17, color: K.sub });
   T(s, '대웅제약 디지털헬스케어', { x: MX, y: 6.7, w: 5.5, h: 0.3, fontSize: 10.5, color: K.muted });
 }

@@ -565,7 +565,7 @@ const ORDER = [1,2,3,4,5,43,44,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23
 return { CH, S, ORDER } })();
 const $ = id => document.getElementById(id);
 const pad = n => String(n).padStart(2, '0');
-const COVER_ID = 's01', COVER_BASE = 'slides/s01.jpg?v=1118d';
+const COVER_ID = 's01', COVER_BASE = 'slides/s01.jpg?v=1118e';
 const SALT = 'welda-builder|';
 const shortName = l => { const n = (l && l.name) || ''; const i = n.lastIndexOf('_'); return (i >= 0 && i < n.length - 1) ? n.slice(i + 1).trim() : n };
 
@@ -575,7 +575,7 @@ const shortName = l => { const n = (l && l.name) || ''; const i = n.lastIndexOf(
    libs/<id>/slides/<d> { ord, ch, title, desc, tags:[], asset, thumb, file, by, createdAt }   asset/thumb = asset ids
    managers/<d>         { name, hash (사번 해시), createdAt, by }   등록된 관리자는 업로드한 출처 전부를 관리
    Slide ids are global: 's01'..'s44' for yb (display order in YB.ORDER), '<libId>:<docId>' for the rest. */
-const IMGV = '?v=1118d'; /* 의료진용 새 테마(2026.11.18) 이미지: 캐시된 옛 그림 대신 새 그림 */
+const IMGV = '?v=1118e'; /* 의료진용 새 테마(2026.11.18) 이미지: 캐시된 옛 그림 대신 새 그림 */
 function makeYB(){
   const s = { id: 'yb', name: 'GLP-1 제안_ver.B', builtin: true, order: 0 };
   s.chapters = YB.CH.map(c => ({ id: c.id, name: c.name }));

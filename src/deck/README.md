@@ -11,7 +11,12 @@
 만들기: `python3 sizes.py && node build.js` (Node `pptxgenjs`, `react-icons`, `sharp` 필요, 글꼴 Pretendard)
 이미지 · PDF: `render.sh welda_clinical.pptx out/s 180` (LibreOffice. 한글과 영문 사이 자동 띄어쓰기를 끄고 변환)
 
-서식 기준
-- 흰 배경, 제목 네이비 #1B2559 28pt 굵게, 챕터 라벨 보라 #6B4EF0 12pt, 본문 #252B3B
+서식 기준 (2026.11.18 3D 개편)
+- 흰 배경 + 연보라 빛 번짐 배경(`assets/bg_*.jpg`), 제목 네이비 #1B2559 28pt 굵게, 챕터 라벨 보라 #6B4EF0 12pt, 본문 #252B3B
+- 자간: 24pt 이상 -3%, 16pt 이상 -2%, 그 아래 -1% (`lib.js`의 `track()`)
+- 번호 배지는 3D 육각형 이미지(`hex_*.png`), 카드는 흰 유리 카드 + 연보라 그림자
+- 식사 · 운동 · 단식 · 증상 · 태그 · 신체 등 아이콘은 웰다 3D 아이콘(`assets/3d/ic_*.png`), 증상 장은 3D 이모지(`sym_*.png`)
+- 표지 · 챕터 표지 · 마무리 · 10p · 13p에 도당이 캐릭터(`char_*.png`)와 3D 모니터 · 휴대폰 목업(`m_*.png`, `p_*.png`)
+- 3D 자산 만들기: `tools/cutout.py`(배경 제거), `tools/mockup.py`(목업), `tools/hex3d.py`(육각형 · 배경)
 - 강조 박스는 보라 실선 + 육각형 번호 배지, 빨간 박스 쓰지 않음
 - 합니다체, '해 주세요' 띄어 쓰기, 용어: 연속혈당측정기(센서) · 웰다 Pro · 당뇨전단계
