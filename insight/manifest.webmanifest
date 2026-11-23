@@ -1,0 +1,1 @@
+{"name": "웰다 Insight 책장", "short_name": "웰다 Insight", "start_url": "./", "display": "standalone", "background_color": "#F3F5FC", "theme_color": "#4F5DC4", "icons": [{"src": "app-192.png", "sizes": "192x192", "type": "image/png"}, {"src": "app-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}]}
