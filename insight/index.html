@@ -2052,6 +2052,7 @@ body.sheet-open{overflow:hidden}
     let meta;
     try { meta = await (await fetch('data/meta.json', { cache: 'no-cache' })).json(); } catch (e) { $('#lock-msg').textContent = '자료 정보를 불러오지 못했습니다. 새로고침해 주세요.'; return; }
     state.ver = meta.ver; state.salt = meta.salt;
+    if (meta.k) { const lo = $("#logout"); if (lo) lo.hidden = true; try { const key = await crypto.subtle.importKey("raw", B64(meta.k), { name: "AES-GCM" }, true, ["decrypt"]); await unlock(key, false); return; } catch (e) { /* fall back to password */ } }
     const kept = store.get('welda-key');
     if (kept && kept.split('|')[1] === meta.salt) {
       try { const key = await crypto.subtle.importKey('raw', B64(kept.split('|')[0]), { name: 'AES-GCM' }, true, ['decrypt']); await unlock(key, false); return; }
