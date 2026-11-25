@@ -1,7 +1,21 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow"><title>웰다 Insight 책장</title>
-<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}</style>
+<style>:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}img{max-width:100%}[hidden]{display:none!important}:root{--lv1:#0E7C66;--lv2:#2E7D32;--lv3:#2F6FB3;--lv4:#8A6D1F;--lv5:#7A8496}
+.lvb{display:inline-flex;align-items:center;justify-content:center;align-self:flex-start;min-width:44px;padding:2px 8px;border-radius:8px;font-size:12px;font-weight:800;color:#fff;letter-spacing:.2px}
+.lvb.lv1{background:var(--lv1)}.lvb.lv2{background:var(--lv2)}.lvb.lv3{background:var(--lv3)}.lvb.lv4{background:var(--lv4)}.lvb.lv5{background:var(--lv5)}
+.ixb{display:inline-flex;align-items:center;padding:1px 8px;border-radius:6px;font-size:11.5px;font-weight:700;line-height:1.65;white-space:nowrap}
+.ixb.top{background:#1F3A5F;color:#fff}.ixb.sci{background:#E3F1EC;color:#0B5E4B}.ixb.mid{background:#E7EEFB;color:#22407A}.ixb.low{background:var(--soft);color:var(--muted)}
+.ifb{display:inline-flex;align-items:center;padding:1px 8px;border-radius:6px;font-size:11.5px;font-weight:700;line-height:1.65;white-space:nowrap;background:#FFF4DC;color:#7A5200}
+.ifb.ref{background:#FBF7EE;color:#8A6D1F;font-weight:600}
+.pmeta{margin:2px 0 6px}
+.pabs b{color:var(--ink);font-weight:700;margin-right:4px}
+.kwp{font-size:12px;color:var(--muted);background:var(--soft);border-radius:999px;padding:1px 8px}
+.prow .goto{font-size:12px;color:var(--accent-ink);margin-left:auto}
+details.pfilt{margin-top:10px}details.pfilt>summary{cursor:pointer;font-weight:700;font-size:13.5px;color:var(--ink-2);padding:6px 2px;list-style-position:inside}details.pfilt>summary .n{font-weight:500;color:var(--muted);font-size:12.5px;margin-left:6px}details.pfilt .facet{margin-top:8px}
+label.chk{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--ink-2);cursor:pointer}
+@media (prefers-color-scheme: dark){.ixb.sci{background:#123b31;color:#9fe3cc}.ixb.mid{background:#1c2a45;color:#b9cdf5}.ifb{background:#3a2d10;color:#f3cf7a}.ifb.ref{background:#2c2614;color:#d8bf7c}}
+</style>
 
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
@@ -780,6 +794,7 @@ body.sheet-open{overflow:hidden}
   <div class="tabs" role="tablist">
       <button class="tab" role="tab" aria-selected="true" data-tab="feed" aria-label="새 소식"><i class="i3d i3d-sun" aria-hidden="true"></i><span class="lt">새 소식</span></button>
       <button class="tab" role="tab" aria-selected="false" data-tab="home" aria-label="찾기"><i class="i3d i3d-search" aria-hidden="true"></i><span class="lt">찾기</span></button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="papers" aria-label="논문"><i class="i3d i3d-book" aria-hidden="true"></i><span class="lt">논문</span></button>
       <button class="tab" role="tab" aria-selected="false" data-tab="schedule" aria-label="일정"><i class="i3d i3d-calendar" aria-hidden="true"></i><span class="lt">일정</span></button>
       <button class="tab" role="tab" aria-selected="false" data-tab="reports" aria-label="보고서"><i class="i3d i3d-doc" aria-hidden="true"></i><span class="lt">보고서</span></button>
       <button class="tab" role="tab" aria-selected="false" data-tab="saved" aria-label="내 노트"><i class="i3d i3d-bookmark" aria-hidden="true"></i><span class="lt">노트</span><span class="cnt" id="saved-cnt" hidden></span></button>
@@ -797,6 +812,7 @@ body.sheet-open{overflow:hidden}
     <section id="view-feed" role="tabpanel"></section>
     <section id="view-saved" role="tabpanel" hidden></section>
     <section id="view-home" role="tabpanel" hidden></section>
+    <section id="view-papers" role="tabpanel" hidden></section>
     <section id="view-sources" role="tabpanel" hidden></section>
     <section id="view-trends" role="tabpanel" hidden></section>
     <section id="view-signals" role="tabpanel" hidden></section>
@@ -829,7 +845,7 @@ body.sheet-open{overflow:hidden}
 <script>
 (function () {
   'use strict';
-  const TABS = ['feed', 'saved', 'home', 'sources', 'trends', 'signals', 'schedule', 'reports', 'glossary', 'collect'];
+  const TABS = ['feed', 'saved', 'home', 'papers', 'sources', 'trends', 'signals', 'schedule', 'reports', 'glossary', 'collect'];
   const CATS = {
     policy:      { label: '정책·만성질환관리',    short: '정책',        color: 'var(--c-policy)' },
     digital:     { label: '디지털헬스 산업·규제',  short: '디지털헬스',  color: 'var(--c-digital)' },
@@ -880,6 +896,7 @@ body.sheet-open{overflow:hidden}
     trend: { group: null },
     gloss: { cat: null, q: '' },
     sched: { type: null, status: 'all' },
+    pap: { sel: {}, period: 'all', q: '', shown: 60, sort: 'lv', sciOnly: false, open: null },
   };
 
   const $ = (s, el) => (el || document).querySelector(s);
@@ -1414,6 +1431,100 @@ body.sheet-open{overflow:hidden}
     if (e.doc && e.doc !== '기타') b.push(`<span class="bdg doc">${esc(e.doc)}${e.docno ? ' · ' + esc(e.docno) : ''}</span>`);
     if (e.report && it.source_type !== 'paper') b.push('<span class="bdg rep">보고서·통계</span>');
     return b.join('');
+  }
+
+
+  /* ---------- 논문 (v11) ---------- */
+  const LV_L = { 1: 'Lv.1 메타분석·진료지침', 2: 'Lv.2 무작위 임상시험', 3: 'Lv.3 코호트·실사용', 4: 'Lv.4 횡단·설문', 5: 'Lv.5 종설·기타' };
+  const LV_S = { 1: 'Lv.1', 2: 'Lv.2', 3: 'Lv.3', 4: 'Lv.4', 5: 'Lv.5' };
+  const IDX_ORDER = ['상위 저널', 'SCIE', 'ESCI', 'KCI·국내', '비SCI', '프리프린트', '학회 초록', '미확인'];
+  const REGION_ORDER = ['한국', '아시아(한국 외)', '북미', '유럽', '다국가', '중동·오세아니아 등', '미상'];
+  const P_DESIGN_L = { meta: '메타분석·체계적 고찰', guideline: '진료지침·입장문', rct: '무작위 임상시험', cohort: '코호트·실사용', cross: '횡단·설문', review: '종설·논평', other: '기타 연구' };
+  const pInfo = (it) => {
+    const p = it.paper || {};
+    return Object.assign({ j: it.source || '', tier: 'sci', index: '미확인', design: 'other', lv: 5, peer: true, region: '미상', abs: '', score: 500 }, p,
+      { idx: p.tier === 'top' && p.index === 'SCIE' ? '상위 저널' : (p.index || '미확인') });
+  };
+  function ifText(p) {
+    if (p.if == null) return '';
+    const v = Number(p.if); const t = (v >= 10 ? v.toFixed(1) : v.toFixed(1));
+    return p.if_src === 'ref' ? `IF ≈ ${t}` : `IF ${t}${p.if_year ? ' (' + esc(String(p.if_year)) + ')' : ''}`;
+  }
+  function paperRow(it) {
+    const p = pInfo(it); const cat = CATS[it.category] || CATS.other;
+    const title = it.url ? `<a href="${esc(it.url)}" target="_blank" rel="noopener noreferrer">${esc(it.title)}</a>` : esc(it.title);
+    const mark = it.mark === 'signal' ? `<span class="star">★ 시그널${it.signal_no ? ' ' + it.signal_no : ''}</span>` : it.mark === 'glance' ? '<span class="diamond">◆ 한눈에</span>' : '';
+    const idxCls = p.idx === '상위 저널' ? 'top' : p.idx === 'SCIE' ? 'sci' : p.idx === 'ESCI' || p.idx === 'KCI·국내' ? 'mid' : 'low';
+    const ift = ifText(p);
+    const abs = p.abs || it.summary || '';
+    return `<article class="row prow">
+      <div class="when"><span class="lvb lv${p.lv}" title="${esc(LV_L[p.lv])}">${LV_S[p.lv]}</span><span class="src">${esc(p.j)}</span><span class="ty">${it.pub_date ? esc(fmtDate(it.pub_date, 'md')) : '날짜 미확인'} · ${esc(p.region)}${p.country && p.country !== p.region ? ' (' + esc(p.country) + ')' : ''}</span></div>
+      <div class="main">
+        <h4>${title}</h4>
+        <div class="tags pmeta"><span class="ixb ${idxCls}">${esc(p.idx === '상위 저널' ? '상위 저널 · SCIE' : p.idx)}</span>${ift ? `<span class="ifb${p.if_src === 'ref' ? ' ref' : ''}" title="${p.if_src === 'ref' ? '빌더 내장 참고값(JCR 2023). 원문 확인 필요' : '일일 보고서가 확인한 값'}">${ift}</span>` : ''}<span class="bdg d">${esc(P_DESIGN_L[p.design] || '기타 연구')}</span>${p.n ? `<span class="bdg d">n=${esc(Number(p.n).toLocaleString())}</span>` : ''}${p.dur ? `<span class="bdg d">${esc(p.dur)}</span>` : ''}${p.peer ? '' : '<span class="bdg t-preprint">심사 전</span>'}</div>
+        ${abs ? `<p class="sum pabs" title="누르면 전체 보기"><b>${p.abs ? '초록 요약' : '요약'}</b> ${esc(abs)}</p>` : ''}
+        ${p.abs && it.summary && it.summary !== p.abs ? `<p class="note">${esc(it.summary)}</p>` : ''}
+        <div class="tags"><span class="pill cat" style="--cc:${cat.color}">${esc(cat.short)}</span>${mark}${(it.keywords || []).slice(0, 5).map((k) => `<span class="kwp">${esc(k)}</span>`).join('')}${p.pmid ? `<a class="kwp" href="https://pubmed.ncbi.nlm.nih.gov/${esc(p.pmid)}/" target="_blank" rel="noopener noreferrer">PubMed</a>` : ''}<a class="goto" href="#book-${esc(it.rid)}" data-rid="${esc(it.rid)}">보고서</a></div>
+      </div></article>`;
+  }
+  async function renderPapers() {
+    const v = $('#view-papers');
+    if (gate(v)) return;
+    const f = state.pap;
+    const pool = []; const seen = new Set();
+    for (const rid of ridsForPeriod(f.period)) for (const it of (state.itemsByRid.get(rid) || [])) {
+      if (it.source_type !== 'paper') continue;
+      const key = (it.url || it.title || '').toLowerCase(); if (seen.has(key)) continue; seen.add(key); pool.push(it);
+    }
+    const dims = [['idx', '학술지', IDX_ORDER, (k) => k], ['lv', '근거 레벨', ['1', '2', '3', '4', '5'], (k) => LV_L[k]], ['region', '연구 지역', REGION_ORDER, (k) => k], ['design', '연구 설계', Object.keys(P_DESIGN_L), (k) => P_DESIGN_L[k]], ['cat', '분야', Object.keys(CATS), (k) => CATS[k].short]];
+    const val = (it, d) => { const p = pInfo(it); return d === 'lv' ? String(p.lv) : d === 'cat' ? (it.category || 'other') : p[d]; };
+    const qok = (it) => !f.q || [it.title, it.summary, it.source, pInfo(it).abs, (it.keywords || []).join(' ')].join(' ').toLowerCase().includes(f.q.toLowerCase());
+    const ok = (it, skip) => dims.every(([d]) => d === skip || !f.sel[d] || val(it, d) === f.sel[d]) && qok(it) && (!f.sciOnly || ['상위 저널', 'SCIE'].includes(pInfo(it).idx));
+    const sorter = { lv: (a, b) => pInfo(a).score - pInfo(b).score || (b.pub_date || '').localeCompare(a.pub_date || ''),
+      new: (a, b) => (b.pub_date || '').localeCompare(a.pub_date || '') || pInfo(a).score - pInfo(b).score,
+      if: (a, b) => (pInfo(b).if || -1) - (pInfo(a).if || -1) || pInfo(a).score - pInfo(b).score }[f.sort];
+    const list = pool.filter((it) => ok(it)).sort(sorter);
+    const chipRows = dims.map(([d, name, keys, lab]) => {
+      const cnt = {}; pool.filter((it) => ok(it, d)).forEach((it) => { const k = val(it, d); cnt[k] = (cnt[k] || 0) + 1; });
+      const ks = keys.filter((k) => cnt[k] || f.sel[d] === k);
+      if (!ks.length) return '';
+      return `<div class="facet"><div class="lbl">${name}</div><div class="chips">${ks.map((k) => `<button class="chip" data-d="${d}" data-k="${esc(k)}" aria-pressed="${f.sel[d] === k}"${d === 'lv' ? ` style="--cc:var(--lv${k})"` : ''}>${esc(lab(k))}<span class="n">${cnt[k] || 0}</span></button>`).join('')}</div></div>`;
+    }).join('');
+    const nSel = Object.values(f.sel).filter(Boolean).length;
+    if (f.open == null) f.open = window.innerWidth > 760;
+    const nSci = pool.filter((it) => ['상위 저널', 'SCIE'].includes(pInfo(it).idx)).length;
+    const nStrong = pool.filter((it) => pInfo(it).lv <= 2).length;
+    let body = '', last = null;
+    for (const it of list.slice(0, f.shown)) {
+      const p = pInfo(it);
+      const key = f.sort === 'lv' ? LV_L[p.lv] : f.sort === 'if' ? (p.if == null ? 'IF 정보 없음' : p.if >= 20 ? 'IF 20 이상' : p.if >= 10 ? 'IF 10–20' : p.if >= 5 ? 'IF 5–10' : 'IF 5 미만') : (it.pub_date ? fmtDate(it.pub_date, 'long') : '날짜 미확인');
+      if (key !== last) { body += `<div class="dayhead">${esc(key)}</div>`; last = key; }
+      body += paperRow(it);
+    }
+    v.innerHTML = `<h2 class="h">논문 <small>${pool.length.toLocaleString()}편 · SCIE ${nSci}편 · 근거 Lv.1–2 ${nStrong}편</small></h2>
+      <details class="pfilt pguide"><summary>근거 레벨·IF 읽는 법</summary><p class="guide">근거가 강한 순서(레벨)로 먼저 보여 줍니다. <b>Lv.1</b> 메타분석·진료지침 › <b>Lv.2</b> 무작위 임상시험 › <b>Lv.3</b> 코호트·실사용 › <b>Lv.4</b> 횡단·설문 › <b>Lv.5</b> 종설·기타. 프리프린트와 학회 초록은 심사 전이라 한 단계 낮췄습니다. 같은 레벨 안에서는 상위 저널 › SCIE(IF 높은 순) › 국내·ESCI › 심사 전 순입니다. <b>IF ≈</b> 는 빌더에 넣어 둔 참고값(JCR 2023)이고, 괄호에 연도가 있는 IF는 일일 보고서가 확인한 값입니다. 연구 설계·지역이 예전 자료에 따로 기록되지 않았으면 제목과 요약으로 자동 분류했으니 원문을 확인하세요.</p></details>
+      <div class="kwbar">
+        <div class="bar-row">
+          <span class="seg" id="p-sort"><button data-s="lv" aria-pressed="${f.sort === 'lv'}">근거 순</button><button data-s="new" aria-pressed="${f.sort === 'new'}">최신 순</button><button data-s="if" aria-pressed="${f.sort === 'if'}">IF 순</button></span>
+          <label class="chk"><input type="checkbox" id="p-sci" ${f.sciOnly ? 'checked' : ''}> SCIE만</label>
+          <label>기간 <select id="p-period">${[['14', '최근 14일'], ['30', '최근 30일'], ['90', '최근 90일'], ['all', '전체 기간']].map(([k, l]) => `<option value="${k}" ${f.period === k ? 'selected' : ''}>${l}</option>`).join('')}</select></label>
+          <input type="search" id="p-q" placeholder="제목·초록·저널 검색" value="${esc(f.q)}" aria-label="논문 검색" style="min-width:180px;flex:1">
+        </div>
+        <details class="pfilt" id="p-filt" ${f.open ? 'open' : ''}><summary>세부 조건 <span class="n">학술지 · 근거 레벨 · 지역 · 설계 · 분야${nSel ? ' · ' + nSel + '개 선택' : ''}</span></summary>${chipRows}</details>
+      </div>
+      <div class="results-head"><span><b>${list.length.toLocaleString()}</b>편</span>${Object.values(f.sel).some(Boolean) || f.sciOnly || f.q ? '<button class="btn small" id="p-clear">조건 지우기</button>' : ''}</div>
+      <div id="p-rows">${body || '<div class="empty"><h3>조건에 맞는 논문이 없습니다</h3>조건을 줄이거나 기간을 넓혀 보세요.</div>'}</div>
+      <div class="more">${list.length > f.shown ? `<button class="btn" id="p-more">더 보기 (${list.length - f.shown}편 남음)</button>` : ''}</div>`;
+    $('#p-filt', v).ontoggle = (e) => { f.open = e.target.open; };
+    $$('[data-d]', v).forEach((b) => b.onclick = () => { f.sel[b.dataset.d] = f.sel[b.dataset.d] === b.dataset.k ? null : b.dataset.k; f.shown = 60; renderPapers(); });
+    $$('#p-sort button', v).forEach((b) => b.onclick = () => { f.sort = b.dataset.s; store.set('insight-pap-sort', f.sort); renderPapers(); });
+    $('#p-sci', v).onchange = (e) => { f.sciOnly = e.target.checked; f.shown = 60; renderPapers(); };
+    $('#p-period', v).onchange = (e) => { f.period = e.target.value; f.shown = 60; renderPapers(); };
+    const pc = $('#p-clear', v); if (pc) pc.onclick = () => { f.sel = {}; f.sciOnly = false; f.q = ''; renderPapers(); };
+    let qt; $('#p-q', v).oninput = (e) => { clearTimeout(qt); const val2 = e.target.value; qt = setTimeout(() => { f.q = val2.trim(); f.shown = 60; renderPapers().then(() => { const q = $('#p-q'); if (q) { q.focus(); q.setSelectionRange(q.value.length, q.value.length); } }); }, 250); };
+    const mb = $('#p-more', v); if (mb) mb.onclick = () => { f.shown += 60; renderPapers(); };
+    $$('.goto', v).forEach((a) => a.onclick = (e) => { e.preventDefault(); openReport(a.dataset.rid); });
+    $$('.sum', v).forEach((p) => p.onclick = () => p.classList.toggle('open'));
   }
 
   /* ---------- 출처별 ---------- */
@@ -1999,13 +2110,13 @@ body.sheet-open{overflow:hidden}
     });
     $$('[data-open]', v).forEach((b) => b.onclick = () => openReport(b.dataset.open));
   }
-  const RENDER = { feed: renderFeed, saved: renderSaved, home: renderHome, sources: renderSources, trends: renderTrends, signals: renderSignals, schedule: renderSchedule, reports: renderReports, glossary: renderGlossary, collect: renderCollect };
+  const RENDER = { feed: renderFeed, saved: renderSaved, home: renderHome, papers: renderPapers, sources: renderSources, trends: renderTrends, signals: renderSignals, schedule: renderSchedule, reports: renderReports, glossary: renderGlossary, collect: renderCollect };
   function setTab(tab) {
     state.tab = tab;
     $$('.tab').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === tab)));
     TABS.forEach((t) => { $('#view-' + t).hidden = t !== tab; });
     store.set('insight-shelf-tab', tab);
-    const pt = $('#page-title'); if (pt) pt.textContent = ({ feed: '새 소식', saved: '내 노트', home: '찾기', sources: '찾기', trends: '찾기', signals: '찾기', glossary: '찾기', schedule: '일정', reports: '보고서', collect: '수집 현황' })[tab] || '';
+    const pt = $('#page-title'); if (pt) pt.textContent = ({ feed: '새 소식', saved: '내 노트', home: '찾기', papers: '논문', sources: '찾기', trends: '찾기', signals: '찾기', glossary: '찾기', schedule: '일정', reports: '보고서', collect: '수집 현황' })[tab] || '';
     $$('.tab').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === (FIND_TABS.includes(tab) ? 'home' : tab))));
     syncFindNav(tab);
   }
@@ -2047,6 +2158,7 @@ body.sheet-open{overflow:hidden}
     loadMine();
     const savedG = store.get('insight-group'); if (GROUPS.find((x) => x.id === savedG)) state.home.group = savedG;
     const saved = store.get('insight-shelf-tab');
+    const ps = store.get('insight-pap-sort'); if (['lv', 'new', 'if'].includes(ps)) state.pap.sort = ps;
     setTab('feed');
     applyHash();
     let meta;
